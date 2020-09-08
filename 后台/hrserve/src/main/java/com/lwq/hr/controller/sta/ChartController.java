@@ -7,7 +7,8 @@ import com.lwq.hr.mapper.GoodsMapper;
 import com.lwq.hr.mapper.SecondShopForMaxMapper;
 import com.lwq.hr.mapper.TbKwMapper;
 import com.lwq.hr.service.ChartService;
-import lwq.returnbean.RespBean;
+import com.lwq.hr.utils.RespBean;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
@@ -44,7 +45,7 @@ public class ChartController {
 
 
     @GetMapping("/get2diff")
-    public RespBean getMaxMinFromShop(String maxShop,String minShop){
+    public RespBean getMaxMinFromShop(String maxShop, String minShop){
 
         return RespBean.ok(chartService.get2diff(maxShop,minShop));
     }
@@ -100,10 +101,10 @@ public class ChartController {
         return RespBean.build().setData(list);
     }
 
-    @GetMapping("/initExcel")
-    public RespBean initExcelData() throws IOException {
-        return chartService.loadExcelData(filePath);
-    }
+//    @GetMapping("/initExcel")
+//    public RespBean initExcelData() throws IOException {
+//        return chartService.loadExcelData(filePath);
+//    }
 
     /**
      * @TODO 折线图接口

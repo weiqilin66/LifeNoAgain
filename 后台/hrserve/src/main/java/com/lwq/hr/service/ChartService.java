@@ -1,12 +1,13 @@
 package com.lwq.hr.service;
 
+
 import com.lwq.hr.entity.Goods;
 import com.lwq.hr.entity.SecondShopForMax;
 import com.lwq.hr.entity.TbKw;
 import com.lwq.hr.mapper.GoodsMapper;
 import com.lwq.hr.mapper.SecondShopForMaxMapper;
 import com.lwq.hr.mapper.TbKwMapper;
-import lwq.returnbean.RespBean;
+import com.lwq.hr.utils.RespBean;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;

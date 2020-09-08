@@ -2,7 +2,7 @@ package com.lwq.hr.controller.stock;
 
 import com.lwq.hr.entity.MyStock;
 import com.lwq.hr.mapper.MyStockMapper;
-import lwq.returnbean.RespBean;
+import com.lwq.hr.utils.RespBean;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 

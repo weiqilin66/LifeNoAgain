@@ -3,7 +3,7 @@ package com.lwq.hr.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lwq.hr.entity.Hr;
 import com.lwq.hr.service.UserService;
-import lwq.returnbean.RespBean;
+import com.lwq.hr.utils.RespBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

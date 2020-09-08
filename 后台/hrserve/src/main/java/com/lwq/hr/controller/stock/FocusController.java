@@ -2,7 +2,7 @@ package com.lwq.hr.controller.stock;
 
 import com.lwq.hr.entity.MyFocus;
 import com.lwq.hr.mapper.MyFocusMapper;
-import lwq.returnbean.RespBean;
+import com.lwq.hr.utils.RespBean;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

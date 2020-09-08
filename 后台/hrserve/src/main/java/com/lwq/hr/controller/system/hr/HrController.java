@@ -6,7 +6,7 @@ import com.lwq.hr.mapper.HrMapper;
 import com.lwq.hr.mapper.HrRoleMapper;
 import com.lwq.hr.mapper.RoleMapper;
 import com.lwq.hr.utils.HrUtils;
-import lwq.returnbean.RespBean;
+import com.lwq.hr.utils.RespBean;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 

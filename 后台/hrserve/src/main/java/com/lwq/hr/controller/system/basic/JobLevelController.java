@@ -1,7 +1,7 @@
 package com.lwq.hr.controller.system.basic;
 
 import com.lwq.hr.entity.Joblevel;
-import lwq.returnbean.RespBean;
+import com.lwq.hr.utils.RespBean;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;

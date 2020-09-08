@@ -2,7 +2,7 @@ package com.lwq.hr.controller.sta;
 
 import com.lwq.hr.entity.Goods;
 import com.lwq.hr.mapper.GoodsMapper;
-import lwq.returnbean.RespPageBean;
+import com.lwq.hr.utils.RespPageBean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

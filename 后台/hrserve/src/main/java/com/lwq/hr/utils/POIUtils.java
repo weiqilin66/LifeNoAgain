@@ -220,7 +220,7 @@ public class POIUtils {
         Employee employee = null;
         try {
             //1. 创建一个 workbook 对象
-            Workbook workbook = lwq.utils.POIUtils.myGetWorkbook(file.getInputStream(),file.getOriginalFilename());
+            Workbook workbook = WaynePOIUtils.myGetWorkbook(file.getInputStream(),file.getOriginalFilename());
             //2. 获取 workbook 中表单的数量
             int numberOfSheets = workbook.getNumberOfSheets();
             for (int i = 0; i < numberOfSheets; i++) {

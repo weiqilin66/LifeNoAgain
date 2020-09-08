@@ -4,7 +4,7 @@ import com.lwq.hr.entity.Menu;
 import com.lwq.hr.entity.Role;
 import com.lwq.hr.mapper.MenuRoleMapper;
 import com.lwq.hr.mapper.RoleMapper;
-import lwq.returnbean.RespBean;
+import com.lwq.hr.utils.RespBean;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 

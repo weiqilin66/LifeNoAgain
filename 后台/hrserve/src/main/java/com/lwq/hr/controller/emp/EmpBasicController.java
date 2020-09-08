@@ -4,8 +4,9 @@ import com.lwq.hr.entity.*;
 import com.lwq.hr.mapper.*;
 import com.lwq.hr.service.EmpService;
 import com.lwq.hr.utils.POIUtils;
-import lwq.returnbean.RespBean;
-import lwq.returnbean.RespPageBean;
+
+import com.lwq.hr.utils.RespBean;
+import com.lwq.hr.utils.RespPageBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
