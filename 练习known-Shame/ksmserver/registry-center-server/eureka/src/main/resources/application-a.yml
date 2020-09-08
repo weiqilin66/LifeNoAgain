@@ -1,0 +1,15 @@
+server:
+  port: 1111
+
+spring:
+  application:
+    name: eureka
+
+eureka:
+  instance:
+    hostname: eureka-b
+  client: # 都为true互相注册
+    registerWithEureka:  true
+    fetchRegistry: true
+    serviceUrl: # 注册到eureka-b上
+      defaultZone: http://eureka-b:1112/eureka

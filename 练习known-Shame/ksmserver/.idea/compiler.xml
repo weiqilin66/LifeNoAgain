@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="leyou-item-service" />
+        <module name="micrometer" />
+        <module name="smtp-email" />
+        <module name="spring-cloud-config-server" />
+        <module name="gateway" />
+        <module name="leyou-menu" />
+        <module name="consumer" />
+        <module name="zuul" />
+        <module name="hrserve" />
+        <module name="provide" />
+        <module name="leyou-item-interface" />
+        <module name="commons" />
+        <module name="eureka" />
+        <module name="ks-openfeign-api" />
+        <module name="spring-cloud-config-client" />
+        <module name="etl-api" />
+        <module name="etl-service" />
+        <module name="leyou-zuul" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="crawl-by-selenium" target="1.8" />
+      <module name="feign-api" target="1.5" />
+      <module name="ks-openfeign-api" target="1.5" />
+      <module name="spring-cloud-config" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="consumer" options="-parameters" />
+      <module name="crawl-by-selenium" options="-parameters" />
+      <module name="etl-api" options="-parameters" />
+      <module name="etl-service" options="-parameters" />
+      <module name="eureka" options="-parameters" />
+      <module name="gateway" options="-parameters" />
+      <module name="hrserve" options="-parameters" />
+      <module name="ks-server" options="-parameters" />
+      <module name="leyou-item" options="-parameters" />
+      <module name="leyou-item-interface" options="-parameters" />
+      <module name="leyou-item-service" options="-parameters" />
+      <module name="leyou-menu" options="-parameters" />
+      <module name="leyou-shop" options="-parameters" />
+      <module name="leyou-zuul" options="-parameters" />
+      <module name="micrometer" options="-parameters" />
+      <module name="provide" options="-parameters" />
+      <module name="registry-center-server" options="-parameters" />
+      <module name="router-server" options="-parameters" />
+      <module name="smtp-email" options="-parameters" />
+      <module name="spring-cloud-config-client" options="-parameters" />
+      <module name="spring-cloud-config-server" options="-parameters" />
+      <module name="wayne-etl-server" options="-parameters" />
+      <module name="zuul" options="-parameters" />
+    </option>
+  </component>
+</project>

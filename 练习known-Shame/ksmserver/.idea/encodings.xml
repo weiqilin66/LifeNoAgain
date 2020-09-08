@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/ks-server/consumer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ks-server/micrometer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ks-server/micrometer/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ks-server/provide/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/leyou-shop/leyou-item/leyou-item-interface/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/leyou-shop/leyou-item/leyou-item-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/leyou-shop/leyou-menu/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/leyou-shop/leyou-zuul/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/leyou-shop/wayne-etl-server/etl-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/leyou-shop/wayne-etl-server/etl-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/registry-center-server/eureka/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/remote-config-server/spring-cloud-config-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/remote-config-server/spring-cloud-config-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/router-server/gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/router-server/gateway/src/main/resources/application.yml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/router-server/zuul/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/smtp-email/src/main/java" charset="UTF-8" />
+  </component>
+</project>
