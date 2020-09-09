@@ -22,7 +22,7 @@ public class MenuService {
     @Resource
     MenuMapper menuMapper;
 
-    public List<Menu> getMenuById() {
+    public List<Menu> getMenuById(){
         // SecurityContextHolder中取出登录的用户ID
 //        return menuMapper.getMenuById(((Hr) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
         // admin的hrid=3

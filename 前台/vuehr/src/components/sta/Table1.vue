@@ -1,4 +1,9 @@
 <template>
+    <!--
+
+        全量数据搜索
+
+    -->
     <div>
         <div>
             <el-input placeholder="输入要搜索的店铺..." v-model="shopName" style="width: 300px;margin-right: 5px" disabled/>

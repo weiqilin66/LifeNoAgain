@@ -1,12 +1,13 @@
 <template>
     <!--
 
-        商品库存
+        1爬取的商品列表
+        2加工的关键字控制
 
+        编辑添加和一
     -->
     <div>
         <div style="display: flex;">
-<!--            <el-input placeholder="输入商品名称自动检索... " v-model="goodName" style="width: 400px;margin-right: 5px"/>-->
             <MyInput :cData="cData" @resp="getCData"/>
             <el-button type="warning" icon="el-icon-search" @click="showAdd">添加商品</el-button>
             <el-button type="success" icon="el-icon-search" @click="initStock">刷新数据</el-button>
@@ -26,53 +27,64 @@
                 </el-table-column>
                 <el-table-column
                         prop="kw"
+                        label="关键词"
+                        align="center"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="title"
                         label="商品名称"
                         align="center"
                         width="180">
                 </el-table-column>
-                <el-table-column
-                        prop="price"
-                        label="回收价"
-                        align="center"
-                        width="180">
-                </el-table-column>
 
+                <!--加工条件-->
                 <el-table-column
-                        label="库存"
-                        sortable
+                        prop="condition1"
+                        label="条件1"
                         align="center"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="condition2"
+                        label="条件2"
+                        align="center"
+                        width="100">
+                </el-table-column>
+                <el-table-column
                         prop="stock"
-                        width="280">
-                    <template slot-scope="scope">
-                        <el-input-number v-model="scope.row.stock" @change="handleChange(scope.row)"
-                                         :min="0" :max="9999"/>
-                    </template>
-                </el-table-column>
-
-                <el-table-column
-                        prop="diff"
-                        label="差价"
-                        sortable
+                        label="库存"
                         align="center"
                         width="80">
                 </el-table-column>
+                <!--3新游 2优秀 1冷门 0封杀-->
                 <el-table-column
-                        prop="price2"
-                        label="猎人价"
+                        prop="advance"
+                        label="优先级"
+                        sortable
                         align="center"
-                        width="180">
+                        width="50">
                 </el-table-column>
                 <el-table-column
-                        prop="title"
-                        label="商品标题"
-                        align="center"
-                        width="400">
-                </el-table-column>
-                <el-table-column
-                        prop="comment"
-                        label="备注"
+                        prop="lastUpdate"
+                        label="最后更新时间"
                         align="center"
                         width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="totalSales"
+                        label="在售首页总销量"
+                        align="center"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        label="标识">
+                    <template slot-scope="scope">
+                        <el-switch
+                                @change="changeEnabled(scope.row)"
+                                v-model="scope.row.enabled">
+                        </el-switch>
+                    </template>
                 </el-table-column>
                 <el-table-column label="操作" align="center"
                                  width="250px">
@@ -82,19 +94,7 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <!--分页-->
-            <!--<div style="display: flex;justify-content: flex-end">
-                <el-pagination
-                        ref="pagination"
-                        background
-                        @current-change="pageChange"
-                        @size-change="sizeChange"
-                        :page-sizes="[20,30,50,100]"
-                        layout="sizes, prev, pager, next, jumper, ->, total, slot"
-                        :total="total">
-                </el-pagination>
-            </div>-->
-            <!--编辑弹窗-->
+            <!--编辑添加弹窗-->
             <el-dialog
                     title="编辑"
                     :visible.sync="dialogVisible"
@@ -118,146 +118,71 @@
                         </tr>
                         <tr>
                             <td>
-                                <el-tag size="normal">商品名称</el-tag>
+                                <el-tag size="normal">关键词</el-tag>
                             </td>
                             <td width="1000">
                                 <el-input style="width: 50%;margin-left: 10px" v-model="updateGood.kw"/>
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                <el-tag size="normal">商品名称</el-tag>
+                            </td>
+                            <td width="1000">
+                                <el-input style="width: 50%;margin-left: 10px" v-model="updateGood.title"/>
+                            </td>
+                        </tr>
 
                         <tr style="margin-top: 3px">
                             <td>
-                                <el-tag size="normal">回收价</el-tag>
+                                <el-tag size="normal">条件1</el-tag>
                             </td>
                             <td>
-                                <el-input style="width: 50%;margin-left: 10px" v-model="updateGood.price"/>
+                                <el-input style="width: 50%;margin-left: 10px" v-model="updateGood.condition1"/>
                             </td>
                         </tr>
                         <tr style="margin-top: 3px">
                             <td>
-                                <el-tag size="normal">库存</el-tag>
+                                <el-tag size="normal">条件2</el-tag>
                             </td>
                             <td>
-                                <el-input style="width: 50%;margin-left: 10px" v-model="updateGood.stock"
-                                          @keydown.enter.native="handleUpate"/>
+                                <el-input style="width: 50%;margin-left: 10px" v-model="updateGood.condition2"/>
                             </td>
                         </tr>
                         <tr style="margin-top: 3px">
                             <td>
-                                <el-tag size="normal">备注</el-tag>
+                                <el-tag size="normal">优先级</el-tag>
                             </td>
                             <td>
-                                <el-input style="width: 50%;margin-left: 10px" v-model="updateGood.comment"
-                                          @keydown.enter.native="handleUpate"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <el-tag size="normal">商品标题</el-tag>
-                            </td>
-                            <td width="1000" >
-                                <el-input style="width: 100%;margin-left: 10px" v-model="updateGood.title"/>
+                                <el-input style="width: 50%;margin-left: 10px" v-model="updateGood.advance"/>
                             </td>
                         </tr>
                     </table>
                 </div>
                 <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="handleUpate">确 定</el-button>
+                <el-button type="primary" @click="handleUpateAdd(flag)">确 定</el-button>
             </span>
             </el-dialog>
-            <!--添加弹窗-->
-            <el-dialog
-                    title="添加"
-                    :visible.sync="addDialogVisible"
-                    width="30%">
-                <div class="updateVisible">
-                    <table>
-                        <tr>
-                            <td>
-                                <el-tag size="normal">平台</el-tag>
-                            </td>
-                            <td>
-                                <el-select v-model="addGood.label" placeholder="请选择标题" style="margin-left: 10px" >
-                                    <el-option
-                                            v-for="item in options"
-                                            :key="item"
-                                            :label="item"
-                                            :value="item">
-                                    </el-option>
-                                </el-select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <el-tag size="normal">商品名称</el-tag>
-                            </td>
-                            <td width="1000">
-                                <el-input style="width: 50%;margin-left: 10px" v-model="addGood.kw"
-                                @change = "selTitle(addGood.kw)"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <el-tag size="normal">商品标题</el-tag>
-                            </td>
-                            <td>
-                            <el-select v-model="addGood.title" placeholder="请选择标题" style="margin-left: 10px" >
-                                <el-option
-                                        v-for="item in goodTitles"
-                                        :key="item"
-                                        :label="item"
-                                        :value="item">
-                                </el-option>
-                            </el-select>
-                            </td>
-                           <!--
-                            <td width="1000">
-                                <el-input style="width: 50%;margin-left: 10px" v-model="addGood.title"/>
-                            </td>-->
-                        </tr>
-                        <tr style="margin-top: 3px">
-                            <td>
-                                <el-tag size="normal">回收价</el-tag>
-                            </td>
-                            <td>
-                                <el-input style="width: 50%;margin-left: 10px" v-model="addGood.price"/>
-                            </td>
-                        </tr>
-                        <tr style="margin-top: 3px">
-                            <td>
-                                <el-tag size="normal">库存</el-tag>
-                            </td>
-                            <td>
-                                <el-input style="width: 50%;margin-left: 10px" v-model="addGood.stock"
-                                          @keydown.enter.native="handleAdd"/>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <span slot="footer" class="dialog-footer">
-                <el-button @click="addDialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="beforeAdd">确 定</el-button>
-            </span>
-            </el-dialog>
+
         </div>
 
     </div>
 </template>
 <style>
     .el-table .warning-row {
-        background: oldlace;
+        background: #fdd221;
     }
 
     .el-table .success-row {
-        background: #f0f9eb;
+        background: #4af919;
     }
 </style>
 <script>
     import MyInput from "../../components/public/MyInput";
 
     export default {
-        name: "PerEmp",
+        name: "StockWant",
         components:{
             MyInput,
         },
@@ -267,6 +192,7 @@
                     bak:[],
                     kw:'kw'
                 },
+                flag:'',
                 size:'',
                 total:0,
                 num: 1,
@@ -274,21 +200,14 @@
                 dialogVisible: false,
                 addDialogVisible: false,
                 options:["NS","PS4"],
-                addGood: {
-                    label:'',
-                    kw:'',
-                    title: '',
-                    price: '',
-                    stock: ''
-                },
                 goodTitles:['输入商品名称在选择此项'],
                 updateGood: {
                     label:'',
+                    title:'',
                     kw:'',
-                    title: '',
-                    price: '',
-                    stock: '',
-                    comment:''
+                    condition1:'',
+                    condition2:'',
+                    advance:''
                 },
                 tableData: [],
                 tableDataBak: [],
@@ -298,23 +217,16 @@
             this.initStock()
         },
         methods: {
+            changeEnabled(row) {
+                this.putRequest("/stock/focus/", row).then(resp => {
+                    if (resp) {
+                        this.$message.success('修改成功!')
+                        this.initFocus()
+                    }
+                })
+            },
             getCData(data){
                 this.tableData=data
-            },
-            pageChange(currentPage) {
-                this.page = currentPage
-                this.initData()
-            },
-            sizeChange(currentSize) {
-                this.size = currentSize
-                this.initData()
-            },
-            selTitle(kw){
-              this.getRequest("/stock/stock1/getTitle?kw="+kw).then(resp=>{
-                  if (resp) {
-                      this.goodTitles = resp.data
-                  }
-              })
             },
             beforeAdd(){
                 this.postRequest("/stock/stock1/check", this.addGood).then(resp => {
@@ -331,19 +243,17 @@
                         })
                     }else {
 
-                        this.handleAdd()
+                        this. handleUpateAdd('add')
                     }
                 })
             },
-            handleAdd() {
-                this.postRequest("/stock/stock1/", this.addGood).then(resp => {
-                    if (resp) {
-                        this.initStock()
-                        this.addDialogVisible = false
-                    }
-                })
-            },
-            handleUpate() {
+
+            handleUpateAdd(flag) {
+                if (flag==='add') {
+
+                }else {
+
+                }
                 this.putRequest('/stock/stock1/', this.updateGood).then(resp => {
                     if (resp) {
                         this.initStock()
@@ -374,22 +284,21 @@
             },
             showVisible(index, data) {
                 this.dialogVisible = true
+                this.flag='update'
                 Object.assign(this.updateGood, data)
             },
             showAdd() {
-                this.addDialogVisible = true
+                this.dialogVisible = true
                 this.addGood = {}
+                this.flag='add'
             },
-            handleChange(row) {
-                Object.assign(this.updateGood,row)
-                this.handleUpate()
-            },
+            //库存预警
             tableRowClassName({row, rowIndex}) {
-                if (row.diff < 15) {
+                if (row.stock > 3) {//大于3太多
                     return 'warning-row';
-                } else if (row.diff >25) {
+                } else if (row.stock <3 && row.stock>=1) {
                     return 'success-row';
-                }else if (row.diff ==-1){
+                }else if (row.stock ==-1){
                     return '';
                 }
                 return '';

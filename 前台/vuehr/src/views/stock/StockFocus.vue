@@ -1,4 +1,9 @@
 <template>
+    <!--
+
+        焦点商品：功能1咸鱼爬取的宝贝列表
+
+    -->
     <div>
         <div>
             <el-input placeholder="输入商品名称自动检索... " v-model="goodName" style="width: 400px;margin-right: 5px"/>

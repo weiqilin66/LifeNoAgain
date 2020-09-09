@@ -1,4 +1,9 @@
 <template>
+    <!--
+
+        价格走势图
+
+    -->
     <div>
         <div style="display: flex;justify-content: center;margin-bottom: 5px;margin-right: 170px">
 

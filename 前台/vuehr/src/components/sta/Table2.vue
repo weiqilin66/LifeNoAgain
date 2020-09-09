@@ -1,4 +1,9 @@
 <template>
+    <!--
+
+        echarts测试
+
+    -->
     <v-chart :options="option"/>
 </template>
 
