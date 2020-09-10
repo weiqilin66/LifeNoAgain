@@ -1,5 +1,7 @@
 package com.lwq.hr.timer;
 
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 import java.util.Timer;
 
 /**
@@ -7,4 +9,16 @@ import java.util.Timer;
  */
 public class RunTimer implements ServletContextListener {
     private Timer timer;
+
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+        if (timer!=null) {
+            timer.cancel();
+        }
+    }
+
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        timer = new Timer();
+    }
 }

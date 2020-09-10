@@ -1,6 +1,5 @@
 package com.lwq.hr.config.security;
 
-/*import com.lwq.hr.config.security.SecurityConfig;
 import com.lwq.hr.entity.Menu;
 import com.lwq.hr.entity.Role;
 import com.lwq.hr.service.MenuService;
@@ -13,14 +12,14 @@ import org.springframework.util.AntPathMatcher;
 
 import javax.annotation.Resource;
 import java.util.Collection;
-import java.util.List;*/
+import java.util.List;
 
 /**
  * @Description: 控制角色访问权限
  * 根据用户请求的url 分析出需要的role
  * @author: LinWeiQi
  */
-/*@Component
+@Component
 public class SecurityMetadataSourceFilter implements FilterInvocationSecurityMetadataSource {
 
     @Resource
@@ -55,4 +54,4 @@ public class SecurityMetadataSourceFilter implements FilterInvocationSecurityMet
     public boolean supports(Class<?> aClass) {
         return true;
     }
-}*/
+}

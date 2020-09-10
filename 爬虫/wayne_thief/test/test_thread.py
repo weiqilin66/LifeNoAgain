@@ -4,7 +4,8 @@ from mythread.my_thread import MyThread
 
 if __name__ == '__main__':
     a = MyThread()
-    a.start()
+    res = a.start()
+    print(res)
     time.sleep(3)
     a.pause()
     time.sleep(3)

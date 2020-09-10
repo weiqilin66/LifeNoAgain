@@ -182,7 +182,7 @@
     import MyInput from "../../components/public/MyInput";
 
     export default {
-        name: "StockWant",
+        name: "StockCrawl",
         components:{
             MyInput,
         },
@@ -218,7 +218,7 @@
         },
         methods: {
             changeEnabled(row) {
-                this.putRequest("/stock/focus/", row).then(resp => {
+                this.putRequest("/stock/crawl/", row).then(resp => {
                     if (resp) {
                         this.$message.success('修改成功!')
                         this.initFocus()
@@ -229,7 +229,7 @@
                 this.tableData=data
             },
             beforeAdd(){
-                this.postRequest("/stock/stock1/check", this.addGood).then(resp => {
+                this.postRequest("/stock/crawl/check", this.addGood).then(resp => {
                     if (resp.data) {
                         this.$confirm(resp.data+',是否继续添加该商品','提示'
                             ,{
@@ -254,7 +254,7 @@
                 }else {
 
                 }
-                this.putRequest('/stock/stock1/', this.updateGood).then(resp => {
+                this.putRequest('/stock/crawl/', this.updateGood).then(resp => {
                     if (resp) {
                         this.initStock()
                         this.dialogVisible = false
@@ -269,7 +269,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.deleteRequest("/stock/stock1/" + row.id).then(resp => {
+                    this.deleteRequest("/stock/crawl/" + row.id).then(resp => {
                         if (resp) {
                             this.initStock()
                         }
@@ -304,7 +304,7 @@
                 return '';
             },
             initStock() {
-                this.getRequest('/stock/stock1/').then(resp => {
+                this.getRequest('/stock/crawl/').then(resp => {
                     if (resp) {
                         this.tableData = resp.data
                         this.cData.bak = resp.data

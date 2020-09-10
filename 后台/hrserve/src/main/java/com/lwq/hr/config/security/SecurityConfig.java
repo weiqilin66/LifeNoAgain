@@ -1,5 +1,5 @@
 package com.lwq.hr.config.security;
-/*
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lwq.hr.entity.Hr;
 import com.lwq.hr.service.UserService;
@@ -27,13 +27,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;*/
+import java.io.PrintWriter;
 
 /**
  * @Description: SpringSecurity配置
  * @author: LinWeiQi
  */
-/*@Configuration
+@Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -155,4 +155,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/login");
     }
-}*/
+}

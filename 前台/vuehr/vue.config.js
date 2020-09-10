@@ -3,7 +3,7 @@ let proxyObj = {}
 
 proxyObj['/'] = {
     ws: false,
-    target: 'http://localhost:9000',//转发目标
+    target: 'http://localhost:8081',//转发目标
     changeOrigin: true,
     pathRewrite: {
         '/': ''
@@ -14,7 +14,7 @@ proxyObj['/'] = {
 module.exports = {
     devServer: {
         host: 'localhost',
-        port: 8081,     //启动的端口
+        port: 8088,     //启动的端口
         open: true,     //启动完毕自动打开
         proxy: proxyObj //代理
     },

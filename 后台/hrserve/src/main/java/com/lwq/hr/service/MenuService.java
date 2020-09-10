@@ -24,9 +24,9 @@ public class MenuService {
 
     public List<Menu> getMenuById(){
         // SecurityContextHolder中取出登录的用户ID
-//        return menuMapper.getMenuById(((Hr) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
+        return menuMapper.getMenuById(((Hr) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
         // admin的hrid=3
-        return menuMapper.getMenuById(3);
+//        return menuMapper.getMenuById(3);
     }
 
     // 每次拦截请求都要访问一次数据库开销太大,加入缓存,查询出所有的url权限的所有role,再去做role匹配

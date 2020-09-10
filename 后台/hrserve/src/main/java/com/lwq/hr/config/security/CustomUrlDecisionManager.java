@@ -1,13 +1,13 @@
 package com.lwq.hr.config.security;
 
-/*import org.springframework.security.access.AccessDecisionManager;
+import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;*/
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
@@ -15,12 +15,12 @@ import java.util.Collection;
  * @Description: 根据SecurityMetadataSourceFilter返回的角色,判断当前用户是否有权限
  * @author: LinWeiQi
  */
-/*@Component
+@Component
 public class CustomUrlDecisionManager implements AccessDecisionManager {
-    *//**
+    /**
      * @param  [ Authentication:存储登录信息  Collection<ConfigAttribute>:MyFilter返回的collection]
      * @date   2020/1/31
-     *//*
+     */
     @Override
     public void decide(Authentication authentication, Object o, Collection<ConfigAttribute> collection) throws AccessDeniedException, InsufficientAuthenticationException {
         for (ConfigAttribute configAttribute : collection) {
@@ -58,4 +58,4 @@ public class CustomUrlDecisionManager implements AccessDecisionManager {
     public boolean supports(Class<?> aClass) {
         return true;
     }
-}*/
+}

@@ -101,10 +101,10 @@ public class ChartController {
         return RespBean.build().setData(list);
     }
 
-//    @GetMapping("/initExcel")
-//    public RespBean initExcelData() throws IOException {
-//        return chartService.loadExcelData(filePath);
-//    }
+    @GetMapping("/initExcel")
+    public RespBean initExcelData() throws IOException {
+        return chartService.loadExcelData(filePath);
+    }
 
     /**
      * @TODO 折线图接口
