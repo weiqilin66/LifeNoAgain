@@ -46,6 +46,7 @@ CREATE OR REPLACE PROCEDURE PROCE_DEMO(x varchar2,y in number,z out varchar) AS 
 CREATE PROCEDURE WAYNE_PROCE_DEMO(IN p_in int)
 --表操作
 CREATE TABLE WAYNE_DEMO_TB(
+id int PRIMARY KEY AUTO_INCREMENT,--主键自增
  test1 varchar(20),
  test2 int
 )
