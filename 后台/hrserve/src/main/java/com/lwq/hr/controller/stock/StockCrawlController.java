@@ -2,6 +2,8 @@ package com.lwq.hr.controller.stock;
 
 import com.lwq.hr.entity.MyStock;
 import com.lwq.hr.mapper.MyStockMapper;
+import com.lwq.hr.mapper.StockCrawlMapper;
+import com.lwq.hr.utils.BaseUtil;
 import com.lwq.hr.utils.RespBean;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description:
@@ -19,63 +23,55 @@ import java.util.List;
 @RequestMapping("/stock/crawl")
 public class StockCrawlController {
     @Resource
-    MyStockMapper stockMapper;
+    StockCrawlMapper stockCrawlMapper;
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
     String now = dateFormat.format(new Date());
 
-    @GetMapping("/getTitle")
-    public RespBean getTitle(String kw){
-        List<String> list = stockMapper.getTitles(kw);
-        return RespBean.ok(list);
-    }
     @GetMapping("/")
     public RespBean getAll(){
-        return RespBean.build().setData(stockMapper.getAllWithHunter(now));
-//        return RespBean.build().setData(stockMapper.getAll());
+        return RespBean.build().setData(stockCrawlMapper.select(null));
     }
-    @PostMapping("/check")
-    public RespBean check(@RequestBody MyStock stock){
-        //存在性验证
-        List<MyStock> myStocks = stockMapper.selStock(stock.getTitle());
-        StringBuilder msg= new StringBuilder("已存在类似商品: [");
-        for (MyStock myStock : myStocks) {
-            msg.append(myStock.getTitle());
-            msg.append(" ");
+    //删除
+    @DeleteMapping("/{id}")
+    @Transactional
+    public RespBean del(@PathVariable int id){
+        final HashMap<String, Object> map = new HashMap<>();
+        map.put("id",id);
+        int res = stockCrawlMapper.delete(map);
+        if (res!=1) {
+            return RespBean.error("删除失败");
         }
-        msg.append("]");
-        if (myStocks.size()>0) {
-            return RespBean.build().setData(msg.toString());
+        return RespBean.ok();
+    }
+    //修改
+    @PutMapping("/")
+    @Transactional
+    public RespBean changeStatus(@RequestBody HashMap map){
+        int res = stockCrawlMapper.update(map);
+        if (res!=1) {
+            return RespBean.error("删除失败");
         }
         return RespBean.ok();
     }
     //新增
     @PostMapping("/")
     @Transactional
-    public RespBean add(@RequestBody MyStock stock){
-        String title = stock.getTitle();
-        int res = stockMapper.insert(stock);
+    public RespBean add(@RequestBody HashMap map){//@RequestBody映射body中的json不加这个映射的是请求行中的key value
+        int res = stockCrawlMapper.insert(map);
         if (res<1) {
             return RespBean.error("插入失败");
         }
         return RespBean.ok();
     }
-    //修改(库存/所有)
-    @PutMapping("/")
-    @Transactional
-    public RespBean update(@RequestBody MyStock stock){
-        int res = stockMapper.updateById(stock);
-        if (res!=1) {
-            return RespBean.error("更新出错");
-        }
-        return RespBean.ok();
-    }
-    //删除
-    @DeleteMapping("/{id}")
-    @Transactional
-    public RespBean del(@PathVariable int id){
-        int res = stockMapper.deleteById(id);
-        if (res!=1) {
-            return RespBean.error("删除失败");
+    @PostMapping("/check")
+    public RespBean check(@RequestBody  HashMap map){
+        //存在性验证
+        final List list = stockCrawlMapper.select(map);
+        if (list.size()>0) {
+            StringBuilder msg= new StringBuilder("已存在类似商品: [");
+            msg.append(map.get("title"));
+            msg.append("]");
+            return RespBean.error(msg.toString());
         }
         return RespBean.ok();
     }

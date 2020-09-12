@@ -66,13 +66,13 @@
                         width="50">
                 </el-table-column>
                 <el-table-column
-                        prop="lastUpdate"
+                        prop="last_Update"
                         label="最后更新时间"
                         align="center"
                         width="100">
                 </el-table-column>
                 <el-table-column
-                        prop="totalSales"
+                        prop="total_Sales"
                         label="在售首页总销量"
                         align="center"
                         width="100">
@@ -98,7 +98,7 @@
             <el-dialog
                     title="编辑"
                     :visible.sync="dialogVisible"
-                    width="30%">
+                    width="40%">
                 <div class="updateVisible">
                     <table>
                         <tr>
@@ -155,8 +155,10 @@
                             </td>
                             <td>
                                 <el-input style="width: 50%;margin-left: 10px" v-model="updateGood.advance"/>
+                                <span style="margin-left: 8px">3新游 2优秀 1冷门 0封杀</span>
                             </td>
                         </tr>
+                        <tr></tr>
                     </table>
                 </div>
                 <span slot="footer" class="dialog-footer">
@@ -171,11 +173,11 @@
 </template>
 <style>
     .el-table .warning-row {
-        background: #fdd221;
+        background: #fdd597;
     }
 
     .el-table .success-row {
-        background: #4af919;
+        background: #d4fdef;
     }
 </style>
 <script>
@@ -190,7 +192,7 @@
             return {
                 cData:{
                     bak:[],
-                    kw:'kw'
+                    kw:'title'
                 },
                 flag:'',
                 size:'',
@@ -203,11 +205,15 @@
                 goodTitles:['输入商品名称在选择此项'],
                 updateGood: {
                     label:'',
-                    title:'',
                     kw:'',
+                    title:'',
                     condition1:'',
                     condition2:'',
-                    advance:''
+                    stock:0,
+                    advance:undefined,
+                    last_update: null,
+                    total_scales:0,
+                    enabled:'1'
                 },
                 tableData: [],
                 tableDataBak: [],
@@ -218,10 +224,15 @@
         },
         methods: {
             changeEnabled(row) {
-                this.putRequest("/stock/crawl/", row).then(resp => {
+                if (row.enabled === '0') {
+                    row.enabled='1'
+                }else {
+                    row.enabled='0'
+                }
+                this.putRequest("/stock/crawl/",row).then(resp => {
                     if (resp) {
                         this.$message.success('修改成功!')
-                        this.initFocus()
+                        this.initStock()
                     }
                 })
             },
@@ -243,24 +254,30 @@
                         })
                     }else {
 
-                        this. handleUpateAdd('add')
+                        this.handleUpateAdd('add')
                     }
                 })
             },
 
             handleUpateAdd(flag) {
                 if (flag==='add') {
-
+                    this.postRequest('/stock/crawl/',this.updateGood).then(resp=>{
+                        if (resp) {
+                            this.initStock()
+                            this.dialogVisible = false
+                            this.$message.success("添加成功!")
+                        }
+                    })
                 }else {
-
+                    this.putRequest('/stock/crawl/', this.updateGood).then(resp => {
+                        if (resp) {
+                            this.initStock()
+                            this.dialogVisible = false
+                            this.$message.success("修改成功!")
+                        }
+                    })
                 }
-                this.putRequest('/stock/crawl/', this.updateGood).then(resp => {
-                    if (resp) {
-                        this.initStock()
-                        this.dialogVisible = false
-                        this.$message.success("修改成功!")
-                    }
-                })
+
             },
             handleDel(index, row) {
                 this.$confirm('此操作将删除商品 [ ' + row.kw + ' ] 是否继续?',
