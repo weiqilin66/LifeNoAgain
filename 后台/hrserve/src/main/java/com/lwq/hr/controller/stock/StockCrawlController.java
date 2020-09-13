@@ -49,7 +49,7 @@ public class StockCrawlController {
     public RespBean changeStatus(@RequestBody HashMap map){
         int res = stockCrawlMapper.update(map);
         if (res!=1) {
-            return RespBean.error("删除失败");
+            return RespBean.error("修改失败");
         }
         return RespBean.ok();
     }

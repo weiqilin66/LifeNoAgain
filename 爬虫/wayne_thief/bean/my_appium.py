@@ -1,8 +1,6 @@
 from appium import webdriver
 from appium.webdriver.common.touch_action import TouchAction
-
-from for_taobao_xianyu.entity.my_constants import my_constants
-
+from bean.my_constants import my_constants
 
 class MyAppium(object):
     def __init__(self, platformName, platformVersion, deviceName, appPackage, appActivity):

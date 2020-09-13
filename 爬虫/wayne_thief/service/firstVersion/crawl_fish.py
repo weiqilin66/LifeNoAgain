@@ -4,8 +4,8 @@ import re
 import time
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
-from for_taobao_xianyu.entity.my_constants import my_constants
-from for_taobao_xianyu.service.my_mysql import MySql2
+from bean.my_constants import my_constants
+from bean.my_mysql import MySql2
 
 
 class CrawlFish(object):

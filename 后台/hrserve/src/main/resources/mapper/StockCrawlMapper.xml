@@ -20,10 +20,10 @@
 	<insert id="insert" parameterType="java.util.HashMap">
         INSERT INTO
             CORE_CRAWL_TB
-            (label, kw, title, condition1, condition2, stock, advance, last_update, total_scales, enabled)
+            (label, kw, title, condition1, condition2, stock, advance, last_update, total_sales, enabled)
         VALUES
             (
-            #{label},#{kw},#{title},#{condition1},#{condition2},#{stock},#{advance},#{last_update},#{total_scales},#{enabled}
+            #{label},#{kw},#{title},#{condition1},#{condition2},#{stock},#{advance},#{last_update},#{total_sales},#{enabled}
             )
     </insert>
     
@@ -39,7 +39,7 @@
             stock=#{stock},
             advance=#{advance},
             last_update=#{last_update},
-            total_scales=#{total_scales},
+            total_sales=#{total_sales},
             enabled=#{enabled}
         WHERE
             ID = #{id}

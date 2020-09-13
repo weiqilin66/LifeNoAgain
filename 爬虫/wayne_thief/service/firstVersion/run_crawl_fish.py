@@ -1,9 +1,7 @@
 import time
 
-from for_taobao_xianyu.crawl_fish import CrawlFish
-from for_taobao_xianyu.service.my_appium import MyAppium
-from for_taobao_xianyu.service.my_mysql import MySql2
-from for_taobao_xianyu.service.my_selenium import MySelenium
+from bean.my_appium import MyAppium
+from bean.my_mysql import MySql2
 
 phone = 'shark3'
 if __name__ == '__main__':

@@ -7,20 +7,7 @@ class MySql2(object):
         # self.conn = pymysql.connect('localhost', 'root', 'root', 'vhr')
         self.cursor = self.conn.cursor()
 
-    def commit(self, sql, args):  # tuple参数
-        if args:
-            self.cursor.execute(sql, args)
-        else:
-            self.cursor.execute(sql)
-        self.conn.commit()
 
-    def query(self, query_sql,args):
-        if args:
-            self.cursor.execute(query_sql,args)
-        else:
-            self.cursor.execute(query_sql)
-
-        return self.cursor.fetchall()
     # DbHandle = DataBaseHandle('127.0.0.1','adil','helloyyj','AdilTest',3306)
     # DbHandle.insertDB('insert into test(name) values ("%s")'%('FuHongXue'))
     # DbHandle.selectDb('select * from test')
@@ -35,9 +22,13 @@ class MySql2(object):
         self.cursor = self.conn.cursor()
         try:
             # 执行sql
-            self.cursor.execute(sql)
-            # tt = self.cursor.execute(sql)  # 返回 插入数据 条数 可以根据 返回值 判定处理结果
-            # print(tt)
+            tt = self.cursor.execute(sql)  # 返回 插入数据 条数 可以根据 返回值 判定处理结果
+            # print(sql)
+            # if tt == 1:
+            #     print('插入成功')
+            # else:
+            #     print('插入失败')
+
             self.conn.commit()
         except:
             # 发生错误时回滚
@@ -80,7 +71,7 @@ class MySql2(object):
             self.cursor.close()
 
 
-
+# 返回的是包含tuple的tuple 一个tuple一行记录
     def select(self,sql):
         """ 数据库查询 """
         self.cursor = self.conn.cursor()

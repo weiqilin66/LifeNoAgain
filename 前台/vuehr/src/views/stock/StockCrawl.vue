@@ -66,13 +66,13 @@
                         width="50">
                 </el-table-column>
                 <el-table-column
-                        prop="last_Update"
+                        prop="last_update"
                         label="最后更新时间"
                         align="center"
-                        width="100">
+                        width="200">
                 </el-table-column>
                 <el-table-column
-                        prop="total_Sales"
+                        prop="total_sales"
                         label="在售首页总销量"
                         align="center"
                         width="100">
@@ -212,7 +212,7 @@
                     stock:0,
                     advance:undefined,
                     last_update: null,
-                    total_scales:0,
+                    total_sales:0,
                     enabled:'1'
                 },
                 tableData: [],
@@ -224,15 +224,10 @@
         },
         methods: {
             changeEnabled(row) {
-                if (row.enabled === '0') {
-                    row.enabled='1'
-                }else {
-                    row.enabled='0'
-                }
                 this.putRequest("/stock/crawl/",row).then(resp => {
                     if (resp) {
                         this.$message.success('修改成功!')
-                        this.initStock()
+                        // this.initStock()
                     }
                 })
             },

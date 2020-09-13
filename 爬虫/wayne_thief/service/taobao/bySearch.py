@@ -37,8 +37,8 @@ class TaoBao(object):
         chrome = self.chrome
         if chrome.current_url.startswith('https://login'):
             # tkinter.messagebox.showerror('提示', '请登录')
-            print('未登录...')
-            time.sleep(10)
+            # print('未登录...')
+            time.sleep(1)
             self.login()
 
     # 插入数据库
@@ -59,11 +59,12 @@ class TaoBao(object):
             detail_url = good['detail_url']  # 详情页
             pic_url = good['pic_url']
             # sql语句
-            del_sql = 'delete from goods where title = %s and etl_date = %s and shop =%s'%(title, etl_date, shop)
+            del_sql = "delete from goods where title = '%s' and etl_date = '%s' and shop ='%s'"% (title, etl_date, shop)
             self.mysql.delete(del_sql)
             insert_sql = """
-            insert into goods(shop,title,price,sales,freight,etl_date,etl_time,kw,detail_url,img_url) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-            """%(shop, title, price, sales, freight, etl_date, etl_time, kw, detail_url, pic_url)
+            insert into goods(shop,title,price,sales,freight,etl_date,etl_time,kw,detail_url,img_url) VALUES(
+            '%s','%s',%d,%d,%d,'%s','%s','%s','%s','%s')
+            """% (shop, title, price, sales, freight, etl_date, etl_time, kw, detail_url, pic_url)
             self.mysql.insert(insert_sql)
 
     # 搜索爬取数据
@@ -181,12 +182,14 @@ def json2info(json_):
 def main():
     taobao = TaoBao()
     mysql = taobao.mysql
-    search_goods = mysql.select('select name from tb_search where enabled =1')
-    # print('爬取列表: ', search_goods)
-    random_good = random.randint(0, len(search_goods) - 1)
-    chrome = taobao.start(search_goods[random_good])
+    search_goods = mysql.select("select concat(label,'二手游戏 ',title) from core_crawl_tb where enabled =1 and finished =1")
+    for good in search_goods:
+        print('爬取: ', good[0])
+    random_good_index = random.randint(0, len(search_goods) - 1)
+    chrome = taobao.start(search_goods[random_good_index])
     # 15s手动扫码
     taobao.login()
+    chrome.minimize_window()
     print('登录成功:', chrome.current_url)
     # 数据日期
     etl_date = time.strftime("%Y%m%d", time.localtime())
@@ -197,11 +200,17 @@ def main():
         pages = 3
         if count > 40:  # 后续宝贝热度低
             pages = 2
-        taobao.data_by_search(etl_date, etl_time, chrome, search_good, 1, pages)
+        taobao.data_by_search(etl_date, etl_time, chrome, search_good[0], 1, pages)
         count = count + 1
-        mysql.update('update tb_search set enabled = 0 where name = %s'%search_good)
+        mysql.update("update core_crawl_tb set finished = 0 where concat(label,'二手游戏 ',title) = '%s'"% search_good)
+
+
         break
-    mysql.update('update tb_search set enabled = 1')
+
+
+
+    # 一次完整爬取结束后 所有爬取状态复位
+    mysql.update('update core_crawl_tb set finished = 1')
     mysql.closeDb()
     return 'over',chrome
 
