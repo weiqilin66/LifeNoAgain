@@ -6,7 +6,6 @@
     -->
     <div>
         <div style="display: flex;justify-content: center;margin-bottom: 5px;margin-right: 170px">
-
             <div style="margin-right: 5px">
                 <el-radio-group v-model="days">
                     <el-radio :label="7">近7天</el-radio>
@@ -15,19 +14,19 @@
                 </el-radio-group>
             </div>
             <div>
-                <el-input placeholder="关键字...机型 游戏主名 游戏附名" v-model="kw" style="width: 400px;margin-right: 5px"
-                          />
+                <el-input placeholder="关键字...机型 游戏主名 游戏附名" v-model="kw" style="width: 400px;margin-right: 5px"/>
 <!--                @keydown.enter.native="doSearch(kw)"-->
                 <el-button type="primary" icon="el-icon-search" @click="reSet" >重置</el-button>
             </div>
         </div>
+        <!--宝贝检索标签-->
         <div style="margin-bottom: 100px;display: flex;justify-content: center;flex-wrap: wrap;width: 90%">
-
             <el-button v-for="(item,index) in btnList" :type="item.type" :key="index"
-                       style="margin-top: 3px" @click="changeChart2(item.name)" plain>
+                       style="margin-top: 3px" @click="changeChart2(item)" plain>
                 <a id="toChart">{{item.name}}</a>
             </el-button>
         </div>
+        <!--趋势图详情表-->
         <el-table
                 v-show="objList.length!==0"
                 :data="objList"
@@ -48,7 +47,6 @@
                     label="销量"
                     width="180">
             </el-table-column>
-
             <el-table-column
                     label="地址">
                 <template slot-scope="scope">
@@ -59,7 +57,6 @@
         <div id="echarts" ref="echarts"></div>
         <div><a href="#toChart">-</a></div>
     </div>
-
 </template>
 <style scoped>
     #echarts {
@@ -179,9 +176,6 @@
                     this.$store.commit("initBtnList",temList)
 
                 }
-
-
-
             }
         },
         computed:{
@@ -191,8 +185,19 @@
         },
         mounted() {
             this.drawLine() //必须第一个显示此组件 否则初始化失败
+            this.getKw()//初始化检索标题按钮
         },
         methods: {
+            getKw() {
+                this.getRequest("/statistics/chart/goodList").then(resp => {
+                    if (resp) {
+                        this.btnList = resp.data
+                        //趋势图使用 存入store
+                        this.$store.commit("initBtnList", this.btnList)
+                        this.$store.commit("backBtnList",this.btnList)
+                    }
+                })
+            },
             reSet(){
               this.kw=''
             },
@@ -203,9 +208,9 @@
                 let option = this.chartData
                 myChart.setOption(option);
             },
-            doSearch(kw) {
-                this.changeChart2(kw)
-            },
+            // doSearch(kw) {
+            //     this.changeChart2(kw)
+            // },
             changeChart2(kw) {
                 window.scrollTo(0, document.documentElement.clientHeight);//滚动到底部定位视图
                 this.getXDate()

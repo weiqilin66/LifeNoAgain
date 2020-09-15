@@ -36,12 +36,12 @@ public class mapperGenerator {
         //生成文件的输出目录
         String projectPath = System.getProperty("user.dir");//工程根目录  xx/mService
         String projectPath2;
-        String sonProjectPath = scannerUtil.sc("子工程路径");
+        String sonProjectPath = scannerUtil.sc("子工程路径(default)");
         if (sonProjectPath.equals("default")) {
             /*
                 输入default 自动在hrserve下生产mbg
              */
-            projectPath2 = projectPath + "//" + "service-main/hrserve";
+            projectPath2 = projectPath;
 
             pc.setParent("com.lwq.hr");
             mpg.setPackageInfo(pc);
@@ -108,8 +108,9 @@ public class mapperGenerator {
         focList.add(new FileOutConfig(templatePath) {
             @Override
             public String outputFile(TableInfo tableInfo) {
+                String p = "D:\\_code\\LifeNoAgain\\后台/hrserve";
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return  "/src/main/resources/mapper/" //+ pc.getModuleName()
+                return  p+"/src/main/resources/mapper/" //+ pc.getModuleName()
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });

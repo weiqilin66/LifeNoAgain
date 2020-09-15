@@ -4,9 +4,7 @@ import com.lwq.hr.entity.GoodKeyWordVo;
 import com.lwq.hr.entity.Goods;
 import com.lwq.hr.entity.SecondShopForMax;
 import com.lwq.hr.entity.TbKw;
-import com.lwq.hr.mapper.GoodsMapper;
-import com.lwq.hr.mapper.SecondShopForMaxMapper;
-import com.lwq.hr.mapper.TbKwMapper;
+import com.lwq.hr.mapper.*;
 import com.lwq.hr.service.ChartService;
 import com.lwq.hr.utils.RespBean;
 
@@ -33,7 +31,8 @@ public class ChartController {
 
     @Resource
     GoodsMapper goodsMapper;
-
+    @Resource
+    GoodKeyWordMapper goodKeyWordMapper;
     @Autowired
     ChartService chartService;
     @Resource
@@ -98,8 +97,8 @@ public class ChartController {
      */
     @GetMapping("/goodList")
     public RespBean getGoodList() {
-        List<TbKw> list = tbKwMapper.selAll();
-        return RespBean.build().setData(list);
+//        List<TbKw> list = tbKwMapper.selAll();
+        return RespBean.build().setData(goodKeyWordMapper.queryMap());
     }
 
     @GetMapping("/initExcel")

@@ -1,7 +1,7 @@
 import pymysql
 
 
-class MySql2(object):
+class MySql(object):
     def __init__(self,host,username,password,service):
         self.conn = pymysql.connect(host, username, password, service)
         # self.conn = pymysql.connect('localhost', 'root', 'root', 'vhr')

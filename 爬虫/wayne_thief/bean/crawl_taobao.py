@@ -4,13 +4,13 @@ import time
 import tkinter
 from selenium.webdriver.support.wait import WebDriverWait
 from bean.my_selenium import MySelenium
-from bean.my_mysql import MySql2
+from bean.my_mysql import MySql
 
 
 class TaoBao(object):
     def __init__(self):     # 初始化参数
         self.chrome = MySelenium().getTbInstance()
-        self.mysql = MySql2()
+        self.mysql = MySql()
 
     # 回调判断是否登录
     def is_login(self):
@@ -158,7 +158,7 @@ class TaoBao(object):
         etl_date = time.strftime("%Y%m%d", time.localtime())
         etl_time = time.strftime("%H:%M:%S", time.localtime())
         for good in goods:
-            MySql2().commit(
+            MySql().commit(
                 'insert into goods_shop(shop,price,title,sales,detail_url,img_url,etl_date,etl_time,kw) values (%s,%s,%s,%s,%s,%s,%s,%s,%s)'
                 , (
                     good['shop'], good['price'], good['title'], good['sales'], good['detail_url'], good['pic_url'], etl_date,

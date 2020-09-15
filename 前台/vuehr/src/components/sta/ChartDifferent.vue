@@ -325,19 +325,10 @@
                     }
                 })
             },
-            getKw() {
-                this.getRequest("/statistics/chart/goodList").then(resp => {
-                    if (resp) {
-                        this.btnList = resp.data
-                        //趋势图使用 存入store
-                        this.$store.commit("initBtnList", this.btnList)
-                        this.$store.commit("backBtnList",this.btnList)
-                    }
-                })
-            },
+
             initData() {
                 this.getMaxMin()
-                this.getKw()
+
             }
         }
     }

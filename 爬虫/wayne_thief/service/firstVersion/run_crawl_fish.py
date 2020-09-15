@@ -1,7 +1,7 @@
 import time
 
 from bean.my_appium import MyAppium
-from bean.my_mysql import MySql2
+from bean.my_mysql import MySql
 
 phone = 'shark3'
 if __name__ == '__main__':
@@ -26,7 +26,7 @@ if __name__ == '__main__':
 
     ####################################################################################################################
     # 加工数据
-    etl = MySql2()
+    etl = MySql()
     etl.commit('delete from fish_kw_price', None)
     my_focus_list = etl.query('select name,kw,label from my_focus where enabled = 1', None)
     for my_focus in my_focus_list:

@@ -8,7 +8,7 @@ import json
 import pymysql
 import random
 from selenium import common
-from bean.my_mysql import MySql2
+from bean.my_mysql import MySql
 from bean.my_selenium import MySelenium
 
 """ 半自动实现 """
@@ -19,7 +19,7 @@ mp3_path = r'd:/菊花台.mp3'
 class TaoBao(object):
     def __init__(self):  # 初始化参数
         self.chrome = MySelenium().chrome
-        self.mysql = MySql2('localhost', 'root', 'root', 'vhr')
+        self.mysql = MySql('localhost', 'root', 'root', 'vhr')
 
     # 初始化随机搜索宝贝
     def start(self, random_good):
@@ -44,7 +44,7 @@ class TaoBao(object):
             self.login()
 
     # 插入数据库
-    def info2mysql(self, good_list, etl_date, etl_time, kw,count_index_total):
+    def info2mysql(self, good_list, etl_date, etl_time, kw, count_index_total):
         index_total = 0
         # 一个good_list是一个网页数据
         for good in good_list:
@@ -73,8 +73,9 @@ class TaoBao(object):
             self.mysql.insert(insert_sql)
         # 统计首页总量
         if count_index_total == 1:
-            pass
-            self.mysql.update("update core_crawl_tb set total_sales = %d where "% index_total)
+            self.mysql.update("update core_crawl_tb set total_sales = %d where id in (select id from("
+                              "select t1.id from core_crawl_tb t1 inner join good_main t2 on t1.gid = t2.id "
+                              "where concat(label,name)='%s')a) " % (index_total, kw))
 
     # 核心方法 关键词搜索爬取数据
     def data_by_search(self, etl_date, etl_time, chrome, search_good, crawl_type, pages):
@@ -127,7 +128,7 @@ class TaoBao(object):
         if good_list == 1:
             return
         print('首页size: ', len(good_list))
-        self.info2mysql(good_list, etl_date, etl_time, search_good,1)
+        self.info2mysql(good_list, etl_date, etl_time, search_good, 1)
         # 下一页
         if pages == 1:
             return
@@ -164,7 +165,7 @@ class TaoBao(object):
             good_list = json2info(json_)
             print('第', page + 2, '页size: ', len(good_list))
             # 写入数据库
-            self.info2mysql(good_list, etl_date, etl_time, search_good,0)
+            self.info2mysql(good_list, etl_date, etl_time, search_good, 0)
 
 
 # 解析JS的json数据 return列表
@@ -189,25 +190,31 @@ def json2info(json_):
         good_list.append(goods)
     return good_list
 
+
 def init():
     taobao = TaoBao()
     mysql = taobao.mysql
-    init_goods = mysql.select("select concat(label,'二手  ',title) from core_crawl_tb where enabled =1 limit 30")
+    init_goods = mysql.select(
+        "select concat(label,name) from core_crawl_tb t1 inner join good_main t2 on t1.gid = t2.id where enabled =1 limit 30")
     random_good_index = random.randint(0, len(init_goods) - 1)
     chrome = taobao.start(init_goods[random_good_index])
     # 15s手动扫码
     taobao.login()
     print('登录成功:', chrome.current_url)
+    # 点击二手标签
+    # chrome.find
     # 最小化
     chrome.minimize_window()
     return taobao, chrome, mysql
+
 
 def main(taobao, chrome, mysql):
     # 数据日期
     etl_date = time.strftime("%Y%m%d", time.localtime())
     etl_time = time.strftime("%H:%M:%S", time.localtime())
     # 数据列表
-    search_goods = mysql.select("select concat(label,'二手  ',title) from core_crawl_tb where enabled =1 and finished =1")
+    search_goods = mysql.select(
+        "select concat(label,name) from core_crawl_tb t1 inner join good_main t2 on t1.gid = t2.id where enabled =1 and finished=1")
     # 遍历宝贝标题检索数据
     count = 0
     for search_good in search_goods:
@@ -216,10 +223,10 @@ def main(taobao, chrome, mysql):
             pages = 2
         taobao.data_by_search(etl_date, etl_time, chrome, search_good[0], 1, pages)
         count = count + 1
-        mysql.update("update core_crawl_tb set finished = 0 where concat(label,'二手游戏 ',title) = '%s'" % search_good)
+        mysql.update("update core_crawl_tb set finished = 0 where id in (select id from("
+                     "select t1.id from core_crawl_tb t1 inner join good_main t2 on t1.gid = t2.id where concat(label,name)='%s')a) " % search_good)
 
     # 一次完整爬取结束后 所有爬取状态复位
     mysql.update('update core_crawl_tb set finished = 1')
     # mysql.closeDb()
     return 'over', chrome, mysql
-

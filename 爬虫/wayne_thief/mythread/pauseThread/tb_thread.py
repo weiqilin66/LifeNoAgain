@@ -1,6 +1,6 @@
 import threading
 import time
-from service.taobao.bySearch import main
+from service.taobao.data_by_search import main
 
 
 class tbThread(threading.Thread):
