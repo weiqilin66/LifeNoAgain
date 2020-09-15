@@ -1,6 +1,7 @@
 package com.lwq.hr.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.lwq.hr.entity.GoodKeyWord;
 import com.lwq.hr.entity.GoodKeyWordVo;
 import com.lwq.hr.entity.Goods;
 import com.lwq.hr.entity.SecondShopForMax;
@@ -34,6 +35,6 @@ public interface GoodsMapper extends BaseMapper<Goods> {
 
     List<Goods> getMaxMinFromSHop(String shop,String goodName, String condition);
 
-    List<Goods> byKeyWord(@Param("vo") GoodKeyWordVo vo,@Param("shopName")String shopName,
+    List<Goods> byKeyWord(@Param("vo") GoodKeyWord vo, @Param("shopName")String shopName,
                           @Param("beginDate") String now, @Param("endDate") String endDate);
 }

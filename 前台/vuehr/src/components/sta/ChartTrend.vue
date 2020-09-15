@@ -73,6 +73,8 @@
                 // btnList:[], computed的值不能在此处定义
                 objList:[],
                 etlDate: [],
+                startDate:'',
+                endDate:'',
                 chartData: {
                     // 配置标题
                     title: {
@@ -211,13 +213,14 @@
             // doSearch(kw) {
             //     this.changeChart2(kw)
             // },
-            changeChart2(kw) {
+            changeChart2(item) {
                 window.scrollTo(0, document.documentElement.clientHeight);//滚动到底部定位视图
                 this.getXDate()
                 // 横坐标日期
                 this.chartData.xAxis[0].data = this.etlDate
-                this.chartData.title['text'] = kw
-                this.getRequest('/statistics/chart/byTitle?title=' + kw + '&date=' + this.days).then(resp => {
+                this.chartData.title['text'] = item.name
+                this.getRequest('/statistics/chart/byTitle?id=' + item.id
+                    + '&startDate=' + this.startDate+ '&endDate=' + this.endDate).then(resp => {
                     if (resp) {
                         if (resp.error != null) {//错误检索规则报错
                             this.$message.error(resp.error);
@@ -265,6 +268,8 @@
                     start.setDate(start.getDate() - i);
                     this.etlDate.push(this.getyyyyMMdd(start))
                 }
+                this.startDate =this.getyyyyMMdd(new Date());
+                this.endDate = this.getyyyyMMdd(start.setDate(start.getDate() - num));
             }
             /* // 同步实例
                         async changeChart(kw) {

@@ -1,14 +1,10 @@
 package com.lwq.hr.service;
 
 
-import com.lwq.hr.entity.GoodKeyWordVo;
-import com.lwq.hr.entity.Goods;
-import com.lwq.hr.entity.SecondShopForMax;
-import com.lwq.hr.entity.TbKw;
+import com.lwq.hr.entity.*;
 import com.lwq.hr.mapper.GoodsMapper;
 import com.lwq.hr.mapper.SecondShopForMaxMapper;
 import com.lwq.hr.mapper.TbKwMapper;
-import com.lwq.hr.utils.MonitorIntelScheUtil;
 import com.lwq.hr.utils.MonitorUtil;
 import com.lwq.hr.utils.RespBean;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -177,7 +173,7 @@ public class ChartService {
             e.setName("宁波老猎人电玩店");
             secondShops.add(e);
         } else {
-            secondShops = secondShopForMaxMapper.selectAll();
+            secondShops = secondShopForMaxMapper.selectAllEnabled();
         }
         List<SecondShopForMax> blackList = secondShopForMaxMapper.selBlackList();
         //加工关键字
@@ -304,8 +300,8 @@ public class ChartService {
         return resList;
     }
 
-    public HashMap<String, Object> getCharts(GoodKeyWordVo vo) {
-        String startDate=vo.getDate();
+    public HashMap<String, Object> getCharts(GoodKeyWord vo) {
+        String startDate="";
         String endDate=now;
 
         //横坐标

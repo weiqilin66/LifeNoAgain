@@ -1,11 +1,9 @@
 package com.lwq.hr.controller.sta;
 
-import com.lwq.hr.entity.GoodKeyWordVo;
-import com.lwq.hr.entity.Goods;
-import com.lwq.hr.entity.SecondShopForMax;
-import com.lwq.hr.entity.TbKw;
+import com.lwq.hr.entity.*;
 import com.lwq.hr.mapper.*;
 import com.lwq.hr.service.ChartService;
+import com.lwq.hr.utils.MonitorUtil;
 import com.lwq.hr.utils.RespBean;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +36,7 @@ public class ChartController {
     @Resource
     TbKwMapper tbKwMapper;
     @Resource
-    SecondShopForMaxMapper secondShopForMaxMapper;
+    SecondShopForMaxMapper shopmapper;
 
     @Value("${wayne.goodPath}")
     String filePath;
@@ -109,7 +107,7 @@ public class ChartController {
      * 折现图接口V.2
      */
     @GetMapping("/byTitle2")
-    public RespBean getCharts(GoodKeyWordVo vo){
+    public RespBean getCharts(GoodKeyWord vo){
 
         return RespBean.build().setMessage("ok").setData(chartService.getCharts(vo));
     }
@@ -118,42 +116,28 @@ public class ChartController {
      * @date 2020/5/13
      */
     @GetMapping("/byTitle")
-    public Map<String, Object> byTitle(String title, int date) {
+    public Map<String, Object> byTitle(int id, String startDate,String endDate) {
         Map<String, Object> resMap = new HashMap<>();
         List<Goods> resList = new ArrayList<>();
         // 检索关键字优化
-        String[] arr = title.split("\\s+");
-        String condition = "";
-        try {
-            title = arr[0] + "%" + arr[1] + "%" + arr[2];
-        } catch (ArrayIndexOutOfBoundsException ignored) {
-            resMap.put("error", "未按规则输入检索条件!");
-            return resMap;
-        }
-        if (arr[2].contains("!")) {// ! 非  过滤标题
-            String[] cd = arr[2].split("!");
-            condition = cd[1];
-            title = arr[0] + "%" + arr[1] + "%" + cd[0];
-
-        }
-        List<String> days = getDaysBetwwen(date - 1);
-        List<SecondShopForMax> shops = secondShopForMaxMapper.selectAll2();// 统计名店
+        final GoodKeyWord goodKeyWord = goodKeyWordMapper.selectById(id);
+        List<SecondShopForMax> shops = shopmapper.selectAll();// 统计名店
         List<String> list = new ArrayList<>();
         for (SecondShopForMax shop : shops) {
             list.add(shop.getName());
         }
-        resMap.put("shops", list);
+        resMap.put("shops", list);//图例店铺名
+        String [] xAxis = MonitorUtil.getTimes(startDate, endDate);
 
-        String finalTitle = title;
-        String finalCondition = condition;
         list.parallelStream().forEach(shop->{
-            List<Goods> goods = goodsMapper.byTitle(shop, finalTitle, days, finalCondition);
+//            List<Goods> goods = goodsMapper.byTitle(shop, finalTitle, days, finalCondition);
+            List<Goods> goods = goodsMapper.byKeyWord(goodKeyWord, shop, startDate, endDate);
             List<String> times = new ArrayList<>();//所有日期
             for (Goods good : goods) {
                 times.add(good.getEtlDate());
             }
             // 得到两个日期数组差异 加工没获取到数据price为0
-            List<String> newList = getDIffList(days, times);
+            List<String> newList = getDIffList(Arrays.asList(xAxis), times);
             for (String s : newList) {
                 Goods good = new Goods();//添加到list中每次都要new新对象 如果是重复set 在集合中上一个对象的值也会被改掉
                 good.setEtlDate(s);
@@ -168,7 +152,7 @@ public class ChartController {
                     return o2.getEtlDate().compareTo(o1.getEtlDate()); //降序
                 }
             });
-            float[] prices = new float[date];
+            float[] prices = new float[xAxis.length];
             for (int j = 0; j < goods.size(); j++) {
                 prices[j] = goods.get(j).getPrice();
             }
@@ -217,7 +201,6 @@ public class ChartController {
 
 
     /**
-     * @param [days]
      * @return java.util.Date
      * @TODO 获取近days-1天的日期
      * @date 2020/5/12
