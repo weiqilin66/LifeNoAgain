@@ -1,5 +1,6 @@
 package com.lwq.hr.controller.sta;
 
+import com.lwq.hr.entity.GoodKeyWordVo;
 import com.lwq.hr.entity.Goods;
 import com.lwq.hr.entity.SecondShopForMax;
 import com.lwq.hr.entity.TbKw;
@@ -105,7 +106,14 @@ public class ChartController {
     public RespBean initExcelData() throws IOException {
         return chartService.loadExcelData(filePath);
     }
+    /**
+     * 折现图接口V.2
+     */
+    @GetMapping("/byTitle2")
+    public RespBean getCharts(GoodKeyWordVo vo){
 
+        return RespBean.build().setMessage("ok").setData(chartService.getCharts(vo));
+    }
     /**
      * @TODO 折线图接口
      * @date 2020/5/13

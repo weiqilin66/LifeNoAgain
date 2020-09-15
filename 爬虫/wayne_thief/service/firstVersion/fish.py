@@ -30,7 +30,7 @@ import re
         class: ...
      调用java底层高级写法
     # driver.find_element_by_android_uiautomator('new UiSelector().className(\"android.widget.EditText\").textContains(\"最低价\")').send_keys(200)
-    
+
 元素等待()
     隐式:统一设置等待时间
         driver.implicitly_wait(10)
@@ -38,7 +38,7 @@ import re
     显式:单独设置等待时间
         导包并创建对象wait = WebDriverWait(driver,5,1) 5s 每1秒都会去执行是否能找到元素,找不到报错(timeOut)
         使用 wait.until(lambda x:x.find_element_by_id("com.taobao.idlefish:id/right_btn"))    
-    
+
 元素位置和大小(返回dict) 左上角为基点
     element.location key: x, y
     element.size     key: width, height
@@ -60,15 +60,15 @@ import re
             end_x,end_y,    终点
             duration    滑动时间ms,时间小滑动惯性越大展示效果越靠后
             driver.swipe(start_x ,start_y ,end_x, end_y ,duration)   
-            
+
         scroll:
         (2个元素之间的移动,有惯性误差,且无法指定惯性大小)
             driver.scroll(origin_element,target_element)
-            
+
         drag_and_drop:
         (2个元素之间的移动,没惯性误差)
             driver.drag_and_drop(origin_element,target_element)
-    
+
     TouchAction      
     (创建对象 act = TouchAction(driver)  perform()提交结尾 )  
         轻敲:
@@ -83,7 +83,7 @@ import re
         移动:
         (按下再移动,例如手势解锁)
             act.press(...).move_to(坐标/元素).move_to(...).perform()
-            
+
         按下抬起:(长按黏贴使用此操作)
             act.press(坐标/元素).perform()  按下
             act.press(坐标/元素).release().perform()    抬起
@@ -99,14 +99,14 @@ import re
    # print('键盘列表: ',driver.available_ime_engines)
     # driver.activate_ime_engine(constants[phone]['输入法'])
     # driver.activate_ime_engine('io.appium.settings/.UnicodeIME')
-    
+
 按键
 (driver.press_keycode())
     返回键: 4
     HOME: 3
     回车键: 23
 复制黏贴
-    
+
 """
 
 phone = 'shark3'

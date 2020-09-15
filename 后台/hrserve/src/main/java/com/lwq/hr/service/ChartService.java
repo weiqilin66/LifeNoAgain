@@ -1,12 +1,15 @@
 package com.lwq.hr.service;
 
 
+import com.lwq.hr.entity.GoodKeyWordVo;
 import com.lwq.hr.entity.Goods;
 import com.lwq.hr.entity.SecondShopForMax;
 import com.lwq.hr.entity.TbKw;
 import com.lwq.hr.mapper.GoodsMapper;
 import com.lwq.hr.mapper.SecondShopForMaxMapper;
 import com.lwq.hr.mapper.TbKwMapper;
+import com.lwq.hr.utils.MonitorIntelScheUtil;
+import com.lwq.hr.utils.MonitorUtil;
 import com.lwq.hr.utils.RespBean;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -299,5 +302,28 @@ public class ChartService {
             }
         });
         return resList;
+    }
+
+    public HashMap<String, Object> getCharts(GoodKeyWordVo vo) {
+        String startDate=vo.getDate();
+        String endDate=now;
+
+        //横坐标
+        //得到两个日期之间的字符串数组 eg 20200808
+        String [] xAxis = MonitorUtil.getTimes(startDate, endDate);
+        //获取起始日期之间的日期数组 eg 2020-08-08
+        //String[] headArray = MonitorIntelScheUtil.headArrayReplace(EchartAxis);
+        //查询起始时间变量去空格
+        startDate = startDate.replaceAll("-", "");
+        endDate = endDate.replaceAll("-", "");
+        String chartDate = "etl_date";
+        String chartValue = "price";
+        String shopName= "";
+        List dataList = goodsMapper.byKeyWord(vo,shopName,now,endDate);
+        List line1 = new ArrayList();
+
+        line1 = MonitorUtil.queryTrendEchartDataFormat(chartDate,chartValue,dataList,xAxis);
+
+        return null;
     }
 }

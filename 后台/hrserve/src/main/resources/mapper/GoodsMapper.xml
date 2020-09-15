@@ -75,6 +75,34 @@
         and locate('amiibo',title)=0
 
     </sql>
+    <select id="byKeyWord" resultType="com.lwq.hr.entity.Goods">
+        select
+        <include refid="field"/>
+        from goods
+        where 1=1
+        and etl_date between #{beginDate} and #{endDate}
+        and shop = #{shopName}
+        and title like '%'|| #{vo.base} ||'%'
+        <if test="vo.include1!=null and vo.include1!=''">
+            and title like '%'|| #{vo.include1} ||'%'
+        </if>
+        <if test="vo.include2!=null and vo.include2!=''">
+            and title like '%'|| #{vo.include2} ||'%'
+        </if>
+        <if test="vo.enclude1!=null and vo.enclude1!=''">
+            and locate(#{vo.enclude1},title)=0
+        </if>
+        <if test="vo.enclude2!=null and vo.enclude2!=''">
+            and locate(#{vo.enclude2},title)=0
+        </if>
+
+
+
+    </select>
+    <sql id="field">
+        id,kw,shop,title,price,sales,freight,comment,imgUrl,detailUrl,etlDate,etlTime
+    </sql>
+    <!--指定必回收的店铺-->
     <select id="byTitle" resultMap="BaseResultMap">
         SELECT * FROM goods WHERE 1=1
         AND title LIKE concat('%', #{title} ,'%')
@@ -90,7 +118,7 @@
         <include refid="conditions"/>
         group by shop,etl_date
     </select>
-    <!--指定必回收的店铺-->
+
     <select id="getMax" resultMap="BaseResultMap">
         select * from goods  a
         inner join(
@@ -122,6 +150,7 @@
     <select id="check" resultMap="BaseResultMap">
         select * from goods where etl_date = #{date} limit 1
     </select>
+
     <select id="getMaxMinFromSHop" resultType="com.lwq.hr.entity.Goods">
         select * from goods where shop = #{shop} and title  like concat('%',#{goodName},'%')
         <if test="condition!=''">

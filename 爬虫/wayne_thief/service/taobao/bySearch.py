@@ -14,13 +14,15 @@ from bean.my_selenium import MySelenium
 """ 半自动实现 """
 mp3_path = r'd:/菊花台.mp3'
 
+
+# noinspection DuplicatedCode
 class TaoBao(object):
-    def __init__(self):     # 初始化参数
+    def __init__(self):  # 初始化参数
         self.chrome = MySelenium().chrome
         self.mysql = MySql2('localhost', 'root', 'root', 'vhr')
 
     # 初始化随机搜索宝贝
-    def start(self,random_good):
+    def start(self, random_good):
         chrome = self.chrome
         url = 'https://s.taobao.com/'
         chrome.get(url)
@@ -42,7 +44,8 @@ class TaoBao(object):
             self.login()
 
     # 插入数据库
-    def info2mysql(self,good_list, etl_date, etl_time, kw):
+    def info2mysql(self, good_list, etl_date, etl_time, kw,count_index_total):
+        index_total = 0
         # 一个good_list是一个网页数据
         for good in good_list:
             shop = good['shop']  # 店铺名
@@ -52,6 +55,7 @@ class TaoBao(object):
                 sales = float(good['sales'].strip('+万人付款收货')) * 10000  # 销量
             else:
                 sales = int(good['sales'].strip('+人付款收货'))  # 销量
+            index_total = index_total + sales
             if good['freight'] == '':  # 运费
                 freight = 0
             else:
@@ -59,15 +63,20 @@ class TaoBao(object):
             detail_url = good['detail_url']  # 详情页
             pic_url = good['pic_url']
             # sql语句
-            del_sql = "delete from goods where title = '%s' and etl_date = '%s' and shop ='%s'"% (title, etl_date, shop)
+            del_sql = "delete from goods where title = '%s' and etl_date = '%s' and shop ='%s'" % (
+                title, etl_date, shop)
             self.mysql.delete(del_sql)
             insert_sql = """
             insert into goods(shop,title,price,sales,freight,etl_date,etl_time,kw,detail_url,img_url) VALUES(
             '%s','%s',%d,%d,%d,'%s','%s','%s','%s','%s')
-            """% (shop, title, price, sales, freight, etl_date, etl_time, kw, detail_url, pic_url)
+            """ % (shop, title, price, sales, freight, etl_date, etl_time, kw, detail_url, pic_url)
             self.mysql.insert(insert_sql)
+        # 统计首页总量
+        if count_index_total == 1:
+            pass
+            self.mysql.update("update core_crawl_tb set total_sales = %d where "% index_total)
 
-    # 搜索爬取数据
+    # 核心方法 关键词搜索爬取数据
     def data_by_search(self, etl_date, etl_time, chrome, search_good, crawl_type, pages):
         try:
             tb_input = chrome.find_elements_by_xpath("//input[@name='q']")[0]
@@ -82,7 +91,7 @@ class TaoBao(object):
             if crawl_type == 1:  # 下一页不用再按销量排行和搜索
                 sort_btn[1].click()
                 time.sleep(random.randint(10, 15))
-                # 价格100+
+                # 增加筛选条件 价格100+
                 # chrome.find_elements_by_xpath("//input[@class='J_SortbarPriceInput input']")[0].send_keys(100)
                 # time.sleep(1)
                 # chrome.find_elements_by_xpath("//button")[1].click()
@@ -91,8 +100,7 @@ class TaoBao(object):
             print('--webdriver异常: ', e)
             # playsound(mp3_path)
             tkinter.messagebox.showinfo('tip', 'webdriver异常')
-            # print("关闭弹窗休息200s")
-            # time.sleep(200)
+            print("手动滑块验证over")
             tb_input = chrome.find_elements_by_xpath("//input[@name='q']")[0]
             tb_btn = chrome.find_elements_by_xpath("//button")[0]
             tb_input.clear()
@@ -116,16 +124,17 @@ class TaoBao(object):
         # 分析json 写入数据库
         print("crawl: %s" % search_good)
         good_list = json2info(json_)
-        if good_list==1:
+        if good_list == 1:
             return
         print('首页size: ', len(good_list))
-        self.info2mysql(good_list, etl_date, etl_time, search_good)
+        self.info2mysql(good_list, etl_date, etl_time, search_good,1)
         # 下一页
         if pages == 1:
             return
         for page in range(0, pages - 1):
             # 下一页按钮不可用 返回
-            totalPage = chrome.find_elements_by_xpath("//div[@class='pager']//ul[@class='items']//li/a[@class='link']/span[@class='icon icon-btn-next-2-disable']")  # 只有一页
+            totalPage = chrome.find_elements_by_xpath(
+                "//div[@class='pager']//ul[@class='items']//li/a[@class='link']/span[@class='icon icon-btn-next-2-disable']")  # 只有一页
             if len(totalPage) > 0:
                 return
             try:
@@ -148,14 +157,15 @@ class TaoBao(object):
             html = chrome.page_source
             json_ = re.findall(r'g_page_config = (.*?)}};', html)[0]
             if json_ == '':
-                print('翻页未搜索到: ', search_good)
+                print('翻页后 未搜索到: ', search_good)
                 return
             json_ = json_ + '}}'
             # 分析json
             good_list = json2info(json_)
-            print('第',page+2,'页size: ', len(good_list))
+            print('第', page + 2, '页size: ', len(good_list))
             # 写入数据库
-            self.info2mysql(good_list, etl_date, etl_time, search_good)
+            self.info2mysql(good_list, etl_date, etl_time, search_good,0)
+
 
 # 解析JS的json数据 return列表
 def json2info(json_):
@@ -179,43 +189,37 @@ def json2info(json_):
         good_list.append(goods)
     return good_list
 
-def main():
+def init():
     taobao = TaoBao()
     mysql = taobao.mysql
-    search_goods = mysql.select("select concat(label,'二手游戏 ',title) from core_crawl_tb where enabled =1 and finished =1")
-    for good in search_goods:
-        print('爬取: ', good[0])
-    random_good_index = random.randint(0, len(search_goods) - 1)
-    chrome = taobao.start(search_goods[random_good_index])
+    init_goods = mysql.select("select concat(label,'二手  ',title) from core_crawl_tb where enabled =1 limit 30")
+    random_good_index = random.randint(0, len(init_goods) - 1)
+    chrome = taobao.start(init_goods[random_good_index])
     # 15s手动扫码
     taobao.login()
-    chrome.minimize_window()
     print('登录成功:', chrome.current_url)
+    # 最小化
+    chrome.minimize_window()
+    return taobao, chrome, mysql
+
+def main(taobao, chrome, mysql):
     # 数据日期
     etl_date = time.strftime("%Y%m%d", time.localtime())
     etl_time = time.strftime("%H:%M:%S", time.localtime())
-    # -----  销量排行  -----
+    # 数据列表
+    search_goods = mysql.select("select concat(label,'二手  ',title) from core_crawl_tb where enabled =1 and finished =1")
+    # 遍历宝贝标题检索数据
     count = 0
     for search_good in search_goods:
-        pages = 3
-        if count > 40:  # 后续宝贝热度低
+        pages = 3  # 按销量爬取三页
+        if count > 40:  # 后续宝贝热'over', chrome, mysql度低
             pages = 2
         taobao.data_by_search(etl_date, etl_time, chrome, search_good[0], 1, pages)
         count = count + 1
-        mysql.update("update core_crawl_tb set finished = 0 where concat(label,'二手游戏 ',title) = '%s'"% search_good)
-
-
-        break
-
-
+        mysql.update("update core_crawl_tb set finished = 0 where concat(label,'二手游戏 ',title) = '%s'" % search_good)
 
     # 一次完整爬取结束后 所有爬取状态复位
     mysql.update('update core_crawl_tb set finished = 1')
-    mysql.closeDb()
-    return 'over',chrome
+    # mysql.closeDb()
+    return 'over', chrome, mysql
 
-
-if __name__ == '__main__':
-    main()
-    print('-' * 30)
-    print('爬取结束')
