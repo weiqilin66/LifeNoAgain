@@ -54,6 +54,7 @@
                 </template>
             </el-table-column>
         </el-table>
+
         <div id="echarts" ref="echarts"></div>
         <div><a href="#toChart">-</a></div>
     </div>
@@ -187,19 +188,9 @@
         },
         mounted() {
             this.drawLine() //必须第一个显示此组件 否则初始化失败
-            this.getKw()//初始化检索标题按钮
         },
         methods: {
-            getKw() {
-                this.getRequest("/statistics/chart/goodList").then(resp => {
-                    if (resp) {
-                        this.btnList = resp.data
-                        //趋势图使用 存入store
-                        this.$store.commit("initBtnList", this.btnList)
-                        this.$store.commit("backBtnList",this.btnList)
-                    }
-                })
-            },
+
             reSet(){
               this.kw=''
             },
@@ -256,7 +247,7 @@
                 })
             },
             // 获取 x轴的日期数组
-            getXDate(num) {
+            getXDate: function (num) {
                 this.etlDate = []
                 if (this.days === 0) {
                     num = 15
@@ -268,8 +259,13 @@
                     start.setDate(start.getDate() - i);
                     this.etlDate.push(this.getyyyyMMdd(start))
                 }
-                this.startDate =this.getyyyyMMdd(new Date());
-                this.endDate = this.getyyyyMMdd(start.setDate(start.getDate() - num));
+                const day = 1000*3600*24
+                this.endDate = this.getyyyyMMdd(new Date())
+                let startDate = new Date().getTime();
+                startDate = startDate- day * num
+                this.startDate = this.getyyyyMMdd(new Date(startDate))
+                console.log('折线图开始时间： ' +this.startDate)
+                console.log('折线图结束时间： ' +this.endDate)
             }
             /* // 同步实例
                         async changeChart(kw) {

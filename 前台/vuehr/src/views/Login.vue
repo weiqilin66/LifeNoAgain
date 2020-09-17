@@ -66,7 +66,7 @@
                         //获取当前的url路径的redirect的value
                         let path = this.$route.query.redirect;
                         // router push() 可后退 replace() 替换不可后退
-                        this.$router.replace((path==='/'||path===undefined)?'/home':path)
+                        this.$router.replace((path==='/'||path===undefined)?'/home':path).catch(err=>{err})
 
                     } else {
                         this.$message.error('请确认输入用户名及密码')

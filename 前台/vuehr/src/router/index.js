@@ -10,14 +10,13 @@ const routes = [
         name: '登录',
         component: Login,
         hidden: true
-        // component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
     },
-    {
-        path: '/home',
-        name: 'Home',
-        component: () => import( '../views/Home'),
-        hidden: true
-    }
+    // {
+    //     path: '/home',
+    //     name: 'Home',
+    //     component: () => import( '../views/Home'),
+    //     hidden: true
+    // }
    /* ,
     {  //匹配不上其他路径,既无效路径会进入此路由 跳转到home页
         path: '*',

@@ -76,8 +76,9 @@
                 return this.$store.state.routes
             }
         },
-        mounted() {
+        mounted() {//登录成功首页初始化数据
             // this.initExcelData()
+            this.getKeyWord()//获取折线图检索词
         },
         methods: {
             // 个人中心下拉框配置
@@ -92,13 +93,6 @@
                         window.sessionStorage.clear()
                         this.$store.state.routes = []
                         this.$router.replace('/')
-                        // 消息弹窗由axios封装统一处理后台message
-
-                        //this.$message.success("注销成功")
-                        /*this.$message({
-                              type: 'success',
-                              message: '注销成功!'
-                          });*/
                     }).catch(() => {
                     });
                 } else if (cmd === 'center') {
@@ -118,13 +112,24 @@
                     this.customColorLeft = 'margin-right:6px; color: #409eff'
                 }
             },
-            initExcelData() {
-                this.getRequest("/statistics/chart/initExcel").then(resp=>{
+            // initExcelData() {
+            //     this.getRequest("/statistics/chart/initExcel").then(resp=>{
+            //         if (resp) {
+            //             console.log("goodExcel初始化导入成功")
+            //         }
+            //     })
+            // },
+            getKeyWord() {
+                this.getRequest("/statistics/chart/goodList").then(resp => {
                     if (resp) {
-                        console.log("goodExcel初始化导入成功")
+                        this.btnList = resp.data
+                        //趋势图使用 存入store
+                        this.$store.commit("initBtnList", this.btnList)
+                        this.$store.commit("backBtnList",this.btnList)
+                        console.log('Home初始化存入折线图btnList>>>')
                     }
                 })
-            }
+            },
         },
 
     }
