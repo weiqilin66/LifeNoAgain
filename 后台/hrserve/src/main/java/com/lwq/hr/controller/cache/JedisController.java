@@ -32,26 +32,31 @@ public class JedisController {
     @Resource
     JedisInit jedisInit;
     @GetMapping("/refresh")
-    public void refreshCache() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        jedisConfig.excute(new CallWithJedis() {
-            @Override
-            public void call(Jedis jedis) {
-                //jedis.flushAll(); //删除所有库
-                jedis.flushDB();//删除单个库
+    public RespBean refreshCache(){
+        try {
+            jedisConfig.excute(new CallWithJedis() {
+                @Override
+                public void call(Jedis jedis) {
+                    //jedis.flushAll(); //删除所有库
+                    jedis.flushDB();//删除单个库
+                }
+            });
+            /**
+             * 反射得到类中的方法并invoke执行
+             */
+            //final Method refresh = jedisInit.getClass().getDeclaredMethod("refresh");
+            //refresh.invoke(jedisInit);
+
+            //获取类所有声明的方法
+            Method[] declaredMethods = JedisInit.class.getDeclaredMethods();
+            for (Method m : declaredMethods) {
+                m.invoke(jedisInit);
             }
-        });
-        /**
-         * 反射得到类中的方法并invoke执行
-         */
-        //final Method refresh = jedisInit.getClass().getDeclaredMethod("refresh");
-        //refresh.invoke(jedisInit);
-
-        //获取类所有声明的方法
-        Method[] declaredMethods = JedisInit.class.getDeclaredMethods();
-        for (Method m : declaredMethods) {
-            m.invoke(jedisInit);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return RespBean.error();
         }
-
+        return RespBean.ok();
     }
 
     /**
