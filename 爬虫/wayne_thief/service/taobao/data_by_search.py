@@ -208,13 +208,10 @@ def init():
     return taobao, chrome, mysql
 
 
-def main(taobao, chrome, mysql):
+def main(taobao, chrome, mysql,search_goods):
     # 数据日期
     etl_date = time.strftime("%Y%m%d", time.localtime())
     etl_time = time.strftime("%H:%M:%S", time.localtime())
-    # 数据列表
-    search_goods = mysql.select(
-        "select concat(label,name) from core_crawl_tb t1 inner join good_main t2 on t1.gid = t2.id where enabled =1 and finished=1")
     # 遍历宝贝标题检索数据
     count = 0
     for search_good in search_goods:

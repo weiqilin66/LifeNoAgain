@@ -7,7 +7,8 @@ export default new Vuex.Store({
     state: {
         routes: [],
         btnList:[],
-        bakBtnList:[]
+        bakBtnList:[],
+        goodMainList:[]
     },
     mutations: {// 操作state数据
         initRoutes(state, data) {
@@ -18,7 +19,10 @@ export default new Vuex.Store({
         },
         backBtnList(state,data){
             state.bakBtnList = data
-        }
+        },
+        initGoodMainList(state,data){
+            state.goodMainList = data
+        },
     },
     // 做异步 提交mutations
     actions: {}

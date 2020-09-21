@@ -3,6 +3,7 @@ package com.lwq.hr.controller.sta;
 import com.lwq.hr.entity.*;
 import com.lwq.hr.mapper.*;
 import com.lwq.hr.service.ChartService;
+import com.lwq.hr.utils.MonitorIntelScheUtil;
 import com.lwq.hr.utils.MonitorUtil;
 import com.lwq.hr.utils.RespBean;
 
@@ -127,8 +128,8 @@ public class ChartController {
             list.add(shop.getName());
         }
         resMap.put("shops", list);//图例店铺名
-        String [] xAxis = MonitorUtil.getTimes(startDate, endDate);
-
+        String [] xAxis = MonitorUtil.getTimes(startDate, endDate);//2020-08-08
+//        String[] headArray = MonitorIntelScheUtil.headArrayReplace(xAxis);//20200808
         list.parallelStream().forEach(shop->{
 //            List<Goods> goods = goodsMapper.byTitle(shop, finalTitle, days, finalCondition);
             List<Goods> goods = goodsMapper.byKeyWord(goodKeyWord, shop, startDate, endDate);
@@ -183,7 +184,7 @@ public class ChartController {
         // 日期字符串
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         String now = dateFormat.format(new Date());
-        List<Goods> total = goodsMapper.selTotal(now);
+        List<Goods> total = goodsMapper.check(now);
         if (total.size() == 0) {
             return RespBean.error("今天还没爬取数据!");
         }

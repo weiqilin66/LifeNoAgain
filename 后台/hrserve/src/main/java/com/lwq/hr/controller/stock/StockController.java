@@ -1,7 +1,8 @@
 package com.lwq.hr.controller.stock;
 
-import com.lwq.hr.entity.MyStock;
-import com.lwq.hr.mapper.MyStockMapper;
+import com.lwq.hr.entity.GoodStock;
+import com.lwq.hr.entity.GoodStockVo;
+import com.lwq.hr.mapper.GoodStockMapper;
 import com.lwq.hr.utils.RespBean;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -12,65 +13,48 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @Description:
+ * @Description: 库存整理
  * @author: LinWeiQi
  */
 @RestController
 @RequestMapping("/stock/stock1")
 public class StockController {
     @Resource
-    MyStockMapper stockMapper;
+    GoodStockMapper stockMapper;
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
     String now = dateFormat.format(new Date());
 
     @GetMapping("/getTitle")
-    public RespBean getTitle(String kw){
-        List<String> list = stockMapper.getTitles(kw);
+    public RespBean getTitle(String title){
+        List<String> list = stockMapper.chooseGoodTitle(title);
         return RespBean.ok(list);
     }
-    // 分页查询
-    /*public RespPageBean getByPage(int page, int size, String keyWord, int id){
-        RespPageBean respPageBean = new RespPageBean();
-        if (page!=0 && size!=0) {
-            page = (page-1)*size;
-        }
-        long total = stockMapper.getTotal(now);
-        respPageBean.setTotal(total);
-        Employee employee = new Employee();
-        employee.setName(keyWord);
-        if(id != -1){
-            employee.setId(id);
-        }
-        List<Employee> list = stockMapper.getByPage(page, size,employee,null);
-        respPageBean.setData(list);
-        return respPageBean;
-    }*/
-    
+
+    /**
+     * 返回所有商品
+     */
     @GetMapping("/")
     public RespBean getAll(){
-        return RespBean.build().setData(stockMapper.getAllWithHunter(now));
-//        return RespBean.build().setData(stockMapper.getAll());
+        List<GoodStockVo> list = stockMapper.queryAll();
+        return RespBean.ok(list);
     }
     @PostMapping("/check")
-    public RespBean check(@RequestBody MyStock stock){
+    public RespBean check(@RequestBody GoodStockVo stock){
         //存在性验证
-        List<MyStock> myStocks = stockMapper.selStock(stock.getTitle());
-        StringBuilder msg= new StringBuilder("已存在类似商品: [");
-        for (MyStock myStock : myStocks) {
-            msg.append(myStock.getTitle());
-            msg.append(" ");
-        }
-        msg.append("]");
+        List<GoodStock> myStocks = stockMapper.checkByStockId(stock);
         if (myStocks.size()>0) {
-            return RespBean.build().setData(msg.toString());
+            StringBuilder msg= new StringBuilder("已存在类似商品: [");
+            msg.append(myStocks.get(0).toString());
+            msg.append("]");
+            return RespBean.error(msg.toString());
         }
+
         return RespBean.ok();
     }
     //新增
     @PostMapping("/")
     @Transactional
-    public RespBean add(@RequestBody MyStock stock){
-        String title = stock.getTitle();
+    public RespBean add(@RequestBody GoodStock stock){
         int res = stockMapper.insert(stock);
         if (res<1) {
             return RespBean.error("插入失败");
@@ -80,7 +64,7 @@ public class StockController {
     //修改(库存/所有)
     @PutMapping("/")
     @Transactional
-    public RespBean update(@RequestBody MyStock stock){
+    public RespBean update(@RequestBody GoodStock stock){
         int res = stockMapper.updateById(stock);
         if (res!=1) {
             return RespBean.error("更新出错");

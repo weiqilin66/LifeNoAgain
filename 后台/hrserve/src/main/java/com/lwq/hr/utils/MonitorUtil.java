@@ -118,7 +118,8 @@ public class MonitorUtil {
 	 * @return
 	 */
 	public static String[] getTimes(String startDate, String endDate){
-		SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
+//		SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sd = new SimpleDateFormat("yyyyMMdd");
 		Date start = null;
 		Date end = null;
 		try {

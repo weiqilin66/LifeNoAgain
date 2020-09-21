@@ -64,7 +64,13 @@ Vue.prototype.getyyyyMMdd=function(d) {
     var yyyyMMdd = curr_year + "" + curr_month +""+ curr_date;
     return yyyyMMdd;
 }
-
+//DateTime 格式化
+Vue.prototype.formatDateTime = function (dateTime) {
+    const d = new Date(dateTime);
+    const times = d.getFullYear()+'-'+(d.getMonth()+1)+'-' +d.getDate()+' '
+        +d.getHours()+':'+d.getMinutes()+':'+d.getSeconds()
+    return times
+}
 
 
 new Vue({

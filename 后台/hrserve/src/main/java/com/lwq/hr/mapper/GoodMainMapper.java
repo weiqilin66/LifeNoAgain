@@ -2,6 +2,9 @@ package com.lwq.hr.mapper;
 
 import com.lwq.hr.entity.GoodMain;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface GoodMainMapper extends BaseMapper<GoodMain> {
 
+    @Select("select * from good_main")
+    List<GoodMain> queryAll();
 }

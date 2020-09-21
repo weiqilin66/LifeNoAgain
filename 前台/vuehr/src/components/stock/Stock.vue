@@ -6,7 +6,6 @@
     -->
     <div>
         <div style="display: flex;">
-<!--            <el-input placeholder="输入商品名称自动检索... " v-model="goodName" style="width: 400px;margin-right: 5px"/>-->
             <MyInput :cData="cData" @resp="getCData"/>
             <el-button type="warning" icon="el-icon-search" @click="showAdd">添加商品</el-button>
             <el-button type="success" icon="el-icon-search" @click="initStock">刷新数据</el-button>
@@ -25,14 +24,14 @@
                         width="50">
                 </el-table-column>
                 <el-table-column
-                        prop="kw"
+                        prop="name"
                         label="商品名称"
                         align="center"
                         width="180">
                 </el-table-column>
                 <el-table-column
                         prop="price"
-                        label="回收价"
+                        label="我的价格"
                         align="center"
                         width="180">
                 </el-table-column>
@@ -48,26 +47,6 @@
                                          :min="0" :max="9999"/>
                     </template>
                 </el-table-column>
-
-                <el-table-column
-                        prop="diff"
-                        label="差价"
-                        sortable
-                        align="center"
-                        width="80">
-                </el-table-column>
-                <el-table-column
-                        prop="price2"
-                        label="猎人价"
-                        align="center"
-                        width="180">
-                </el-table-column>
-                <el-table-column
-                        prop="title"
-                        label="商品标题"
-                        align="center"
-                        width="400">
-                </el-table-column>
                 <el-table-column
                         prop="comment"
                         label="备注"
@@ -82,18 +61,7 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <!--分页-->
-            <!--<div style="display: flex;justify-content: flex-end">
-                <el-pagination
-                        ref="pagination"
-                        background
-                        @current-change="pageChange"
-                        @size-change="sizeChange"
-                        :page-sizes="[20,30,50,100]"
-                        layout="sizes, prev, pager, next, jumper, ->, total, slot"
-                        :total="total">
-                </el-pagination>
-            </div>-->
+
             <!--编辑弹窗-->
             <el-dialog
                     title="编辑"
@@ -101,36 +69,21 @@
                     width="30%">
                 <div class="updateVisible">
                     <table>
-                        <tr>
-                            <td>
-                                <el-tag size="normal">平台</el-tag>
-                            </td>
-                            <td>
-                                <el-select v-model="updateGood.label" placeholder="请选择标题" style="margin-left: 10px" >
-                                    <el-option
-                                            v-for="item in options"
-                                            :key="item"
-                                            :label="item"
-                                            :value="item">
-                                    </el-option>
-                                </el-select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <el-tag size="normal">商品名称</el-tag>
-                            </td>
-                            <td width="1000">
-                                <el-input style="width: 50%;margin-left: 10px" v-model="updateGood.kw"/>
-                            </td>
-                        </tr>
-
                         <tr style="margin-top: 3px">
                             <td>
-                                <el-tag size="normal">回收价</el-tag>
+                                <el-tag size="normal">名称</el-tag>
                             </td>
                             <td>
-                                <el-input style="width: 50%;margin-left: 10px" v-model="updateGood.price"/>
+                                <el-input style="width: 80%;margin-left: 10px"  disabled
+                                          v-model="updateGood.label+updateGood.name"/>
+                            </td>
+                        </tr>
+                        <tr style="margin-top: 3px">
+                            <td>
+                                <el-tag size="normal">价格</el-tag>
+                            </td>
+                            <td>
+                                <el-input style="width: 80%;margin-left: 10px" v-model="updateGood.price"/>
                             </td>
                         </tr>
                         <tr style="margin-top: 3px">
@@ -138,7 +91,7 @@
                                 <el-tag size="normal">库存</el-tag>
                             </td>
                             <td>
-                                <el-input style="width: 50%;margin-left: 10px" v-model="updateGood.stock"
+                                <el-input style="width: 80%;margin-left: 10px" v-model="updateGood.stock"
                                           @keydown.enter.native="handleUpate"/>
                             </td>
                         </tr>
@@ -147,16 +100,8 @@
                                 <el-tag size="normal">备注</el-tag>
                             </td>
                             <td>
-                                <el-input style="width: 50%;margin-left: 10px" v-model="updateGood.comment"
+                                <el-input style="width: 80%;margin-left: 10px" v-model="updateGood.comment"
                                           @keydown.enter.native="handleUpate"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <el-tag size="normal">商品标题</el-tag>
-                            </td>
-                            <td width="1000" >
-                                <el-input style="width: 100%;margin-left: 10px" v-model="updateGood.title"/>
                             </td>
                         </tr>
                     </table>
@@ -175,50 +120,16 @@
                     <table>
                         <tr>
                             <td>
-                                <el-tag size="normal">平台</el-tag>
-                            </td>
-                            <td>
-                                <el-select v-model="addGood.label" placeholder="请选择标题" style="margin-left: 10px" >
-                                    <el-option
-                                            v-for="item in options"
-                                            :key="item"
-                                            :label="item"
-                                            :value="item">
-                                    </el-option>
-                                </el-select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <el-tag size="normal">商品名称</el-tag>
-                            </td>
-                            <td width="1000">
-                                <el-input style="width: 50%;margin-left: 10px" v-model="addGood.kw"
-                                @change = "selTitle(addGood.kw)"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
                                 <el-tag size="normal">商品标题</el-tag>
                             </td>
                             <td>
-                            <el-select v-model="addGood.title" placeholder="请选择标题" style="margin-left: 10px" >
-                                <el-option
-                                        v-for="item in goodTitles"
-                                        :key="item"
-                                        :label="item"
-                                        :value="item">
-                                </el-option>
-                            </el-select>
+                                <MyGoodSelect @resp="getGood"/>
                             </td>
-                           <!--
-                            <td width="1000">
-                                <el-input style="width: 50%;margin-left: 10px" v-model="addGood.title"/>
-                            </td>-->
+
                         </tr>
                         <tr style="margin-top: 3px">
                             <td>
-                                <el-tag size="normal">回收价</el-tag>
+                                <el-tag size="normal">价格</el-tag>
                             </td>
                             <td>
                                 <el-input style="width: 50%;margin-left: 10px" v-model="addGood.price"/>
@@ -254,12 +165,13 @@
     }
 </style>
 <script>
-    import MyInput from "../../components/public/MyInput";
-
+    import MyInput from "../public/MyInput";
+    import MyGoodSelect from "../public/MyGoodSelect";
     export default {
-        name: "PerEmp",
+        name: "Stock1",
         components:{
             MyInput,
+            MyGoodSelect
         },
         data() {
             return {
@@ -273,16 +185,16 @@
                 goodName: '',
                 dialogVisible: false,
                 addDialogVisible: false,
-                options:["NS","PS4"],
                 addGood: {
+                    gid:'',
                     label:'',
-                    kw:'',
-                    title: '',
+                    name:'',
                     price: '',
-                    stock: ''
+                    stock: '',
+                    comment:''
                 },
-                goodTitles:['输入商品名称在选择此项'],
                 updateGood: {
+                    gid:'',
                     label:'',
                     kw:'',
                     title: '',
@@ -298,6 +210,9 @@
             this.initStock()
         },
         methods: {
+            getGood(data){
+                this.addGood.gid = data
+            },
             getCData(data){
                 this.tableData=data
             },
@@ -353,7 +268,7 @@
                 })
             },
             handleDel(index, row) {
-                this.$confirm('此操作将删除商品 [ ' + row.kw + ' ] 是否继续?',
+                this.$confirm('此操作将删除商品 [ ' + row.label+row.name + ' ] 是否继续?',
                     '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',

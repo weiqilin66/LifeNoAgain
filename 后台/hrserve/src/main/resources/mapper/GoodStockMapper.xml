@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lwq.hr.mapper.GoodStockMapper">
+
+    <select id="checkByStockId" resultType="com.lwq.hr.entity.GoodStock">
+        select *
+        from good_stock t1
+        inner join good_main t2
+        on t1.gid = t2.id
+        and t2.name = #{stock.name}
+    </select>
+    <select id="queryAll" resultType="com.lwq.hr.entity.GoodStockVo">
+        select
+            t1.id as id,
+            t2.label as label,
+            t2.name as name,
+            t1.price as price,
+            t1.stock as stock,
+            t1.comment as comment,
+            t1.gid as gid
+        from good_stock t1,good_main t2
+        where t1.gid = t2.id
+    </select>
+</mapper>

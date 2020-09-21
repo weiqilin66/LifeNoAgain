@@ -14,28 +14,28 @@ import java.io.Serializable;
  * </p>
  *
  * @author LinWeiQi
- * @since 2020-06-05
+ * @since 2020-09-18
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class MyStock implements Serializable {
+public class GoodStockVo implements Serializable {
 
 
     @TableId(value = "id", type = IdType.AUTO)
-    private int id;
+    private Integer id;
 
-    private String title;
+    private Integer gid;
+
+    private String name ;
+
+    private String label ;
 
     private Float price;
 
     private Integer stock;
 
     private String comment;
-    private String label;
-
-    private String kw;
-
 
 
 }

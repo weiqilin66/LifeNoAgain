@@ -79,6 +79,7 @@
         mounted() {//登录成功首页初始化数据
             // this.initExcelData()
             this.getKeyWord()//获取折线图检索词
+            this.getGoodMain() //获取goodMain表
         },
         methods: {
             // 个人中心下拉框配置
@@ -130,7 +131,15 @@
                     }
                 })
             },
-        },
+            getGoodMain() {
+                this.getRequest("/noRight/goodMain/").then(resp=>{
+                    if (resp) {
+                        this.$store.commit("initGoodMainList", resp.data)
+                        console.log('Home初始化存入商品主表信息goodMainList>>>')
+                    }
+                })
+            }
+        }
 
     }
 </script>

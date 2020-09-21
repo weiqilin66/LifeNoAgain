@@ -1,9 +1,9 @@
 package com.lwq.hr.controller.stock;
 
-import com.lwq.hr.entity.MyStock;
-import com.lwq.hr.mapper.MyStockMapper;
+import com.lwq.hr.entity.CoreCrawlTb;
+import com.lwq.hr.mapper.CoreCrawlTbMapper;
 import com.lwq.hr.mapper.StockCrawlMapper;
-import com.lwq.hr.utils.BaseUtil;
+import com.lwq.hr.utils.DateFormatUtil;
 import com.lwq.hr.utils.RespBean;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Description:
@@ -21,15 +20,18 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/stock/crawl")
-public class StockCrawlController {
+public class CoreCrawlController {
     @Resource
     StockCrawlMapper stockCrawlMapper;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-    String now = dateFormat.format(new Date());
+    @Resource
+    CoreCrawlTbMapper coreCrawlTbMapper;
+    String now = DateFormatUtil.formatStr(new Date(),"yyyyMMdd");
+
 
     @GetMapping("/")
     public RespBean getAll(){
-        return RespBean.build().setData(stockCrawlMapper.select(null));
+        List<HashMap> list = coreCrawlTbMapper.queryAll();
+        return RespBean.ok(list);
     }
     //删除
     @DeleteMapping("/{id}")
@@ -46,8 +48,8 @@ public class StockCrawlController {
     //修改
     @PutMapping("/")
     @Transactional
-    public RespBean changeStatus(@RequestBody HashMap map){
-        int res = stockCrawlMapper.update(map);
+    public RespBean changeStatus(@RequestBody CoreCrawlTb coreCrawlTb){
+        int res = coreCrawlTbMapper.updateById(coreCrawlTb);
         if (res!=1) {
             return RespBean.error("修改失败");
         }
@@ -56,8 +58,8 @@ public class StockCrawlController {
     //新增
     @PostMapping("/")
     @Transactional
-    public RespBean add(@RequestBody HashMap map){//@RequestBody映射body中的json不加这个映射的是请求行中的key value
-        int res = stockCrawlMapper.insert(map);
+    public RespBean add(@RequestBody CoreCrawlTb coreCrawlTb){
+        int res = coreCrawlTbMapper.insert(coreCrawlTb);
         if (res<1) {
             return RespBean.error("插入失败");
         }
@@ -68,10 +70,8 @@ public class StockCrawlController {
         //存在性验证
         final List list = stockCrawlMapper.select(map);
         if (list.size()>0) {
-            StringBuilder msg= new StringBuilder("已存在类似商品: [");
-            msg.append(map.get("title"));
-            msg.append("]");
-            return RespBean.error(msg.toString());
+            StringBuilder msg= new StringBuilder("已存在类似商品");
+            return RespBean.build().setMessage(msg.toString());
         }
         return RespBean.ok();
     }

@@ -2,4 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lwq.hr.mapper.CoreCrawlTbMapper">
 
+    <select id="queryAll" resultType="java.util.HashMap">
+        select
+        t1.id as id,
+        t2.label as label,
+        t2.name as name,
+        case when t3.stock is not null
+        then t3.stock
+        else 0
+        end as stock,
+        t1.advance as advance,
+        t1.last_update as lastUpdate,
+        t1.total_sales as totalSales,
+        t1.enabled as enabled
+        from core_crawl_tb t1
+        inner join good_main t2
+        on t1.gid = t2.id
+        left join good_stock t3
+        on t2.id = t3.gid
+
+    </select>
 </mapper>

@@ -29,8 +29,6 @@ public interface GoodsMapper extends BaseMapper<Goods> {
 
     List<Goods> getMin(String now, String goodName, String condition,List<SecondShopForMax> list);
 
-    List<Goods> selTotal(String now);
-
     List<Goods> check(String date);
 
     List<Goods> getMaxMinFromSHop(String shop,String goodName, String condition);

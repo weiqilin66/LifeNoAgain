@@ -12,40 +12,10 @@
             *
         FROM CORE_CRAWL_TB
         WHERE 1=1
-        <if test="title!=null and title!=''">
-            AND TITLE =#{title}
+        <if test="gid!=null and gid!=''">
+            AND gid =#{gid}
         </if>
 	</select>
-	
-	<insert id="insert" parameterType="java.util.HashMap">
-        INSERT INTO
-            CORE_CRAWL_TB
-            (label, kw, title, condition1, condition2, stock, advance, last_update, total_sales, enabled)
-        VALUES
-            (
-            #{label},#{kw},#{title},#{condition1},#{condition2},#{stock},#{advance},#{last_update},#{total_sales},#{enabled}
-            )
-    </insert>
-    
-	<update id="update" parameterType="java.util.HashMap">
-        UPDATE
-            CORE_CRAWL_TB
-        SET
-            label=#{label},
-            kw=#{kw},
-            title=#{title},
-            condition1=#{condition1},
-            condition2=#{condition2},
-            stock=#{stock},
-            advance=#{advance},
-            last_update=#{last_update},
-            total_sales=#{total_sales},
-            enabled=#{enabled}
-        WHERE
-            ID = #{id}
-    </update>
-
-
 
     <delete id="delete" parameterType="java.util.HashMap">
         DELETE FROM

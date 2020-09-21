@@ -39,14 +39,17 @@ CREATE OR REPLACE PROCEDURE PROCE_DEMO(x varchar2,y in number,z out varchar) AS 
        select sysdate from dual;
        --这个月最后一天
        lastday(sysdate)
+			 --过滤null值
+			 nvl(param1,param2) 如果param1为null则返回param2 非null返回param1
+			 nvl(null,5) = 5 nvl(1,0) = 1
 
 --================================================    MYSQL    ========================================================
 
---存储过程
+# 存储过程
 CREATE PROCEDURE WAYNE_PROCE_DEMO(IN p_in int)
---表操作
+# 表操作
 CREATE TABLE WAYNE_DEMO_TB(
-id int PRIMARY KEY AUTO_INCREMENT,--主键自增
+id int PRIMARY KEY AUTO_INCREMENT,# 主键自增
  test1 varchar(20),
  test2 int
 )

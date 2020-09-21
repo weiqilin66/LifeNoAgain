@@ -4,7 +4,7 @@
         1爬取的商品列表
         2加工的关键字控制
 
-        编辑添加和一
+        编辑添加合一
     -->
     <div>
         <div style="display: flex;">
@@ -26,34 +26,15 @@
                         width="50">
                 </el-table-column>
                 <el-table-column
-                        prop="kw"
-                        label="关键词"
-                        align="center"
-                        width="100">
-                </el-table-column>
-                <el-table-column
-                        prop="title"
-                        label="商品名称"
+                        prop="name"
+                        label="名称"
                         align="center"
                         width="180">
-                </el-table-column>
-
-                <!--加工条件-->
-                <el-table-column
-                        prop="condition1"
-                        label="条件1"
-                        align="center"
-                        width="100">
-                </el-table-column>
-                <el-table-column
-                        prop="condition2"
-                        label="条件2"
-                        align="center"
-                        width="100">
                 </el-table-column>
                 <el-table-column
                         prop="stock"
                         label="库存"
+                        sortable
                         align="center"
                         width="80">
                 </el-table-column>
@@ -63,22 +44,28 @@
                         label="优先级"
                         sortable
                         align="center"
-                        width="50">
+                        width="100">
                 </el-table-column>
                 <el-table-column
-                        prop="last_update"
+                        prop="lastUpdate"
                         label="最后更新时间"
+                        sortable
+                        align="center"
+                        width="200">
+                    <!--花括号中无法调用自定义函数 解决：传入前format-->
+                    <!--<template slot-scope="scope">
+                        {{this.formatDateTime(scope.row.lastUpdate)}}
+                    </template>-->
+                </el-table-column>
+                <el-table-column
+                        prop="totalSales"
+                        label="在售首页总销量"
+                        sortable
                         align="center"
                         width="200">
                 </el-table-column>
                 <el-table-column
-                        prop="total_sales"
-                        label="在售首页总销量"
-                        align="center"
-                        width="100">
-                </el-table-column>
-                <el-table-column
-                        label="标识">
+                        label="启用">
                     <template slot-scope="scope">
                         <el-switch
                                 @change="changeEnabled(scope.row)"
@@ -101,61 +88,22 @@
                     width="40%">
                 <div class="updateVisible">
                     <table>
-                        <tr>
+                        <tr v-show="flag==='add'">
                             <td>
-                                <el-tag size="normal">平台</el-tag>
+                                <el-tag size="normal">名称</el-tag>
                             </td>
-                            <td>
-                                <el-select v-model="updateGood.label" placeholder="请选择标题" style="margin-left: 10px" >
-                                    <el-option
-                                            v-for="item in options"
-                                            :key="item"
-                                            :label="item"
-                                            :value="item">
-                                    </el-option>
-                                </el-select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <el-tag size="normal">关键词</el-tag>
-                            </td>
-                            <td width="1000">
-                                <el-input style="width: 50%;margin-left: 10px" v-model="updateGood.kw"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <el-tag size="normal">商品名称</el-tag>
-                            </td>
-                            <td width="1000">
-                                <el-input style="width: 50%;margin-left: 10px" v-model="updateGood.title"/>
+                            <td >
+                                <MyGoodSelect @resp="getGood"/>
                             </td>
                         </tr>
 
                         <tr style="margin-top: 3px">
                             <td>
-                                <el-tag size="normal">条件1</el-tag>
-                            </td>
-                            <td>
-                                <el-input style="width: 50%;margin-left: 10px" v-model="updateGood.condition1"/>
-                            </td>
-                        </tr>
-                        <tr style="margin-top: 3px">
-                            <td>
-                                <el-tag size="normal">条件2</el-tag>
-                            </td>
-                            <td>
-                                <el-input style="width: 50%;margin-left: 10px" v-model="updateGood.condition2"/>
-                            </td>
-                        </tr>
-                        <tr style="margin-top: 3px">
-                            <td>
                                 <el-tag size="normal">优先级</el-tag>
                             </td>
                             <td>
-                                <el-input style="width: 50%;margin-left: 10px" v-model="updateGood.advance"/>
-                                <span style="margin-left: 8px">3新游 2优秀 1冷门 0封杀</span>
+                                <el-input style="width: 60%;margin-left: 10px" v-model="updateGood.advance"/>
+                                <span style="margin-left: 8px">3新2优1冷0封杀</span>
                             </td>
                         </tr>
                         <tr></tr>
@@ -163,7 +111,7 @@
                 </div>
                 <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="handleUpateAdd(flag)">确 定</el-button>
+                <el-button type="primary" @click="beforeAdd(flag)">确 定</el-button>
             </span>
             </el-dialog>
 
@@ -181,18 +129,19 @@
     }
 </style>
 <script>
-    import MyInput from "../../components/public/MyInput";
-
+    import MyInput from "../public/MyInput";
+    import MyGoodSelect from "../public/MyGoodSelect";
     export default {
         name: "StockCrawl",
         components:{
             MyInput,
+            MyGoodSelect
         },
         data() {
             return {
                 cData:{
                     bak:[],
-                    kw:'title'
+                    kw:'name' //检索字段名
                 },
                 flag:'',
                 size:'',
@@ -201,19 +150,15 @@
                 goodName: '',
                 dialogVisible: false,
                 addDialogVisible: false,
-                options:["NS","PS4"],
-                goodTitles:['输入商品名称在选择此项'],
                 updateGood: {
+                    gid:undefined,
                     label:'',
-                    kw:'',
-                    title:'',
-                    condition1:'',
-                    condition2:'',
+                    name:'',
                     stock:0,
-                    advance:undefined,
-                    last_update: null,
-                    total_sales:0,
-                    enabled:'1'
+                    advance:2,
+                    lastUpdate: null,
+                    totalSales:0,
+                    enabled:undefined,
                 },
                 tableData: [],
                 tableDataBak: [],
@@ -223,6 +168,9 @@
             this.initStock()
         },
         methods: {
+            getGood(data){
+                this.updateGood.gid = data
+            },
             changeEnabled(row) {
                 this.putRequest("/stock/crawl/",row).then(resp => {
                     if (resp) {
@@ -234,24 +182,30 @@
             getCData(data){
                 this.tableData=data
             },
-            beforeAdd(){
-                this.postRequest("/stock/crawl/check", this.addGood).then(resp => {
-                    if (resp.data) {
-                        this.$confirm(resp.data+',是否继续添加该商品','提示'
-                            ,{
-                                confirmButtonText: '确定',
-                                cancelButtonText: '取消',
-                                type: 'warning'
-                            }).then(()=>{
-                                this.handleAdd()
-                        }).catch(()=>{
-                            this.$message.warning('已取消添加')
-                        })
-                    }else {
+            beforeAdd(flag){
+                if (flag==='update'){
+                    this.handleUpateAdd('update')
 
-                        this.handleUpateAdd('add')
-                    }
-                })
+                }else {
+                    this.postRequest("/stock/crawl/check", this.updateGood).then(resp => {
+                        if (resp.message) {
+                            this.$confirm('已存在,是否继续添加该商品','提示'
+                                ,{
+                                    confirmButtonText: '确定',
+                                    cancelButtonText: '取消',
+                                    type: 'warning'
+                                }).then(()=>{
+                                this.handleAdd()
+                            }).catch(()=>{
+                                this.$message.warning('已取消添加')
+                            })
+                        }else {
+
+                            this.handleUpateAdd('add')
+                        }
+                    })
+                }
+
             },
 
             handleUpateAdd(flag) {
@@ -275,7 +229,7 @@
 
             },
             handleDel(index, row) {
-                this.$confirm('此操作将删除商品 [ ' + row.kw + ' ] 是否继续?',
+                this.$confirm('此操作将删除商品 [ ' + row.name + ' ] 是否继续?',
                     '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -297,11 +251,12 @@
             showVisible(index, data) {
                 this.dialogVisible = true
                 this.flag='update'
+                this.updateGood={}
                 Object.assign(this.updateGood, data)
             },
             showAdd() {
                 this.dialogVisible = true
-                this.addGood = {}
+                this.updateGood = {}
                 this.flag='add'
             },
             //库存预警
@@ -318,6 +273,12 @@
             initStock() {
                 this.getRequest('/stock/crawl/').then(resp => {
                     if (resp) {
+                        //格式化
+                        resp.data.forEach(item=>{
+                            if (item.lastUpdate) {
+                                item.lastUpdate = this.formatDateTime(item.lastUpdate)
+                            }
+                        })
                         this.tableData = resp.data
                         this.cData.bak = resp.data
                     }
