@@ -92,9 +92,9 @@
                                 <el-select v-model="addGood.label" placeholder="请选择标题" style="margin-left: 10px" >
                                     <el-option
                                             v-for="item in options"
-                                            :key="item"
-                                            :label="item"
-                                            :value="item">
+                                            :key="item.id"
+                                            :label="item.label"
+                                            :value="item.label">
                                     </el-option>
                                 </el-select>
                             </td>
@@ -207,7 +207,7 @@
                 })
             },
             handleAdd() {
-                this.postRequest("/stock/stock1/", this.addGood).then(resp => {
+                this.postRequest("/noRight/goodMain/", this.addGood).then(resp => {
                     if (resp) {
                         this.initStock()
                         this.addDialogVisible = false
@@ -215,7 +215,7 @@
                 })
             },
             handleUpate() {
-                this.putRequest('/stock/stock1/', this.updateGood).then(resp => {
+                this.putRequest('/noRight/goodMain/', this.updateGood).then(resp => {
                     if (resp) {
                         this.initStock()
                         this.dialogVisible = false
@@ -230,7 +230,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.deleteRequest("/stock/stock1/" + row.id).then(resp => {
+                    this.deleteRequest("/noRight/goodMain/" + row.id).then(resp => {
                         if (resp) {
                             this.initStock()
                         }
@@ -266,13 +266,13 @@
                 return '';
             },
             initStock() {
-                this.getRequest('/noRight/cache/goodMain').then(resp => {
+                this.getRequest('/noRight/goodMain/').then(resp => {
                     if (resp) {
                         this.tableData = resp.data
                         this.cData.bak = resp.data
                     }
                 })
-                this.getRequest("/noRight/cache/label").then(resp=>{
+                this.getRequest("/noRight/cache/goodLabel").then(resp=>{
                     if (resp) {
                         this.options=resp.data
                     }
