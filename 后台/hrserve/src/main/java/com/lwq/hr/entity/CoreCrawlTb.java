@@ -34,7 +34,7 @@ public class CoreCrawlTb implements Serializable {
      */
     private String advance;
 
-    private Timestamp lastUpdate;
+    private String lastUpdate;
 
     private Integer totalSales;
 

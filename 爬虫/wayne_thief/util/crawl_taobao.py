@@ -3,8 +3,8 @@ import random
 import time
 import tkinter
 from selenium.webdriver.support.wait import WebDriverWait
-from bean.my_selenium import MySelenium
-from bean.my_mysql import MySql
+from util.my_selenium import MySelenium
+from util.my_mysql import MySql
 
 
 class TaoBao(object):

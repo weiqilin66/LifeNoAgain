@@ -1,7 +1,7 @@
 <template>
     <!--
 
-        商品库存
+        加工关键词
 
     -->
     <div>
@@ -15,46 +15,53 @@
             <el-table
                     :data="tableData"
                     height="1150"
-                    style="width:100%;margin-top: 5px"
+                    style="width:100%;margin-top: 15px"
                     :row-class-name="tableRowClassName">
                 <el-table-column
                         prop="label"
                         label="☆"
                         align="center"
-                        width="50">
+                        width="250">
                 </el-table-column>
                 <el-table-column
                         prop="name"
-                        label="商品名称"
+                        label="名称"
                         align="center"
-                        width="180">
+                        width="280">
                 </el-table-column>
                 <el-table-column
-                        prop="price"
-                        label="我的价格"
+                        prop="base"
+                        label="基础词"
                         align="center"
-                        width="180">
+                        width="280">
+                </el-table-column>
+                <el-table-column
+                        prop="include1"
+                        label="包含词1"
+                        align="center"
+                        width="280">
+                </el-table-column>
+                <el-table-column
+                        prop="include2"
+                        label="包含词2"
+                        align="center"
+                        width="280">
+                </el-table-column>
+                <el-table-column
+                        prop="enclude1"
+                        label="不包含词1"
+                        align="center"
+                        width="280">
+                </el-table-column>
+                <el-table-column
+                        prop="enclude2"
+                        label="不包含词2"
+                        align="center"
+                        width="280">
                 </el-table-column>
 
-                <el-table-column
-                        label="库存"
-                        sortable
-                        align="center"
-                        prop="stock"
-                        width="280">
-                    <template slot-scope="scope">
-                        <el-input-number v-model="scope.row.stock" @change="handleChange(scope.row)"
-                                         :min="0" :max="9999"/>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        prop="comment"
-                        label="备注"
-                        align="center"
-                        width="100">
-                </el-table-column>
                 <el-table-column label="操作" align="center"
-                                 width="250px">
+                                 width="350px">
                     <template slot-scope="scope">
                         <el-button @click="showVisible(scope.index,scope.row)">编辑</el-button>
                         <el-button type="danger" @click="handleDel(scope.index,scope.row)">删除</el-button>
@@ -65,49 +72,63 @@
             <!--编辑弹窗-->
             <el-dialog
                     title="编辑"
-                    :visible.sync="dialogVisible"
+                    :visible.sync="updateDialogVisible"
                     width="30%">
                 <div class="updateVisible">
                     <table>
-                        <tr style="margin-top: 3px">
+                        <tr>
                             <td>
                                 <el-tag size="normal">名称</el-tag>
                             </td>
-                            <td>
-                                <el-input style="width: 80%;margin-left: 10px"  disabled
-                                          v-model="updateGood.label+updateGood.name"/>
+                            <td width="1000">
+                                <span>{{updateGood.label+updateGood.name}}</span>
                             </td>
                         </tr>
-                        <tr style="margin-top: 3px">
+                        <tr>
                             <td>
-                                <el-tag size="normal">价格</el-tag>
+                                <el-tag size="normal">基础词</el-tag>
                             </td>
-                            <td>
-                                <el-input style="width: 80%;margin-left: 10px" v-model="updateGood.price"/>
-                            </td>
-                        </tr>
-                        <tr style="margin-top: 3px">
-                            <td>
-                                <el-tag size="normal">库存</el-tag>
-                            </td>
-                            <td>
-                                <el-input style="width: 80%;margin-left: 10px" v-model="updateGood.stock"
-                                          @keydown.enter.native="handleUpate"/>
+                            <td width="600">
+                                <el-input v-model="updateGood.base"/>
                             </td>
                         </tr>
-                        <tr style="margin-top: 3px">
+                        <tr>
                             <td>
-                                <el-tag size="normal">备注</el-tag>
+                                <el-tag size="normal">包含词1</el-tag>
                             </td>
-                            <td>
-                                <el-input style="width: 80%;margin-left: 10px" v-model="updateGood.comment"
-                                          @keydown.enter.native="handleUpate"/>
+                            <td width="600">
+                                <el-input v-model="updateGood.include1"/>
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                <el-tag size="normal">包含词2</el-tag>
+                            </td>
+                            <td width="600">
+                                <el-input v-model="updateGood.include2"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <el-tag size="normal">不包含词1</el-tag>
+                            </td>
+                            <td width="600">
+                                <el-input v-model="updateGood.enclude1"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <el-tag size="normal">不包含词2</el-tag>
+                            </td>
+                            <td width="600">
+                                <el-input v-model="updateGood.enclude2"/>
+                            </td>
+                        </tr>
+
                     </table>
                 </div>
                 <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button @click="updateDialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="handleUpate">确 定</el-button>
             </span>
             </el-dialog>
@@ -120,28 +141,50 @@
                     <table>
                         <tr>
                             <td>
-                                <el-tag size="normal">商品标题</el-tag>
+                                <el-tag size="normal">名称</el-tag>
                             </td>
-                            <td>
-                                <MyGoodSelect @resp="getGood"/>
-                            </td>
-
-                        </tr>
-                        <tr style="margin-top: 3px">
-                            <td>
-                                <el-tag size="normal">价格</el-tag>
-                            </td>
-                            <td>
-                                <el-input style="width: 50%;margin-left: 10px" v-model="addGood.price"/>
+                            <td width="1000">
+                                <span>{{addGood.label+addGood.name}}</span>
                             </td>
                         </tr>
-                        <tr style="margin-top: 3px">
+                        <tr>
                             <td>
-                                <el-tag size="normal">库存</el-tag>
+                                <el-tag size="normal">基础词</el-tag>
                             </td>
+                            <td width="600">
+                                <el-input v-model="addGood.base"/>
+                            </td>
+                        </tr>
+                        <tr>
                             <td>
-                                <el-input style="width: 50%;margin-left: 10px" v-model="addGood.stock"
-                                          @keydown.enter.native="handleAdd"/>
+                                <el-tag size="normal">包含词1</el-tag>
+                            </td>
+                            <td width="600">
+                                <el-input v-model="addGood.include1"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <el-tag size="normal">包含词2</el-tag>
+                            </td>
+                            <td width="600">
+                                <el-input v-model="addGood.include2"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <el-tag size="normal">不包含词1</el-tag>
+                            </td>
+                            <td width="600">
+                                <el-input v-model="addGood.enclude1"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <el-tag size="normal">不包含词2</el-tag>
+                            </td>
+                            <td width="600">
+                                <el-input v-model="addGood.enclude2"/>
                             </td>
                         </tr>
                     </table>
@@ -168,7 +211,7 @@
     import MyInput from "../public/MyInput";
     import MyGoodSelect from "../public/MyGoodSelect";
     export default {
-        name: "Stock1",
+        name: "KeyWord",
         components:{
             MyInput,
             MyGoodSelect
@@ -177,64 +220,48 @@
             return {
                 cData:{
                     bak:[],
-                    kw:'kw'
+                    kw:'name'
                 },
                 size:'',
                 total:0,
                 num: 1,
                 goodName: '',
-                dialogVisible: false,
+                updateDialogVisible: false,
                 addDialogVisible: false,
                 addGood: {
-                    gid:'',
                     label:'',
                     name:'',
-                    price: '',
-                    stock: '',
-                    comment:''
+                    base:'',
+                    include1:'',
+                    include2:'',
+                    enclude1:'',
+                    enclude2:''
                 },
                 updateGood: {
-                    gid:'',
                     label:'',
-                    kw:'',
-                    title: '',
-                    price: '',
-                    stock: '',
-                    comment:''
+                    name:'',
+                    base:'',
+                    include1:'',
+                    include2:'',
+                    enclude1:'',
+                    enclude2:''
                 },
                 tableData: [],
                 tableDataBak: [],
+                options:[]
             }
         },
         mounted() {
             this.initStock()
         },
         methods: {
-            getGood(data){
-                this.addGood.gid = data
-            },
             getCData(data){
                 this.tableData=data
             },
-            pageChange(currentPage) {
-                this.page = currentPage
-                this.initData()
-            },
-            sizeChange(currentSize) {
-                this.size = currentSize
-                this.initData()
-            },
-            selTitle(kw){
-              this.getRequest("/stock/stock1/getTitle?kw="+kw).then(resp=>{
-                  if (resp) {
-                      this.goodTitles = resp.data
-                  }
-              })
-            },
             beforeAdd(){
-                this.postRequest("/stock/stock1/check", this.addGood).then(resp => {
-                    if (resp.data) {
-                        this.$confirm(resp.data+',是否继续添加该商品','提示'
+                this.postRequest("/noRight/keyWord/check", this.addGood).then(resp => {
+                    if (!resp) {
+                        this.$confirm(',是否继续添加该商品','提示'
                             ,{
                                 confirmButtonText: '确定',
                                 cancelButtonText: '取消',
@@ -251,19 +278,19 @@
                 })
             },
             handleAdd() {
-                this.postRequest("/stock/stock1/", this.addGood).then(resp => {
+                this.postRequest("/noRight/keyWord/", this.addGood).then(resp => {
                     if (resp) {
                         this.initStock()
                         this.addDialogVisible = false
-                        this.$message.success("添加成功")
+                        this.$message.success("添加成功!")
                     }
                 })
             },
             handleUpate() {
-                this.putRequest('/stock/stock1/', this.updateGood).then(resp => {
+                this.putRequest('/noRight/keyWord/', this.updateGood).then(resp => {
                     if (resp) {
                         this.initStock()
-                        this.dialogVisible = false
+                        this.updateDialogVisible = false
                         this.$message.success("修改成功!")
                     }
                 })
@@ -275,7 +302,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.deleteRequest("/stock/stock1/" + row.id).then(resp => {
+                    this.deleteRequest("/noRight/keyWord/" + row.id).then(resp => {
                         if (resp) {
                             this.initStock()
                         }
@@ -289,7 +316,7 @@
             this.initStock()
             },
             showVisible(index, data) {
-                this.dialogVisible = true
+                this.updateDialogVisible = true
                 Object.assign(this.updateGood, data)
             },
             showAdd() {
@@ -311,10 +338,15 @@
                 return '';
             },
             initStock() {
-                this.getRequest('/stock/stock1/').then(resp => {
+                this.getRequest('/noRight/keyWord/').then(resp => {
                     if (resp) {
                         this.tableData = resp.data
                         this.cData.bak = resp.data
+                    }
+                })
+                this.getRequest("/noRight/cache/goodLabel").then(resp=>{
+                    if (resp) {
+                        this.options=resp.data
                     }
                 })
             }

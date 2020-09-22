@@ -42,6 +42,8 @@ CREATE OR REPLACE PROCEDURE PROCE_DEMO(x varchar2,y in number,z out varchar) AS 
 			 --过滤null值
 			 nvl(param1,param2) 如果param1为null则返回param2 非null返回param1
 			 nvl(null,5) = 5 nvl(1,0) = 1
+			 --字符切割
+			 substr(a,b,c) a目标字符串 b开始位置0/1都表示第一位 c截取长度
 
 --================================================    MYSQL    ========================================================
 

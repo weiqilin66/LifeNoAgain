@@ -42,7 +42,7 @@
             <!--编辑弹窗-->
             <el-dialog
                     title="编辑"
-                    :visible.sync="dialogVisible"
+                    :visible.sync="updateDialogVisible"
                     width="30%">
                 <div class="updateVisible">
                     <table>
@@ -51,12 +51,12 @@
                                 <el-tag size="normal">平台</el-tag>
                             </td>
                             <td>
-                                <el-select v-model="addGood.label" placeholder="请选择标题" style="margin-left: 10px" >
+                                <el-select v-model="updateGood.label" placeholder="请选择标题" style="margin-left: 10px" >
                                     <el-option
                                             v-for="item in options"
-                                            :key="item"
-                                            :label="item"
-                                            :value="item">
+                                            :key="item.id"
+                                            :label="item.label"
+                                            :value="item.label">
                                     </el-option>
                                 </el-select>
                             </td>
@@ -66,14 +66,14 @@
                                 <el-tag size="normal">商品名称</el-tag>
                             </td>
                             <td width="1000">
-                                <el-input style="width: 50%;margin-left: 10px" v-model="updateGood.kw"/>
+                                <el-input style="width: 50%;margin-left: 10px" v-model="updateGood.name"/>
                             </td>
                         </tr>
 
                     </table>
                 </div>
                 <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button @click="updateDialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="handleUpate">确 定</el-button>
             </span>
             </el-dialog>
@@ -104,7 +104,7 @@
                                 <el-tag size="normal">商品名称</el-tag>
                             </td>
                             <td width="1000">
-                                <el-input style="width: 50%;margin-left: 10px" v-model="updateGood.kw"/>
+                                <el-input style="width: 50%;margin-left: 10px" v-model="addGood.name"/>
                             </td>
                         </tr>
 
@@ -147,7 +147,7 @@
                 total:0,
                 num: 1,
                 goodName: '',
-                dialogVisible: false,
+                updateDialogVisible: false,
                 addDialogVisible: false,
                 addGood: {
                     label:'',
@@ -166,31 +166,13 @@
             this.initStock()
         },
         methods: {
-            getGood(data){
-                this.addGood.gid = data
-            },
             getCData(data){
                 this.tableData=data
             },
-            pageChange(currentPage) {
-                this.page = currentPage
-                this.initData()
-            },
-            sizeChange(currentSize) {
-                this.size = currentSize
-                this.initData()
-            },
-            selTitle(kw){
-              this.getRequest("/stock/stock1/getTitle?kw="+kw).then(resp=>{
-                  if (resp) {
-                      this.goodTitles = resp.data
-                  }
-              })
-            },
             beforeAdd(){
-                this.postRequest("/stock/stock1/check", this.addGood).then(resp => {
-                    if (resp.data) {
-                        this.$confirm(resp.data+',是否继续添加该商品','提示'
+                this.postRequest("/noRight/goodMain/check", this.addGood).then(resp => {
+                    if (!resp) {
+                        this.$confirm(',是否继续添加该商品','提示'
                             ,{
                                 confirmButtonText: '确定',
                                 cancelButtonText: '取消',
@@ -211,6 +193,7 @@
                     if (resp) {
                         this.initStock()
                         this.addDialogVisible = false
+                        this.$message.success("添加成功!")
                     }
                 })
             },
@@ -218,7 +201,7 @@
                 this.putRequest('/noRight/goodMain/', this.updateGood).then(resp => {
                     if (resp) {
                         this.initStock()
-                        this.dialogVisible = false
+                        this.updateDialogVisible = false
                         this.$message.success("修改成功!")
                     }
                 })
@@ -244,7 +227,7 @@
             this.initStock()
             },
             showVisible(index, data) {
-                this.dialogVisible = true
+                this.updateDialogVisible = true
                 Object.assign(this.updateGood, data)
             },
             showAdd() {

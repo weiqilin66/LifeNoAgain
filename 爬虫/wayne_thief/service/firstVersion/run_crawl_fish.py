@@ -1,7 +1,7 @@
 import time
 
-from bean.my_appium import MyAppium
-from bean.my_mysql import MySql
+from util.my_appium import MyAppium
+from util.my_mysql import MySql
 
 phone = 'shark3'
 if __name__ == '__main__':

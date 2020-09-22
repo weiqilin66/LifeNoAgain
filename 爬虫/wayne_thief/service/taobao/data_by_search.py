@@ -8,8 +8,8 @@ import json
 import pymysql
 import random
 from selenium import common
-from bean.my_mysql import MySql
-from bean.my_selenium import MySelenium
+from util.my_mysql import MySql
+from util.my_selenium import MySelenium
 
 """ 半自动实现 """
 mp3_path = r'd:/菊花台.mp3'
@@ -208,10 +208,11 @@ def init():
     return taobao, chrome, mysql
 
 
-def main(taobao, chrome, mysql,search_goods):
+def main(taobao, chrome, mysql, search_goods):
     # 数据日期
     etl_date = time.strftime("%Y%m%d", time.localtime())
     etl_time = time.strftime("%H:%M:%S", time.localtime())
+    last_update = etl_date + ' ' + etl_time
     # 遍历宝贝标题检索数据
     count = 0
     for search_good in search_goods:
@@ -220,8 +221,9 @@ def main(taobao, chrome, mysql,search_goods):
             pages = 2
         taobao.data_by_search(etl_date, etl_time, chrome, search_good[0], 1, pages)
         count = count + 1
-        mysql.update("update core_crawl_tb set finished = 0 where id in (select id from("
-                     "select t1.id from core_crawl_tb t1 inner join good_main t2 on t1.gid = t2.id where concat(label,name)='%s')a) " % search_good)
+        mysql.update("update core_crawl_tb set finished = 0 and last_update = '%s' where id in (select id from("
+                     "select t1.id from core_crawl_tb t1 inner join good_main t2 on t1.gid = t2.id where concat(label,name)='%s')a) " % (
+                         last_update, search_good))
 
     # 一次完整爬取结束后 所有爬取状态复位
     mysql.update('update core_crawl_tb set finished = 1')

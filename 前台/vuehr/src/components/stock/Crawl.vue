@@ -158,7 +158,7 @@
                     advance:2,
                     lastUpdate: null,
                     totalSales:0,
-                    enabled:undefined,
+                    enabled:true,
                 },
                 tableData: [],
                 tableDataBak: [],
@@ -263,7 +263,7 @@
             tableRowClassName({row, rowIndex}) {
                 if (row.stock > 3) {//大于3太多
                     return 'warning-row';
-                } else if (row.stock <3 && row.stock>=1) {
+                } else if (row.stock <=3 && row.stock>=1) {
                     return 'success-row';
                 }else if (row.stock ==-1){
                     return '';

@@ -1,4 +1,4 @@
-from bean.my_mysql import MySql
+from util.my_mysql import MySql
 
 mysql = MySql('localhost', 'root', 'root', 'vhr')
 
