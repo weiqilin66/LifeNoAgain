@@ -33,11 +33,17 @@
         <if test="vo.include2!=null and vo.include2!=''">
             and title like '%'|| #{vo.include2} ||'%'
         </if>
+        <if test="vo.include3!=null and vo.include3!=''">
+            and title like '%'|| #{vo.include3} ||'%'
+        </if>
         <if test="vo.enclude1!=null and vo.enclude1!=''">
             and locate(#{vo.enclude1},title)=0
         </if>
         <if test="vo.enclude2!=null and vo.enclude2!=''">
             and locate(#{vo.enclude2},title)=0
+        </if>
+        <if test="vo.enclude3!=null and vo.enclude3!=''">
+            and locate(#{vo.enclude3},title)=0
         </if>
     </select>
 

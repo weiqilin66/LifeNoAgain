@@ -15,6 +15,7 @@
             <el-table
                     :data="tableData"
                     height="1150"
+                    stripe
                     style="width:100%;margin-top: 15px"
                     :row-class-name="tableRowClassName">
                 <el-table-column

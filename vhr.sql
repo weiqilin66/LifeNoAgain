@@ -11,7 +11,7 @@
  Target Server Version : 80021
  File Encoding         : 65001
 
- Date: 22/09/2020 17:31:36
+ Date: 23/09/2020 16:02:15
 */
 
 SET NAMES utf8mb4;
@@ -55,7 +55,7 @@ CREATE TABLE `core_crawl_tb`  (
   `enabled` tinyint(1) NULL DEFAULT NULL,
   `finished` tinyint(1) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of core_crawl_tb
@@ -862,16 +862,26 @@ CREATE TABLE `good_key_word`  (
   `base` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `include1` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `include2` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `include3` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `enclude1` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `enclude2` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `enclude3` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of good_key_word
 -- ----------------------------
-INSERT INTO `good_key_word` VALUES (0001, 0004, '女神异闻录', '5s', 'switch', 'ps4', '5r');
-INSERT INTO `good_key_word` VALUES (0002, 0006, '怪物猎人', '冰原', NULL, NULL, NULL);
+INSERT INTO `good_key_word` VALUES (0001, 0004, '女神异闻录', '5s', 'switch', NULL, 'ps4', '5r', NULL);
+INSERT INTO `good_key_word` VALUES (0002, 0006, '怪物猎人', '冰原', '', NULL, '不', '', NULL);
+INSERT INTO `good_key_word` VALUES (0003, 0011, '对马', '之', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `good_key_word` VALUES (0004, 0013, '异度', '终极版', NULL, NULL, '2', NULL, NULL);
+INSERT INTO `good_key_word` VALUES (0005, 0012, '路易鬼屋', '3', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `good_key_word` VALUES (0006, 0015, '星之卡比', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `good_key_word` VALUES (0007, 0014, '塞尔达', '荒野之息', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `good_key_word` VALUES (0014, 0001, '女神异闻录', '5R', '皇家版', NULL, '不', NULL, NULL);
+INSERT INTO `good_key_word` VALUES (0015, 0007, '地平线', '年度版', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `good_key_word` VALUES (0016, 0008, '分手厨房', '1', '2', 'switch', '', '', '');
 
 -- ----------------------------
 -- Table structure for good_label
@@ -898,7 +908,7 @@ CREATE TABLE `good_main`  (
   `label` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of good_main
@@ -943,7 +953,7 @@ CREATE TABLE `good_stock`  (
   `stock` int(0) NULL DEFAULT NULL,
   `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 42 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of good_stock

@@ -4,7 +4,7 @@ import time
 import tkinter
 from selenium.webdriver.support.wait import WebDriverWait
 from util.my_selenium import MySelenium
-from util.my_mysql import MySql
+from util.mysql_util import MySql
 
 
 class TaoBao(object):

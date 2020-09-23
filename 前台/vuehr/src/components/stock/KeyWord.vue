@@ -16,48 +16,62 @@
                     :data="tableData"
                     height="1150"
                     style="width:100%;margin-top: 15px"
+                    border
+                    stripe
                     :row-class-name="tableRowClassName">
                 <el-table-column
                         prop="label"
                         label="☆"
                         align="center"
-                        width="250">
+                        width="50">
                 </el-table-column>
                 <el-table-column
                         prop="name"
                         label="名称"
                         align="center"
-                        width="280">
+                        width="180">
                 </el-table-column>
                 <el-table-column
                         prop="base"
                         label="基础词"
                         align="center"
-                        width="280">
+                        width="150">
                 </el-table-column>
                 <el-table-column
                         prop="include1"
                         label="包含词1"
                         align="center"
-                        width="280">
+                        width="150">
                 </el-table-column>
                 <el-table-column
                         prop="include2"
                         label="包含词2"
                         align="center"
-                        width="280">
+                        width="150">
+                </el-table-column>
+                <el-table-column
+                        prop="include3"
+                        label="包含词3"
+                        align="center"
+                        width="150">
                 </el-table-column>
                 <el-table-column
                         prop="enclude1"
                         label="不包含词1"
                         align="center"
-                        width="280">
+                        width="150">
                 </el-table-column>
                 <el-table-column
                         prop="enclude2"
                         label="不包含词2"
                         align="center"
-                        width="280">
+                        width="150">
+                </el-table-column>
+                <el-table-column
+                        prop="enclude3"
+                        label="不包含词3"
+                        align="center"
+                        width="150">
                 </el-table-column>
 
                 <el-table-column label="操作" align="center"
@@ -80,7 +94,7 @@
                             <td>
                                 <el-tag size="normal">名称</el-tag>
                             </td>
-                            <td width="1000">
+                            <td width="600">
                                 <span>{{updateGood.label+updateGood.name}}</span>
                             </td>
                         </tr>
@@ -88,7 +102,7 @@
                             <td>
                                 <el-tag size="normal">基础词</el-tag>
                             </td>
-                            <td width="600">
+                            <td width="400">
                                 <el-input v-model="updateGood.base"/>
                             </td>
                         </tr>
@@ -96,7 +110,7 @@
                             <td>
                                 <el-tag size="normal">包含词1</el-tag>
                             </td>
-                            <td width="600">
+                            <td width="400">
                                 <el-input v-model="updateGood.include1"/>
                             </td>
                         </tr>
@@ -104,15 +118,23 @@
                             <td>
                                 <el-tag size="normal">包含词2</el-tag>
                             </td>
-                            <td width="600">
+                            <td width="400">
                                 <el-input v-model="updateGood.include2"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <el-tag size="normal">包含词3</el-tag>
+                            </td>
+                            <td width="400">
+                                <el-input v-model="updateGood.include3"/>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <el-tag size="normal">不包含词1</el-tag>
                             </td>
-                            <td width="600">
+                            <td width="400">
                                 <el-input v-model="updateGood.enclude1"/>
                             </td>
                         </tr>
@@ -120,11 +142,18 @@
                             <td>
                                 <el-tag size="normal">不包含词2</el-tag>
                             </td>
-                            <td width="600">
+                            <td width="400">
                                 <el-input v-model="updateGood.enclude2"/>
                             </td>
                         </tr>
-
+                        <tr>
+                            <td>
+                                <el-tag size="normal">不包含词3</el-tag>
+                            </td>
+                            <td width="400">
+                                <el-input v-model="updateGood.enclude3"/>
+                            </td>
+                        </tr>
                     </table>
                 </div>
                 <span slot="footer" class="dialog-footer">
@@ -143,15 +172,15 @@
                             <td>
                                 <el-tag size="normal">名称</el-tag>
                             </td>
-                            <td width="1000">
-                                <span>{{addGood.label+addGood.name}}</span>
+                            <td >
+                                <MyGoodSelect @resp="getGood"/>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <el-tag size="normal">基础词</el-tag>
                             </td>
-                            <td width="600">
+                            <td width="400">
                                 <el-input v-model="addGood.base"/>
                             </td>
                         </tr>
@@ -159,7 +188,7 @@
                             <td>
                                 <el-tag size="normal">包含词1</el-tag>
                             </td>
-                            <td width="600">
+                            <td width="400">
                                 <el-input v-model="addGood.include1"/>
                             </td>
                         </tr>
@@ -167,15 +196,23 @@
                             <td>
                                 <el-tag size="normal">包含词2</el-tag>
                             </td>
-                            <td width="600">
+                            <td width="400">
                                 <el-input v-model="addGood.include2"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <el-tag size="normal">包含词3</el-tag>
+                            </td>
+                            <td width="400">
+                                <el-input v-model="addGood.include3"/>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <el-tag size="normal">不包含词1</el-tag>
                             </td>
-                            <td width="600">
+                            <td width="400">
                                 <el-input v-model="addGood.enclude1"/>
                             </td>
                         </tr>
@@ -183,8 +220,16 @@
                             <td>
                                 <el-tag size="normal">不包含词2</el-tag>
                             </td>
-                            <td width="600">
+                            <td width="400">
                                 <el-input v-model="addGood.enclude2"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <el-tag size="normal">不包含词3</el-tag>
+                            </td>
+                            <td width="400">
+                                <el-input v-model="addGood.enclude3"/>
                             </td>
                         </tr>
                     </table>
@@ -234,8 +279,10 @@
                     base:'',
                     include1:'',
                     include2:'',
+                    include3:'',
                     enclude1:'',
-                    enclude2:''
+                    enclude2:'',
+                    enclude3:''
                 },
                 updateGood: {
                     label:'',
@@ -243,8 +290,10 @@
                     base:'',
                     include1:'',
                     include2:'',
+                    include3:'',
                     enclude1:'',
-                    enclude2:''
+                    enclude2:'',
+                    enclude3:''
                 },
                 tableData: [],
                 tableDataBak: [],
@@ -255,13 +304,16 @@
             this.initStock()
         },
         methods: {
+            getGood(data){
+                this.addGood.gid = data
+            },
             getCData(data){
                 this.tableData=data
             },
             beforeAdd(){
                 this.postRequest("/noRight/keyWord/check", this.addGood).then(resp => {
                     if (!resp) {
-                        this.$confirm(',是否继续添加该商品','提示'
+                        this.$confirm('是否继续添加该商品','提示'
                             ,{
                                 confirmButtonText: '确定',
                                 cancelButtonText: '取消',
@@ -321,7 +373,9 @@
             },
             showAdd() {
                 this.addDialogVisible = true
+                const gid = this.addGood.gid
                 this.addGood = {}
+                this.addGood.gid = gid
             },
             handleChange(row) {
                 Object.assign(this.updateGood,row)

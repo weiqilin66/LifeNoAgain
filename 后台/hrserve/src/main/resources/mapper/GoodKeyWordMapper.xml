@@ -2,4 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lwq.hr.mapper.GoodKeyWordMapper">
 
+    <select id="queryAll" resultType="java.util.HashMap">
+        select
+            t1.id,
+            t1.gid,
+            t2.label,
+            t2.name,
+            t1.base,
+            t1.include1,
+            t1.include2,
+            t1.include3,
+            t1.enclude1,
+            t1.enclude2,
+            t1.enclude3
+        from good_key_word t1,good_main t2
+        where t1.gid = t2.id
+    </select>
+    <select id="check" resultType="java.lang.Integer">
+        select
+            count(gid)
+        from good_key_word
+        where gid =#{entity.gid}
+    </select>
 </mapper>

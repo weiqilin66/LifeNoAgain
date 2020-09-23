@@ -18,6 +18,7 @@
                     :data="tableData"
                     height="1150"
                     style="width:100%;margin-top: 5px"
+                    border
                     :row-class-name="tableRowClassName">
                 <el-table-column
                         prop="label"

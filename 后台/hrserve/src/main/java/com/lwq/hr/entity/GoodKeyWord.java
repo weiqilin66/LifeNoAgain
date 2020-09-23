@@ -31,10 +31,12 @@ public class GoodKeyWord implements Serializable {
     private String include1;
 
     private String include2;
+    private String include3;
 
     private String enclude1;
 
     private String enclude2;
+    private String enclude3;
 
 
 }

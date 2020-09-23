@@ -1,4 +1,4 @@
-from util.my_mysql import MySql
+from util.mysql_util import MySql
 
 mysql = MySql('localhost', 'root', 'root', 'vhr')
 

@@ -1,11 +1,7 @@
-import time
+import cx_Oracle
+from util.oracle_util import Oracle
 
-from util.my_mysql import MySql
+o = Oracle()
+result=o.select('Select sysdate from dual')
 
-mysql = MySql('localhost', 'root', 'root', 'vhr')
-
-if __name__ == '__main__':
-    etl_date = time.strftime("%Y-%m-%d", time.localtime())
-    etl_time = time.strftime("%H:%M:%S", time.localtime())
-    s= etl_date+' '+etl_time
-    print(s)
+print (result)

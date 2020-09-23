@@ -8,7 +8,7 @@ import json
 import pymysql
 import random
 from selenium import common
-from util.my_mysql import MySql
+from util.mysql_util import MySql
 from util.my_selenium import MySelenium
 
 """ 半自动实现 """

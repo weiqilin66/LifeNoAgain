@@ -14,9 +14,10 @@
         <div>
             <el-table
                     :data="tableData"
-                    height="1150"
                     style="width:100%;margin-top: 5px"
-                    :row-class-name="tableRowClassName">
+                    show-summary
+                    :summary-method="getSummaries"
+                    :row-class-name="tableRowClassName"><!--合计不能有固定高度-->
                 <el-table-column
                         prop="label"
                         label="☆"
@@ -210,6 +211,55 @@
             this.initStock()
         },
         methods: {
+            //自定义统计
+            getSummaries(param) {
+                const { columns, data } = param;
+                const sums = [];
+
+                sums[0] = '合计';
+                sums[1] = ' '
+                //第3列的值 价格
+                const values2 = data.map(item => Number(item[column[2].property]));
+                alert(values2)
+                if (!values2.every(value => isNaN(value))) {
+                    sums[index] = values2.reduce((prev, curr) => {//pre累计值，curr现在值
+                        const value = Number(curr);
+                        if (!isNaN(value)) {//不为空做累加
+                            return prev + curr;
+                        } else {
+                            return prev;
+                        }
+                    }, 0);
+                    sums[index] += ' 元';
+                } else {
+                    sums[index] = '';
+                }
+                //第四列值 库存
+                const values3 = data.map(item => Number(item[column[3].property]));
+
+                /*columns.forEach((column, index) => {
+                    if (index === 0) {
+                        sums[index] = '合计';
+                        return;
+                    }
+                    const values = data.map(item => Number(item[column.property]));
+                    if (!values.every(value => isNaN(value))) {
+                        sums[index] = values.reduce((prev, curr) => {//pre累计值，curr现在值
+                            const value = Number(curr);
+                            if (!isNaN(value)) {//不为空做累加
+                                return prev + curr;
+                            } else {
+                                return prev;
+                            }
+                        }, 0);
+                        sums[index] += ' 元';
+                    } else {
+                        sums[index] = '';
+                    }
+                });*/
+
+                return sums;
+            },
             getGood(data){
                 this.addGood.gid = data
             },

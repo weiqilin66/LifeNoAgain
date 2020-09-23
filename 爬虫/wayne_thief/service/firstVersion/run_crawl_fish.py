@@ -1,7 +1,7 @@
 import time
 
 from util.my_appium import MyAppium
-from util.my_mysql import MySql
+from util.mysql_util import MySql
 
 phone = 'shark3'
 if __name__ == '__main__':

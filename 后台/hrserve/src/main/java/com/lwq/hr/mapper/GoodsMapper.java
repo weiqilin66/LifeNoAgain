@@ -2,7 +2,6 @@ package com.lwq.hr.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lwq.hr.entity.GoodKeyWord;
-import com.lwq.hr.entity.GoodKeyWordVo;
 import com.lwq.hr.entity.Goods;
 import com.lwq.hr.entity.SecondShopForMax;
 import org.apache.ibatis.annotations.Param;
