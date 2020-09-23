@@ -123,15 +123,11 @@ public class ChartController {
         // 检索关键字优化
         final GoodKeyWord goodKeyWord = goodKeyWordMapper.selectById(id);
         List<SecondShopForMax> shops = shopmapper.selectAll();// 统计名店
-        List<String> list = new ArrayList<>();
-        for (SecondShopForMax shop : shops) {
-            list.add(shop.getName());
-        }
-        resMap.put("shops", list);//图例店铺名
-        String [] xAxis = MonitorUtil.getTimes(startDate, endDate);//2020-08-08
-//        String[] headArray = MonitorIntelScheUtil.headArrayReplace(xAxis);//20200808
-        list.parallelStream().forEach(shop->{
-//            List<Goods> goods = goodsMapper.byTitle(shop, finalTitle, days, finalCondition);
+        resMap.put("shops", shops);//图例店铺名
+        String [] xAxis = MonitorUtil.getTimes(startDate, endDate);
+        shops.parallelStream().forEach(item->{
+            String shop = item.getName();//旺旺名,大数据过滤用
+            String title = item.getComment();
             List<Goods> goods = goodsMapper.byKeyWord(goodKeyWord, shop, startDate, endDate);
             List<String> times = new ArrayList<>();//所有日期
             for (Goods good : goods) {
@@ -149,7 +145,7 @@ public class ChartController {
             Collections.sort(goods, new Comparator<Goods>() {
                 @Override
                 public int compare(Goods o1, Goods o2) {
-//                    return o1.getEtlDate().compareTo(o2.getEtlDate()); //升序
+                    //return o1.getEtlDate().compareTo(o2.getEtlDate()); //升序
                     return o2.getEtlDate().compareTo(o1.getEtlDate()); //降序
                 }
             });
@@ -158,7 +154,7 @@ public class ChartController {
                 prices[j] = goods.get(j).getPrice();
             }
 
-            resMap.put(shop, prices);
+            resMap.put(title, prices);
             // 最新一天的对象
             if (goods.get(0).getPrice()!=0) {
                 resList.add(goods.get(0));

@@ -26,7 +26,7 @@ class TaoBao(object):
         chrome = self.chrome
         url = 'https://s.taobao.com/'
         chrome.get(url)
-        chrome.maximize_window()  # 窗口最大化方便扫码
+        # chrome.maximize_window()  # 窗口最大化方便扫码
         ser_input = chrome.find_elements_by_xpath("//input[@name='q']")[0]
         ser_input.send_keys(random_good)
         time.sleep(1)
@@ -34,6 +34,13 @@ class TaoBao(object):
         ser_btn.click()
         return chrome
 
+    # 二手栏位
+    def start2(self):
+        chrome = self.chrome
+        url = 'https://s.taobao.com/search?tab=old'
+        chrome.get(url)
+        # chrome.maximize_window()  # 窗口最大化方便扫码
+        return chrome
     # 回调登录
     def login(self):
         chrome = self.chrome
@@ -42,6 +49,20 @@ class TaoBao(object):
             # print('未登录...')
             time.sleep(1)
             self.login()
+
+    # 点击二手标签
+    def tapSecondHand(self):
+        try:
+            btton = self.chrome.find_elements_by_id("//ul[@class='tabs']/li/a[text()='二手']")
+            print(len(btton))
+            btton = self.chrome.find_elements_by_id("//a[text()='二手']")
+            print(len(btton))
+            btton = self.chrome.find_elements_by_id("//ul[@class='tabs']/li/a")
+            print(len(btton))
+            btton.click()
+            time.sleep(random.randint(10, 15))
+        except Exception as e:
+            print("找不到二手按钮", e)
 
     # 插入数据库
     def info2mysql(self, good_list, etl_date, etl_time, kw, count_index_total):
@@ -127,7 +148,7 @@ class TaoBao(object):
         good_list = json2info(json_)
         if good_list == 1:
             return
-        print('首页size: ', len(good_list))
+        print('首页数量: ', len(good_list))
         self.info2mysql(good_list, etl_date, etl_time, search_good, 1)
         # 下一页
         if pages == 1:
@@ -135,7 +156,8 @@ class TaoBao(object):
         for page in range(0, pages - 1):
             # 下一页按钮不可用 返回
             totalPage = chrome.find_elements_by_xpath(
-                "//div[@class='pager']//ul[@class='items']//li/a[@class='link']/span[@class='icon icon-btn-next-2-disable']")  # 只有一页
+                "//div[@class='pager']//ul[@class='items']//li/a[@class='link']/span[@class='icon "
+                "icon-btn-next-2-disable']")  # 只有一页
             if len(totalPage) > 0:
                 return
             try:
@@ -163,7 +185,7 @@ class TaoBao(object):
             json_ = json_ + '}}'
             # 分析json
             good_list = json2info(json_)
-            print('第', page + 2, '页size: ', len(good_list))
+            print('第', page + 2, '页数量: ', len(good_list))
             # 写入数据库
             self.info2mysql(good_list, etl_date, etl_time, search_good, 0)
 
@@ -194,15 +216,18 @@ def json2info(json_):
 def init():
     taobao = TaoBao()
     mysql = taobao.mysql
-    init_goods = mysql.select(
-        "select concat(label,name) from core_crawl_tb t1 inner join good_main t2 on t1.gid = t2.id where enabled =1 limit 30")
-    random_good_index = random.randint(0, len(init_goods) - 1)
-    chrome = taobao.start(init_goods[random_good_index])
+    # init_goods = mysql.select(
+    #     "select concat(label,name) from core_crawl_tb t1 inner join good_main t2 on t1.gid = t2.id where enabled =1 "
+    #     "limit 30")
+    # random_good_index = random.randint(0, len(init_goods) - 1)
+    # chrome = taobao.start(init_goods[random_good_index])
+    chrome = taobao.start2()
     # 15s手动扫码
     taobao.login()
     print('登录成功:', chrome.current_url)
+    time.sleep(3)
     # 点击二手标签
-    # chrome.find
+    # taobao.tapSecondHand()
     # 最小化
     chrome.minimize_window()
     return taobao, chrome, mysql
@@ -221,9 +246,9 @@ def main(taobao, chrome, mysql, search_goods):
             pages = 2
         taobao.data_by_search(etl_date, etl_time, chrome, search_good[0], 1, pages)
         count = count + 1
-        mysql.update("update core_crawl_tb set finished = 0 and last_update = '%s' where id in (select id from("
-                     "select t1.id from core_crawl_tb t1 inner join good_main t2 on t1.gid = t2.id where concat(label,name)='%s')a) " % (
-                         last_update, search_good))
+        mysql.update("update core_crawl_tb set finished = 0, last_update = '%s' where id in (select id from("
+                     "select t1.id from core_crawl_tb t1 inner join good_main t2 on t1.gid = t2.id where concat("
+                     "label,name)='%s')a) " % (last_update, search_good))
 
     # 一次完整爬取结束后 所有爬取状态复位
     mysql.update('update core_crawl_tb set finished = 1')

@@ -28,13 +28,13 @@
         and shop = #{shopName}
         and title like '%'|| #{vo.base} ||'%'
         <if test="vo.include1!=null and vo.include1!=''">
-            and title like '%'|| #{vo.include1} ||'%'
+            and locate(#{vo.include1},title)>0
         </if>
         <if test="vo.include2!=null and vo.include2!=''">
-            and title like '%'|| #{vo.include2} ||'%'
+            and locate(#{vo.include2},title)>0
         </if>
         <if test="vo.include3!=null and vo.include3!=''">
-            and title like '%'|| #{vo.include3} ||'%'
+            and locate(#{vo.include3},title)>0
         </if>
         <if test="vo.enclude1!=null and vo.enclude1!=''">
             and locate(#{vo.enclude1},title)=0

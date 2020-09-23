@@ -1,9 +1,10 @@
-import cx_Oracle
+import pymysql
 
 
-class MyOracle(object):
-    def __init__(self):
-        self.conn = cx_Oracle.connect('system/linweiqi45vip@127.0.0.1:1521/orcl')
+class MySql(object):
+    def __init__(self, host, username, password, service):
+        self.conn = pymysql.connect(host, username, password, service)
+        # self.conn = pymysql.connect('localhost', 'root', 'root', 'vhr')
         self.cursor = self.conn.cursor()
 
     def insert(self, sql):

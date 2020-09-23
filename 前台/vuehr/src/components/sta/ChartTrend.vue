@@ -93,7 +93,7 @@
                     },
                     // 图例
                     legend: {
-                        data: ['宁波老猎人电玩'],
+                        data: ['皮卡皮电玩'],
                         width:'70%',
                         selector: [
                             {
@@ -134,7 +134,7 @@
                     ],
                     series: [
                         {
-                            name: '宁波老猎人电玩',//toolTip提示使用
+                            name: '皮卡皮电玩',//toolTip提示使用
                             type: 'line',// 类型 折线图
                             areaStyle: {}, //填充颜色
                             label: {    // 显示数据
@@ -218,9 +218,17 @@
                             this.kw = ''
                             return
                         }
+                        //旺旺名
+                        let shopNameTitle=[]
+                        resp.shops.forEach(item =>{
+                            shopNameTitle.push(item.comment)
+                        })
+                        //便利key旺旺名
+                        const shops = shopNameTitle
                         // 图例
-                        const shops = resp.shops
-                        this.chartData.legend.data = shops
+                        this.chartData.legend.data = shopNameTitle
+                        //线实例
+                        let index = 0
                         this.chartData.series=[]
                         shops.forEach(shop=>{
                             let sery = {
@@ -239,9 +247,10 @@
                             sery.data=resp[shop]
                             this.chartData.series.push(sery)
                             // console.log(sery);
+                            index ++;
                         })
-
-                        this.drawLine()//重新绘制图表加载数据
+                        //重新绘制图表加载数据
+                        this.drawLine()
                         this.objList=resp.objList
                     }
                 })
