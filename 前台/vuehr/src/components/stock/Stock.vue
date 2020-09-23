@@ -62,7 +62,7 @@
                     </template>
                 </el-table-column>
             </el-table>
-
+            <!--统计table-->
             <!--编辑弹窗-->
             <el-dialog
                     title="编辑"
@@ -215,29 +215,7 @@
             getSummaries(param) {
                 const { columns, data } = param;
                 const sums = [];
-
-                sums[0] = '合计';
-                sums[1] = ' '
-                //第3列的值 价格
-                const values2 = data.map(item => Number(item[column[2].property]));
-                alert(values2)
-                if (!values2.every(value => isNaN(value))) {
-                    sums[index] = values2.reduce((prev, curr) => {//pre累计值，curr现在值
-                        const value = Number(curr);
-                        if (!isNaN(value)) {//不为空做累加
-                            return prev + curr;
-                        } else {
-                            return prev;
-                        }
-                    }, 0);
-                    sums[index] += ' 元';
-                } else {
-                    sums[index] = '';
-                }
-                //第四列值 库存
-                const values3 = data.map(item => Number(item[column[3].property]));
-
-                /*columns.forEach((column, index) => {
+                columns.forEach((column, index) => {
                     if (index === 0) {
                         sums[index] = '合计';
                         return;
@@ -252,12 +230,13 @@
                                 return prev;
                             }
                         }, 0);
-                        sums[index] += ' 元';
+                        sums[index] += ' ';
                     } else {
                         sums[index] = '';
                     }
-                });*/
-
+                });
+                sums[2]='';
+                sums[4]='';
                 return sums;
             },
             getGood(data){
