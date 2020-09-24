@@ -173,6 +173,7 @@
                 this.updateGood.gid = data
             },
             changeEnabled(row) {
+                row.finished = row.enabled
                 this.putRequest("/stock/crawl/",row).then(resp => {
                     if (resp) {
                         this.$message.success('修改成功!')

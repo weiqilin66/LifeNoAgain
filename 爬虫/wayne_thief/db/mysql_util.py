@@ -12,17 +12,12 @@ class MySql(object):
         self.cursor = self.conn.cursor()
         try:
             # 执行sql
-            tt = self.cursor.execute(sql)  # 返回 插入数据 条数 可以根据 返回值 判定处理结果
-            # print(sql)
-            # if tt == 1:
-            #     print('插入成功')
-            # else:
-            #     print('插入失败')
-
+            tt = self.cursor.execute(sql)  # 返回 插入数据条数 可以根据返回值判定处理结果
             self.conn.commit()
         except:
             # 发生错误时回滚
             self.conn.rollback()
+            print('Error: SQL_INSERT:', sql)
         finally:
             self.cursor.close()
 
@@ -31,13 +26,12 @@ class MySql(object):
         self.cursor = self.conn.cursor()
         try:
             # 执行sql
-            self.cursor.execute(sql)
-            # tt = self.cursor.execute(sql) # 返回 删除数据 条数 可以根据 返回值 判定处理结果
-            # print(tt)
+            tt = self.cursor.execute(sql)
             self.conn.commit()
         except:
             # 发生错误时回滚
             self.conn.rollback()
+            print('Error: SQL_DELETE:', sql)
         finally:
             self.cursor.close()
 
@@ -48,13 +42,12 @@ class MySql(object):
 
         try:
             # 执行sql
-            self.cursor.execute(sql)
-            # tt = self.cursor.execute(sql) # 返回 更新数据 条数 可以根据 返回值 判定处理结果
-            # print(tt)
+            tt = self.cursor.execute(sql)
             self.conn.commit()
         except:
             # 发生错误时回滚
             self.conn.rollback()
+            print('Error :SQL_UPDATE:', sql)
         finally:
             self.cursor.close()
 
@@ -67,7 +60,7 @@ class MySql(object):
             data = self.cursor.fetchall()  # 返回所有记录列表
             return data
         except:
-            print('Error: unable to fecth data')
+            print('Error: unable to fetch data:', sql)
         finally:
             self.cursor.close()
 

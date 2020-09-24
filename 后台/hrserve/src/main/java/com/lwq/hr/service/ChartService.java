@@ -3,7 +3,7 @@ package com.lwq.hr.service;
 
 import com.lwq.hr.entity.*;
 import com.lwq.hr.mapper.GoodsMapper;
-import com.lwq.hr.mapper.SecondShopForMaxMapper;
+import com.lwq.hr.mapper.ShopMapper;
 import com.lwq.hr.mapper.TbKwMapper;
 import com.lwq.hr.utils.MonitorUtil;
 import com.lwq.hr.utils.RespBean;
@@ -33,7 +33,7 @@ public class ChartService {
     @Resource
     GoodsMapper goodsMapper;
     @Resource
-    SecondShopForMaxMapper secondShopForMaxMapper;
+    ShopMapper shopMapper;
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
     String now = dateFormat.format(new Date());
@@ -167,15 +167,15 @@ public class ChartService {
         List<TbKw> totalList = tbKwMapper.selAll();
         List<Map<String, Object>> resList0 = new ArrayList<>();
         List<Map<String, Object>> resList = Collections.synchronizedList(resList0);
-        List<SecondShopForMax> secondShops = new ArrayList<>();
+        List<Shop> secondShops = new ArrayList<>();
         if (shop != null) {//传入参数只分析单个店铺 目前只分析老猎人
-            SecondShopForMax e = new SecondShopForMax();
+            Shop e = new Shop();
             e.setName("宁波老猎人电玩店");
             secondShops.add(e);
         } else {
-            secondShops = secondShopForMaxMapper.selectAllEnabled();
+            secondShops = shopMapper.selectAllEnabled();
         }
-        List<SecondShopForMax> blackList = secondShopForMaxMapper.selBlackList();
+        List<Shop> blackList = shopMapper.selBlackList();
         //加工关键字
         for (TbKw tbKw : totalList) {
             String goodName = tbKw.getName();
@@ -190,7 +190,7 @@ public class ChartService {
             }
 
         }
-        List<SecondShopForMax> finalSecondShops = secondShops;
+        List<Shop> finalSecondShops = secondShops;
         totalList.parallelStream().forEach(p -> {
             String goodName = p.getName();
             String[] arr = goodName.split("\\s+");

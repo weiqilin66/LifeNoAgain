@@ -6,6 +6,7 @@ import com.lwq.hr.entity.GoodMain;
 import com.lwq.hr.init.JedisInit;
 import com.lwq.hr.jedis.CallWithJedis;
 import com.lwq.hr.jedis.JedisConfig;
+import com.lwq.hr.service.JedisService;
 import com.lwq.hr.utils.RespBean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,8 +30,24 @@ public class JedisController {
 
     JedisConfig jedisConfig = new JedisConfig();
     List res;
+
     @Resource
     JedisInit jedisInit;
+    @Resource
+    JedisService jedisService;
+    /**
+     * 根据缓存名 返回缓存集合
+     * @param cacheName
+     * @return
+     */
+    @GetMapping("/{cacheName}")
+    public RespBean getCache(@PathVariable String cacheName){
+        res = jedisService.getCache(cacheName);
+        if (res!=null) {
+            return RespBean.ok(res);
+        }
+        return RespBean.error("key: "+cacheName +" 的缓存不存在");
+    }
     @GetMapping("/refresh")
     public RespBean refreshCache(){
         try {
@@ -46,7 +63,6 @@ public class JedisController {
              */
             //final Method refresh = jedisInit.getClass().getDeclaredMethod("refresh");
             //refresh.invoke(jedisInit);
-
             //获取类所有声明的方法
             Method[] declaredMethods = JedisInit.class.getDeclaredMethods();
             for (Method m : declaredMethods) {
@@ -59,25 +75,5 @@ public class JedisController {
         return RespBean.ok();
     }
 
-    /**
-     * 根据缓存名 返回缓存集合
-     * @param cacheName
-     * @return
-     */
-    @GetMapping("/{cacheName}")
-    public RespBean getCache(@PathVariable String cacheName){
-        jedisConfig.excute(new CallWithJedis() {
-            @Override
-            public void call(Jedis jedis) {
-                final String js = jedis.get(cacheName);
-                //json字符串转集合
-                res= new Gson().fromJson(js, new TypeToken<List<Object>>(){}.getType());
-            }
-        });
-        if (res!=null) {
 
-            return RespBean.build().setData(res);
-        }
-        return RespBean.error("key: "+cacheName +" 的缓存不存在");
-    }
 }

@@ -25,11 +25,10 @@ public class StockController {
     String now = dateFormat.format(new Date());
 
     @GetMapping("/getTitle")
-    public RespBean getTitle(String title){
+    public RespBean getTitle(String title) {
         List<String> list = stockMapper.chooseGoodTitle(title);
         return RespBean.ok(list);
     }
-
     /**
      * 返回所有商品
      */

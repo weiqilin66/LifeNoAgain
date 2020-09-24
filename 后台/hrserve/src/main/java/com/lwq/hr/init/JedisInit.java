@@ -3,10 +3,12 @@ package com.lwq.hr.init;
 import com.google.gson.Gson;
 import com.lwq.hr.entity.GoodLabel;
 import com.lwq.hr.entity.GoodMain;
+import com.lwq.hr.entity.ShopWarning;
 import com.lwq.hr.jedis.CallWithJedis;
 import com.lwq.hr.jedis.JedisConfig;
 import com.lwq.hr.mapper.GoodLabelMapper;
 import com.lwq.hr.mapper.GoodMainMapper;
+import com.lwq.hr.mapper.ShopWarningMapper;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
@@ -26,12 +28,8 @@ public class JedisInit {
     GoodMainMapper goodMainMapper;
     @Resource
     GoodLabelMapper goodLabelMapper;
-
-   /* public void refresh(){
-        System.out.println("刷新");
-        initGoodMain();
-        initLabel();
-    }*/
+    @Resource
+    ShopWarningMapper shopWarningMapper;
     @PostConstruct
     public void initGoodMain(){
         jedis.excute(new CallWithJedis() {
@@ -53,6 +51,18 @@ public class JedisInit {
                 if (goodLabel==null) {
                     jedis.set("goodLabel",new Gson().toJson(goodLabelMapper.queryAll()));
                 }
+            }
+        });
+    }
+    /**
+     * 预警店铺
+     */
+    @PostConstruct
+    public void initWarningShop(){
+        jedis.excute(jedis -> {
+            final String warningShop = jedis.get("shopWarning");
+            if (warningShop==null) {
+                jedis.set("shopWarning",new Gson().toJson(shopWarningMapper.queryAll()));
             }
         });
     }

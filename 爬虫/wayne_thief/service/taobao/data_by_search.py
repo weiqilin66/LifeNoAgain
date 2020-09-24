@@ -1,15 +1,11 @@
-import sched
 import time
 import tkinter.messagebox  # 弹窗库
-from tkinter import *
-from playsound import playsound
 import re
 import json
-import pymysql
 import random
 from selenium import common
-from util.mysql_util import MySql
-from util.my_selenium import MySelenium
+from db.mysql_util import MySql
+from bean.my_selenium import MySelenium
 
 """ 半自动实现 """
 mp3_path = r'd:/菊花台.mp3'

@@ -228,7 +228,6 @@
                         // 图例
                         this.chartData.legend.data = shopNameTitle
                         //线实例
-                        let index = 0
                         this.chartData.series=[]
                         shops.forEach(shop=>{
                             let sery = {
@@ -247,7 +246,6 @@
                             sery.data=resp[shop]
                             this.chartData.series.push(sery)
                             // console.log(sery);
-                            index ++;
                         })
                         //重新绘制图表加载数据
                         this.drawLine()
@@ -273,8 +271,8 @@
                 let startDate = new Date().getTime();
                 startDate = startDate- day * num
                 this.startDate = this.getyyyyMMdd(new Date(startDate))
-                console.log('折线图开始时间： ' +this.startDate)
-                console.log('折线图结束时间： ' +this.endDate)
+                //console.log('折线图开始时间： ' +this.startDate)
+                //console.log('折线图结束时间： ' +this.endDate)
             }
             /* // 同步实例
                         async changeChart(kw) {

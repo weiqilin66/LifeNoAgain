@@ -2,11 +2,10 @@ package com.lwq.hr.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-
-import java.io.Serializable;
 
 /**
  * <p>
@@ -14,28 +13,35 @@ import java.io.Serializable;
  * </p>
  *
  * @author LinWeiQi
- * @since 2020-09-18
+ * @since 2020-05-12
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class GoodStockVo implements Serializable {
+public class ShopGoodUrl implements Serializable {
 
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Integer gid;
+    private String name;
 
-    private String name ;
+    private String switchUrl;
 
-    private String label ;
+    private String ps4Url;
 
-    private Float price;
+    private String ps5Url;
 
-    private Integer stock;
+    private String xboxUrl;
 
-    private String comment;
+    private String xbox2Url;
 
-    private int total;
+    private String switch2Url;
+
+    /**
+     * 1启用0禁用
+     */
+    private Integer enable;
+
+
 }

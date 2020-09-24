@@ -1,5 +1,4 @@
 import time
-
 from service.taobao import db
 from service.taobao.data_by_search import main, init
 

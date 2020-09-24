@@ -6,6 +6,7 @@ import com.lwq.hr.entity.GoodStockVo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -24,4 +25,6 @@ public interface GoodStockMapper extends BaseMapper<GoodStock> {
     List<GoodStockVo> queryAll();
 
     List<GoodStock> checkByStockId(@Param("stock") GoodStockVo stock);
+
+    List<HashMap> queryAllWithKeyWord();
 }

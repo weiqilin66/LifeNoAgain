@@ -13,22 +13,18 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author LinWeiQi
- * @since 2020-05-22
+ * @since 2020-09-24
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SecondShopForMax implements Serializable {
+public class ShopWarning implements Serializable {
 
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private String name;
-
-    private Integer enabled;
-
-    private String comment;
+    private Integer sid;
 
 
 }

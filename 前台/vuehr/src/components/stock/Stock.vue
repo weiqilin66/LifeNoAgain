@@ -36,7 +36,6 @@
                         align="center"
                         width="180">
                 </el-table-column>
-
                 <el-table-column
                         label="库存"
                         sortable
@@ -47,6 +46,12 @@
                         <el-input-number v-model="scope.row.stock" @change="handleChange(scope.row)"
                                          :min="0" :max="9999"/>
                     </template>
+                </el-table-column>
+                <el-table-column
+                        prop="total"
+                        label="总额"
+                        align="center"
+                        width="180">
                 </el-table-column>
                 <el-table-column
                         prop="comment"
@@ -62,7 +67,6 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <!--统计table-->
             <!--编辑弹窗-->
             <el-dialog
                     title="编辑"
@@ -230,13 +234,18 @@
                                 return prev;
                             }
                         }, 0);
-                        sums[index] += ' ';
+                        if (index === 3) {
+                            sums[index] += ' 件';
+                        }else {
+                            sums[index] += ' 元';
+                        }
+
                     } else {
                         sums[index] = '';
                     }
                 });
                 sums[2]='';
-                sums[4]='';
+                sums[5]='';
                 return sums;
             },
             getGood(data){

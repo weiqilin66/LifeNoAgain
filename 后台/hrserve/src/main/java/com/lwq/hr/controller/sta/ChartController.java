@@ -3,7 +3,6 @@ package com.lwq.hr.controller.sta;
 import com.lwq.hr.entity.*;
 import com.lwq.hr.mapper.*;
 import com.lwq.hr.service.ChartService;
-import com.lwq.hr.utils.MonitorIntelScheUtil;
 import com.lwq.hr.utils.MonitorUtil;
 import com.lwq.hr.utils.RespBean;
 
@@ -37,7 +36,7 @@ public class ChartController {
     @Resource
     TbKwMapper tbKwMapper;
     @Resource
-    SecondShopForMaxMapper shopmapper;
+    ShopMapper shopmapper;
 
     @Value("${wayne.goodPath}")
     String filePath;
@@ -122,7 +121,7 @@ public class ChartController {
         List<Goods> resList = new ArrayList<>();
         // 检索关键字优化
         final GoodKeyWord goodKeyWord = goodKeyWordMapper.selectById(id);
-        List<SecondShopForMax> shops = shopmapper.selectAll();// 统计名店
+        List<Shop> shops = shopmapper.selectAll();// 统计名店
         resMap.put("shops", shops);//图例店铺名
         String [] xAxis = MonitorUtil.getTimes(startDate, endDate);
         shops.parallelStream().forEach(item->{
@@ -155,7 +154,7 @@ public class ChartController {
             }
 
             resMap.put(title, prices);
-            // 最新一天的对象
+            // 最新一天的对象存入详情表格
             if (goods.get(0).getPrice()!=0) {
                 resList.add(goods.get(0));
             }
