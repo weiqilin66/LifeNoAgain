@@ -4,7 +4,7 @@ import re
 import json
 import random
 from selenium import common
-from db.mysql_util import MySql
+from util.mysql_util import MySql
 from bean.my_selenium import MySelenium
 
 """ 半自动实现 """
@@ -212,16 +212,16 @@ def json2info(json_):
 def init():
     taobao = TaoBao()
     mysql = taobao.mysql
-    # init_goods = mysql.select(
-    #     "select concat(label,name) from core_crawl_tb t1 inner join good_main t2 on t1.gid = t2.id where enabled =1 "
-    #     "limit 30")
-    # random_good_index = random.randint(0, len(init_goods) - 1)
-    # chrome = taobao.start(init_goods[random_good_index])
-    chrome = taobao.start2()
+    init_goods = mysql.select(
+        "select concat(label,name) from core_crawl_tb t1 inner join good_main t2 on t1.gid = t2.id where enabled =1 "
+        "limit 30")
+    random_good_index = random.randint(0, len(init_goods) - 1)
+    chrome = taobao.start(init_goods[random_good_index])
+    # chrome = taobao.start2()
     # 15s手动扫码
     taobao.login()
     print('登录成功:', chrome.current_url)
-    time.sleep(3)
+    # time.sleep(3)
     # 点击二手标签
     # taobao.tapSecondHand()
     # 最小化
@@ -235,16 +235,12 @@ def main(taobao, chrome, mysql, search_goods):
     etl_time = time.strftime("%H:%M:%S", time.localtime())
     last_update = etl_date + ' ' + etl_time
     # 遍历宝贝标题检索数据
-    count = 0
     for search_good in search_goods:
-        pages = 3  # 按销量爬取三页
-        if count > 40:  # 后续宝贝热'over', chrome, mysql度低
-            pages = 2
+        pages = 2  # 按销量爬取2页
         taobao.data_by_search(etl_date, etl_time, chrome, search_good[0], 1, pages)
-        count = count + 1
         mysql.update("update core_crawl_tb set finished = 0, last_update = '%s' where id in (select id from("
                      "select t1.id from core_crawl_tb t1 inner join good_main t2 on t1.gid = t2.id where concat("
-                     "label,name)='%s')a) " % (last_update, search_good))
+                     "label,name)='%s')a) " % (last_update, search_good[0]))
 
     # 一次完整爬取结束后 所有爬取状态复位
     mysql.update('update core_crawl_tb set finished = 1')
