@@ -2,8 +2,10 @@ package com.lwq.hr.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lwq.hr.entity.Shop;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**

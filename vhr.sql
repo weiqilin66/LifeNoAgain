@@ -11,7 +11,7 @@
  Target Server Version : 80021
  File Encoding         : 65001
 
- Date: 23/09/2020 16:02:15
+ Date: 24/09/2020 17:29:53
 */
 
 SET NAMES utf8mb4;
@@ -949,7 +949,7 @@ DROP TABLE IF EXISTS `good_stock`;
 CREATE TABLE `good_stock`  (
   `id` int(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
   `gid` int(4) UNSIGNED ZEROFILL NULL DEFAULT NULL,
-  `price` float(10, 2) NULL DEFAULT NULL,
+  `price` float NULL DEFAULT 0,
   `stock` int(0) NULL DEFAULT NULL,
   `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
@@ -958,15 +958,15 @@ CREATE TABLE `good_stock`  (
 -- ----------------------------
 -- Records of good_stock
 -- ----------------------------
-INSERT INTO `good_stock` VALUES (0001, 0004, 300.00, 3, NULL);
-INSERT INTO `good_stock` VALUES (0034, NULL, 299.00, 1, NULL);
-INSERT INTO `good_stock` VALUES (0035, 0006, 255.00, 1, NULL);
+INSERT INTO `good_stock` VALUES (0001, 0004, 300, 3, NULL);
+INSERT INTO `good_stock` VALUES (0034, NULL, 299, 1, NULL);
+INSERT INTO `good_stock` VALUES (0035, 0006, 255, 1, NULL);
 INSERT INTO `good_stock` VALUES (0036, 0005, NULL, 1, NULL);
-INSERT INTO `good_stock` VALUES (0037, 0011, 365.00, 2, NULL);
-INSERT INTO `good_stock` VALUES (0038, 0013, 179.00, 1, NULL);
-INSERT INTO `good_stock` VALUES (0039, 0014, 309.00, 1, NULL);
-INSERT INTO `good_stock` VALUES (0040, 0015, 259.00, 1, NULL);
-INSERT INTO `good_stock` VALUES (0041, 0008, 199.00, 1, NULL);
+INSERT INTO `good_stock` VALUES (0037, 0011, 365, 2, NULL);
+INSERT INTO `good_stock` VALUES (0038, 0013, 179, 1, NULL);
+INSERT INTO `good_stock` VALUES (0039, 0014, 309, 1, NULL);
+INSERT INTO `good_stock` VALUES (0040, 0015, 259, 1, NULL);
+INSERT INTO `good_stock` VALUES (0041, 0008, 199, 1, NULL);
 
 -- ----------------------------
 -- Table structure for good_warning
@@ -1567,66 +1567,35 @@ INSERT INTO `role` VALUES (19, 'ROLE_test4', '测试角色4');
 INSERT INTO `role` VALUES (20, 'ROLE_test5', '测试角色5');
 
 -- ----------------------------
--- Table structure for second_shop_for_max
--- ----------------------------
-DROP TABLE IF EXISTS `second_shop_for_max`;
-CREATE TABLE `second_shop_for_max`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `enabled` int(0) NULL DEFAULT NULL,
-  `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of second_shop_for_max
--- ----------------------------
-INSERT INTO `second_shop_for_max` VALUES (1, '宁波老猎人电玩店', 1, '宁波老猎人电玩');
-INSERT INTO `second_shop_for_max` VALUES (2, '幸运星阁', 0, '幸运星电玩');
-INSERT INTO `second_shop_for_max` VALUES (3, '喵哈哈99', 1, '游戏人艺人');
-INSERT INTO `second_shop_for_max` VALUES (4, '游戏8', 0, '上海潮玩电玩');
-INSERT INTO `second_shop_for_max` VALUES (5, 'nicewg', 1, '朗悦正品数码商城');
-INSERT INTO `second_shop_for_max` VALUES (6, '小姐不可以1987', 0, 'PO 朝廷电玩');
-INSERT INTO `second_shop_for_max` VALUES (7, 'tb80960126', 0, '杭州西子电玩');
-INSERT INTO `second_shop_for_max` VALUES (8, '机美通讯', 0, '四川大镖客');
-INSERT INTO `second_shop_for_max` VALUES (9, '江南美食荟', 0, '神秘时空电玩');
-INSERT INTO `second_shop_for_max` VALUES (10, '啊陈小龙', 0, '萌牛电玩游戏世界');
-INSERT INTO `second_shop_for_max` VALUES (11, '泡儿', 0, '泡儿电玩');
-INSERT INTO `second_shop_for_max` VALUES (12, '圣眼使徒', 0, '南昌圆梦玩家');
-INSERT INTO `second_shop_for_max` VALUES (13, '齐乐数码', 0, '上海藏宝海湾');
-INSERT INTO `second_shop_for_max` VALUES (14, '马里奥玩家电玩', 0, '马里奥玩家电玩');
-INSERT INTO `second_shop_for_max` VALUES (15, '芸峰科技', 0, '芸峰海螺电玩');
-
--- ----------------------------
 -- Table structure for shop
 -- ----------------------------
 DROP TABLE IF EXISTS `shop`;
 CREATE TABLE `shop`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `enabled` tinyint(0) NULL DEFAULT NULL,
   `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `enabled` tinyint(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of shop
 -- ----------------------------
-INSERT INTO `shop` VALUES (1, '宁波老猎人电玩店', 1, '宁波老猎人电玩');
-INSERT INTO `shop` VALUES (2, '幸运星阁', 0, '幸运星电玩');
-INSERT INTO `shop` VALUES (3, '喵哈哈99', 1, '游戏人艺人');
-INSERT INTO `shop` VALUES (4, '游戏8', 0, '上海潮玩电玩');
-INSERT INTO `shop` VALUES (5, 'nicewg', 1, '朗悦正品数码商城');
-INSERT INTO `shop` VALUES (6, '小姐不可以1987', 0, 'PO 朝廷电玩');
-INSERT INTO `shop` VALUES (7, 'tb80960126', 0, '杭州西子电玩');
-INSERT INTO `shop` VALUES (8, '机美通讯', 0, '四川大镖客');
-INSERT INTO `shop` VALUES (9, '江南美食荟', 0, '神秘时空电玩');
-INSERT INTO `shop` VALUES (10, '啊陈小龙', 0, '萌牛电玩游戏世界');
-INSERT INTO `shop` VALUES (11, '泡儿', 0, '泡儿电玩');
-INSERT INTO `shop` VALUES (12, '圣眼使徒', 0, '南昌圆梦玩家');
-INSERT INTO `shop` VALUES (13, '齐乐数码', 0, '上海藏宝海湾');
-INSERT INTO `shop` VALUES (14, '马里奥玩家电玩', 0, '马里奥玩家电玩');
-INSERT INTO `shop` VALUES (15, '芸峰科技', 0, '芸峰海螺电玩');
+INSERT INTO `shop` VALUES (1, '宁波老猎人电玩店', '宁波老猎人电玩', 1);
+INSERT INTO `shop` VALUES (2, '幸运星阁', '幸运星电玩', 0);
+INSERT INTO `shop` VALUES (3, '喵哈哈99', '游戏人艺人', 1);
+INSERT INTO `shop` VALUES (4, '游戏8', '上海潮玩电玩', 0);
+INSERT INTO `shop` VALUES (5, 'nicewg', '朗悦正品数码商城', 1);
+INSERT INTO `shop` VALUES (6, '小姐不可以1987', 'PO 朝廷电玩', 0);
+INSERT INTO `shop` VALUES (7, 'tb80960126', '杭州西子电玩', 0);
+INSERT INTO `shop` VALUES (8, '机美通讯', '四川大镖客', 0);
+INSERT INTO `shop` VALUES (9, '江南美食荟', '神秘时空电玩', 0);
+INSERT INTO `shop` VALUES (10, '啊陈小龙', '萌牛电玩游戏世界', 0);
+INSERT INTO `shop` VALUES (11, '泡儿', '泡儿电玩', 0);
+INSERT INTO `shop` VALUES (12, '圣眼使徒', '南昌圆梦玩家', 0);
+INSERT INTO `shop` VALUES (13, '齐乐数码', '上海藏宝海湾', 0);
+INSERT INTO `shop` VALUES (14, '马里奥玩家电玩', '马里奥玩家电玩', 0);
+INSERT INTO `shop` VALUES (15, '芸峰科技', '芸峰海螺电玩', 0);
 
 -- ----------------------------
 -- Table structure for shop_good_url
@@ -1665,17 +1634,21 @@ INSERT INTO `shop_good_url` VALUES (17, '游戏人游艺', 'https://shop10780462
 INSERT INTO `shop_good_url` VALUES (18, '南昌圆梦玩家', 'https://pspsp.taobao.com/search.htm?q=switch+%B6%FE%CA%D6%D3%CE%CF%B7&s_from=newHeader&ssid=s5-e&search_type=item&sourceId=tb.item', 'https://pspsp.taobao.com/search.htm?q=ps4+%B6%FE%CA%D6%D3%CE%CF%B7&s_from=newHeader&ssid=s5-e&search_type=item&sourceId=tb.item', NULL, NULL, NULL, NULL, 1);
 
 -- ----------------------------
--- Table structure for shop_map
+-- Table structure for shop_warning
 -- ----------------------------
-DROP TABLE IF EXISTS `shop_map`;
-CREATE TABLE `shop_map`  (
-  `id` int(0) NOT NULL,
-  `shop_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `xxx_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `enabled` int(0) NULL DEFAULT NULL,
-  `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+DROP TABLE IF EXISTS `shop_warning`;
+CREATE TABLE `shop_warning`  (
+  `id` int(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
+  `sid` int(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of shop_warning
+-- ----------------------------
+INSERT INTO `shop_warning` VALUES (0001, 1);
+INSERT INTO `shop_warning` VALUES (0002, 5);
+INSERT INTO `shop_warning` VALUES (0003, 9);
 
 -- ----------------------------
 -- Table structure for tb_kw
@@ -2165,6 +2138,28 @@ INSERT INTO `tb_search` VALUES (23134, 'ps4二手游戏 黑手党3', 'info', 1);
 INSERT INTO `tb_search` VALUES (23135, 'ps4二手游戏 生或死6', 'info', 1);
 INSERT INTO `tb_search` VALUES (23136, 'ps4二手游戏 超级机器人大战T', 'info', 1);
 INSERT INTO `tb_search` VALUES (23137, 'ps4二手游戏 狂战传说绯夜', 'info', 1);
+
+-- ----------------------------
+-- Table structure for warn_keyword_noset
+-- ----------------------------
+DROP TABLE IF EXISTS `warn_keyword_noset`;
+CREATE TABLE `warn_keyword_noset`  (
+  `id` int(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
+  `gid` int(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for warn_lower_price
+-- ----------------------------
+DROP TABLE IF EXISTS `warn_lower_price`;
+CREATE TABLE `warn_lower_price`  (
+  `id` int(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
+  `shop` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `kw` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `price` decimal(10, 2) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Procedure structure for addDep

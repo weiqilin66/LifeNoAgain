@@ -50,7 +50,7 @@
                         <el-breadcrumb-item>{{this.$router.currentRoute.name}}</el-breadcrumb-item>
                     </el-breadcrumb>
                     <div v-if="this.$router.currentRoute.name=='Home'">
-                        我是主页..
+                        <h1 style="display: flex;justify-content: center">Wayne监控</h1>
                     </div>
                     <router-view class="homeRouterView"/>
                 </el-main>
@@ -62,6 +62,7 @@
 <script>
     export default {
         name: "Home",
+        components:{},
         data() {
             return {
                 user: JSON.parse(window.sessionStorage.getItem('user')),

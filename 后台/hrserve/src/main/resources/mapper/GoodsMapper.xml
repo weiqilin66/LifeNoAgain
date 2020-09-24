@@ -19,6 +19,44 @@
     <sql id="field">
         id,kw,shop,title,price,sales,freight,comment,img_url,detail_url,etl_date,etl_time
     </sql>
+    <select id="selWarningLower" resultType="com.lwq.hr.entity.Goods">
+        select
+        id,
+        shop,
+        kw,
+        price
+        from goods
+        where 1=1
+        and  etl_date=#{date}
+        and shop in
+        <foreach collection="list" separator="," item="shop" open="(" close=")">
+            #{shop}
+        </foreach>
+        and kw = #{kw}
+        <if test="base!=null and base!=''">
+        and locate(#{base},title)>0
+        </if>
+        <if test="include1!=null and include1!=''">
+            and locate(#{include1},title)>0
+        </if>
+        <if test="include2!=null and include2!=''">
+            and locate(#{include2},title)>0
+        </if>
+        <if test="include3!=null and include3!=''">
+            and locate(#{include3},title)>0
+        </if>
+        <if test="enclude1!=null and enclude1!=''">
+            and locate(#{enclude1},title)=0
+        </if>
+        <if test="enclude2!=null and enclude2!=''">
+            and locate(#{enclude2},title)=0
+        </if>
+        <if test="enclude3!=null and enclude3!=''">
+            and locate(#{enclude3},title)=0
+        </if>
+        and price &lt; #{price}
+    </select>
+
     <select id="byKeyWord" resultType="com.lwq.hr.entity.Goods">
         select
         <include refid="field"/>
@@ -26,7 +64,7 @@
         where 1=1
         and etl_date between #{beginDate} and #{endDate}
         and shop = #{shopName}
-        and title like '%'|| #{vo.base} ||'%'
+        and locate(#{vo.base},title)>0
         <if test="vo.include1!=null and vo.include1!=''">
             and locate(#{vo.include1},title)>0
         </if>

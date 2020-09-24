@@ -34,4 +34,9 @@ public interface GoodsMapper extends BaseMapper<Goods> {
 
     List<Goods> byKeyWord(@Param("vo") GoodKeyWord vo, @Param("shopName")String shopName,
                           @Param("beginDate") String now, @Param("endDate") String endDate);
-}
+
+    List<Goods> selWarningLower(@Param("date") String date, @Param("list")List<String> shopList,
+                               @Param("kw")String kw, @Param("price")float price, @Param("base")String base,
+                               @Param("include1")String include1, @Param("include2")String include2,
+                               @Param("include3")String include3, @Param("enclude1")String enclude1,
+                               @Param("enclude2")String enclude2, @Param("enclude3")String enclude3);}

@@ -213,23 +213,18 @@
                 this.getRequest('/statistics/chart/byTitle?id=' + item.id
                     + '&startDate=' + this.startDate+ '&endDate=' + this.endDate).then(resp => {
                     if (resp) {
-                        if (resp.error != null) {//错误检索规则报错
-                            this.$message.error(resp.error);
-                            this.kw = ''
-                            return
-                        }
                         //旺旺名
                         let shopNameTitle=[]
-                        resp.shops.forEach(item =>{
-                            shopNameTitle.push(item.comment)
+                        resp.shops.forEach(s =>{
+                            shopNameTitle.push(s.comment)
                         })
-                        //便利key旺旺名
+                        //便利key店铺名
                         const shops = shopNameTitle
                         // 图例
                         this.chartData.legend.data = shopNameTitle
                         //线实例
                         this.chartData.series=[]
-                        shops.forEach(shop=>{
+                        shops.forEach(shop =>{
                             let sery = {
                                 name: shop,
                                 type: 'line',

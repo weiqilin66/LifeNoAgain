@@ -11,12 +11,12 @@ const routes = [
         component: Login,
         hidden: true
     },
-    // {
-    //     path: '/home',
-    //     name: 'Home',
-    //     component: () => import( '../views/Home'),
-    //     hidden: true
-    // }
+    {
+        path: '/home',
+        name: 'Home',
+        component: () => import( '../views/Home'),
+        hidden: true
+    }
    /* ,
     {  //匹配不上其他路径,既无效路径会进入此路由 跳转到home页
         path: '*',
