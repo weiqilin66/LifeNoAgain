@@ -1,8 +1,11 @@
 import time
 from service.taobao import db
 from service.taobao.data_by_search import main, init
+import requests
 
 if __name__ == '__main__':
+    base = 'http://localhost:8081/warning/accept?'
+
     # 登录等初始化
     taobao, chrome, mysql = init()
 
@@ -17,6 +20,9 @@ if __name__ == '__main__':
             etl_date = time.strftime("%Y%m%d", time.localtime())
             etl_time = time.strftime("%H:%M:%S", time.localtime())
             print('task全额爬取： ', etl_date, '-', etl_time, ' 结束', '-' * 30)
+            # 执行预警任务
+            url = base + 'msg=all'
+            requests.get(url)
         print('任务执行休息间隔3小时')
         time.sleep(1 * 60 * 60 * 3)
         while 1 == 1:

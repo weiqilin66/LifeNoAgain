@@ -26,4 +26,6 @@ public interface ShopMapper extends BaseMapper<Shop> {
 
     @Select("select * from shop where enabled = 1")
     List<Shop> selBlackList();
+
+    List<String> selByType(String type);
 }

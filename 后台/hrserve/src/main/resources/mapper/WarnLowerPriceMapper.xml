@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lwq.hr.mapper.WarnLowerPriceMapper">
+
+    <!--kw为关联条件-->
+    <insert id="batchInsert">
+        insert into
+        warn_lower_price(gid,shop, kw, price) VALUES
+        <foreach collection="list" item="goods" separator=",">
+            <foreach collection="goods" item="good" separator=",">
+                (
+                 #{good.gid},#{good.shop},#{good.kw},#{good.price}
+                )
+            </foreach>
+        </foreach>
+    </insert>
+</mapper>

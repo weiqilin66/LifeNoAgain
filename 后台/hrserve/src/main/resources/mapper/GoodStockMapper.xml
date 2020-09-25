@@ -25,6 +25,7 @@
     <select id="queryAllWithKeyWord" resultType="java.util.HashMap">
         select
             t1.id as id,
+            t1.gid as gid,
             t2.label as label,
             t2.name as name,
             t1.price as price,

@@ -7,7 +7,8 @@
             s.id,
             s.name,
             s.comment,
-            s.enabled
+            s.enabled,
+            w.type
         from shop s,shop_warning w
         where s.id = w.sid
     </select>

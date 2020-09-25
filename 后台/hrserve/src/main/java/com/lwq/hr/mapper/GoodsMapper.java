@@ -36,7 +36,13 @@ public interface GoodsMapper extends BaseMapper<Goods> {
                           @Param("beginDate") String now, @Param("endDate") String endDate);
 
     List<Goods> selWarningLower(@Param("date") String date, @Param("list")List<String> shopList,
-                               @Param("kw")String kw, @Param("price")float price, @Param("base")String base,
+                               @Param("gid")int gid, @Param("price")float price, @Param("base")String base,
                                @Param("include1")String include1, @Param("include2")String include2,
                                @Param("include3")String include3, @Param("enclude1")String enclude1,
-                               @Param("enclude2")String enclude2, @Param("enclude3")String enclude3);}
+                               @Param("enclude2")String enclude2, @Param("enclude3")String enclude3);
+
+    @Select("select max(etl_date) from goods")
+    String selMaxDate();
+
+    List<Goods> selHunter(String date, List<String> hunterShops, int gid, float price, String base, String include1, String include2, String include3, String enclude1, String enclude2, String enclude3);
+}

@@ -25,6 +25,8 @@ public class Goods implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    private int gid ;
+
     private String etlDate;
 
     private String etlTime;

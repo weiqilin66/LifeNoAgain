@@ -3,4 +3,11 @@
 <mapper namespace="com.lwq.hr.mapper.ShopMapper">
 
 
+    <select id="selByType" resultType="java.lang.String">
+        select
+            name
+        from shop t1 inner join shop_warning t2
+        on t1.id = t2.sid
+        and t2.type=#{type}
+    </select>
 </mapper>

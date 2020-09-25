@@ -23,10 +23,10 @@ public class MenuService {
     MenuMapper menuMapper;
 
     public List<Menu> getMenuById(){
-        // SecurityContextHolder中取出登录的用户ID
-        return menuMapper.getMenuById(((Hr) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
+        // SecurityContextHolder中取出登录的用户ID 非登录用户可访问接口默认返回admin的菜单
+        final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return menuMapper.getMenuById(principal!=null? ((Hr)principal).getId():3);
         // admin的hrid=3
-//        return menuMapper.getMenuById(3);
     }
 
     // 每次拦截请求都要访问一次数据库开销太大,加入缓存,查询出所有的url权限的所有role,再去做role匹配

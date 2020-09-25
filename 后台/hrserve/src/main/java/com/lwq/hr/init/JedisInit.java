@@ -34,7 +34,7 @@ public class JedisInit {
     public void initGoodMain(){
         jedis.excute(new CallWithJedis() {
             @Override
-            public void call(Jedis jedis) {
+            public void call(Jedis jedis) {//不要简写成lambda 否则jedis变成私有变量 无法被invoke调用
                 final String goodMain = jedis.get("goodMain");
                 if (goodMain==null) {
                     jedis.set("goodMain",new Gson().toJson(goodMainMapper.queryAll()));
@@ -55,15 +55,18 @@ public class JedisInit {
         });
     }
     /**
-     * 预警店铺
+     * 预警店铺 变动大且数据量小 不加缓存
      */
-    @PostConstruct
+    /*@PostConstruct
     public void initWarningShop(){
-        jedis.excute(jedis -> {
-            final String warningShop = jedis.get("shopWarning");
-            if (warningShop==null) {
-                jedis.set("shopWarning",new Gson().toJson(shopWarningMapper.queryAll()));
+        jedis.excute(new CallWithJedis() {
+            @Override
+            public void call(Jedis jedis) {
+                final String warningShop = jedis.get("shopWarning");
+                if (warningShop==null) {
+                    jedis.set("shopWarning",new Gson().toJson(shopWarningMapper.queryAll()));
+                }
             }
         });
-    }
+    }*/
 }

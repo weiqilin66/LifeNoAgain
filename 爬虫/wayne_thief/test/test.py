@@ -1,6 +1,8 @@
 from util.oracle_util import Oracle
 
-o = Oracle()
-result=o.select('Select sysdate from dual')
+import requests
 
-print (result)
+
+
+res = requests.get(url)
+print(res)

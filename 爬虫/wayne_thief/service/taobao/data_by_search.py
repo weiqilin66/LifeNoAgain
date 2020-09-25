@@ -61,7 +61,7 @@ class TaoBao(object):
             print("找不到二手按钮", e)
 
     # 插入数据库
-    def info2mysql(self, good_list, etl_date, etl_time, kw, count_index_total):
+    def info2mysql(self, good_list, etl_date, etl_time, kw, gid, count_index_total):
         index_total = 0
         # 一个good_list是一个网页数据
         for good in good_list:
@@ -76,7 +76,7 @@ class TaoBao(object):
             if good['freight'] == '':  # 运费
                 freight = 0
             else:
-                freight = float(good['freight'])
+                freight = float(good['freight']),
             detail_url = good['detail_url']  # 详情页
             pic_url = good['pic_url']
             # sql语句
@@ -84,9 +84,9 @@ class TaoBao(object):
                 title, etl_date, shop)
             self.mysql.delete(del_sql)
             insert_sql = """
-            insert into goods(shop,title,price,sales,freight,etl_date,etl_time,kw,detail_url,img_url) VALUES(
-            '%s','%s',%d,%d,%d,'%s','%s','%s','%s','%s')
-            """ % (shop, title, price, sales, freight, etl_date, etl_time, kw, detail_url, pic_url)
+            insert into goods(shop,title,price,sales,freight,etl_date,etl_time,kw,detail_url,img_url,gid) VALUES(
+            '%s','%s',%d,%d,%d,'%s','%s','%s','%s','%s',%d)
+            """ % (shop, title, price, sales, freight, etl_date, etl_time, kw, detail_url, pic_url,gid)
             self.mysql.insert(insert_sql)
         # 统计首页总量
         if count_index_total == 1:
@@ -95,7 +95,9 @@ class TaoBao(object):
                               "where concat(label,name)='%s')a) " % (index_total, kw))
 
     # 核心方法 关键词搜索爬取数据
-    def data_by_search(self, etl_date, etl_time, chrome, search_good, crawl_type, pages):
+    def data_by_search(self, etl_date, etl_time, chrome, search_good_obj, crawl_type, pages):
+        search_good = search_good_obj[0]
+        gid = search_good_obj[1]
         try:
             tb_input = chrome.find_elements_by_xpath("//input[@name='q']")[0]
             tb_btn = chrome.find_elements_by_xpath("//button")[0]
@@ -145,7 +147,7 @@ class TaoBao(object):
         if good_list == 1:
             return
         print('首页数量: ', len(good_list))
-        self.info2mysql(good_list, etl_date, etl_time, search_good, 1)
+        self.info2mysql(good_list, etl_date, etl_time, search_good,gid, 1)
         # 下一页
         if pages == 1:
             return
@@ -237,7 +239,8 @@ def main(taobao, chrome, mysql, search_goods):
     # 遍历宝贝标题检索数据
     for search_good in search_goods:
         pages = 2  # 按销量爬取2页
-        taobao.data_by_search(etl_date, etl_time, chrome, search_good[0], 1, pages)
+        taobao.data_by_search(etl_date, etl_time, chrome, search_good, 1, pages)
+
         mysql.update("update core_crawl_tb set finished = 0, last_update = '%s' where id in (select id from("
                      "select t1.id from core_crawl_tb t1 inner join good_main t2 on t1.gid = t2.id where concat("
                      "label,name)='%s')a) " % (last_update, search_good[0]))

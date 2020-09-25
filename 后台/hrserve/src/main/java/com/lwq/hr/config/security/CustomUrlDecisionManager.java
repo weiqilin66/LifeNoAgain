@@ -29,7 +29,9 @@ public class CustomUrlDecisionManager implements AccessDecisionManager {
             if ("ROLE_LOGIN".equals(needRole)) {
                 // 未登录
                 if (authentication instanceof AnonymousAuthenticationToken) {
-                    throw new AccessDeniedException("请先登录");
+//                    System.out.println("------ 已设置无权限接口无需登录 -------");
+                    return;
+//                    throw new AccessDeniedException("请先登录");
                 }else {
                     // 已登录且菜单所需角色是LOGIN
                     return;
