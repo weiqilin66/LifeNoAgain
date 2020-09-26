@@ -220,7 +220,7 @@ class MyAppium(object):
 
     # 数字转换driver输入
     def pressNum(self, num_str):
-        for num in str(int(num_str)):  # int()向下取整
+        for num in str(num_str):  # int()向下取整
             enterNum = fish_constants['codeMap'][num]
             self.driver.press_keycode(enterNum)
 
@@ -518,7 +518,7 @@ class MySql2(object):
 if __name__ == '__main__':
     mysql = MySql('localhost', 'root', 'root', 'vhr')
     # 获取要爬取的宝贝名称及平均价格
-    sql = """select g.gid, concat(label,name),price,g.base,g.enclude1,g.enclude2,g.enclude3,g.include1,g.include2,
+    sql = """select g.gid, concat(label,name),round(price),g.base,g.enclude1,g.enclude2,g.enclude3,g.include1,g.include2,
     g.include3 from core_crawl_tb c ,good_key_word g,good_main m ,good_stock k 
     where c.gid = g.gid and c.gid=m.id and c.gid = k.gid"""
     flist = mysql.select(sql)
