@@ -38,13 +38,16 @@ public class WarningService {
      * 有库存商品未设置关键词预警
      * 比猎人价低大于10预警
      */
-    public void warning001(){
-        List<List<Goods>> resList = Collections.synchronizedList(new ArrayList<>());
+    public void warning001() throws Exception {
+        List<List<Goods>> lowerList = Collections.synchronizedList(new ArrayList<>());
+        List<List<Goods>> hunterList = Collections.synchronizedList(new ArrayList<>());
         List<HashMap> noKeyWordList = Collections.synchronizedList(new ArrayList<>());
         //关注的店铺
         List<String> othersLowerShops = shopMapper.selByType("othersLower");
         List<String> hunterShops = shopMapper.selByType("hunter");
-
+        if (othersLowerShops.isEmpty()||hunterShops.isEmpty()){
+            throw new Exception("预警店铺设置出错");
+        }
         final List<HashMap> mapList = goodStockMapper.queryAllWithKeyWord();
         final String date = goodsMapper.selMaxDate();
         mapList.parallelStream().forEach(map->{
@@ -67,11 +70,14 @@ public class WarningService {
             List<Goods> res = goodsMapper.selWarningLower(date,othersLowerShops,gid,price,base,
                     include1,include2,include3,enclude1,enclude2,enclude3);
             if (res.size()>0) {
-                resList.add(res);
+                lowerList.add(res);
             }
             //比猎人价低大于10预警
             List<Goods> hunterRes = goodsMapper.selHunter(date,hunterShops,gid,price,base,
                     include1,include2,include3,enclude1,enclude2,enclude3);
+            if (hunterRes.size()>0) {
+                hunterList.add(hunterRes);
+            }
         });
         //数据入库
         warnKeywordNosetMapper.delAll();
@@ -79,9 +85,21 @@ public class WarningService {
             warnKeywordNosetMapper.batchInsert(noKeyWordList);
         }
         warnLowerPriceMapper.delAll();
-        if (resList.size()>0) {
-            warnLowerPriceMapper.batchInsert(resList);
+        if (lowerList.size()>0) {
+            warnLowerPriceMapper.batchInsert(lowerList);
         }
+        warnHunterMapper.delAll();
+        if (hunterList.size()>0) {
+            warnHunterMapper.batchInsert(hunterList);
         }
+    }
 
+
+    public List<HashMap> getHunter(){
+        return warnHunterMapper.queryAll();
+    }
+
+    public List<HashMap> getOthersLower() {
+        return warnLowerPriceMapper.queryAll();
+    }
 }

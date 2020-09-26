@@ -37,6 +37,7 @@ class TaoBao(object):
         chrome.get(url)
         # chrome.maximize_window()  # 窗口最大化方便扫码
         return chrome
+
     # 回调登录
     def login(self):
         chrome = self.chrome
@@ -76,9 +77,10 @@ class TaoBao(object):
             if good['freight'] == '':  # 运费
                 freight = 0
             else:
-                freight = float(good['freight']),
+                freight = float(good['freight'])
             detail_url = good['detail_url']  # 详情页
             pic_url = good['pic_url']
+            # print('数据测试: ', price, '/', sales, '/', freight, '/', gid)
             # sql语句
             del_sql = "delete from goods where title = '%s' and etl_date = '%s' and shop ='%s'" % (
                 title, etl_date, shop)
@@ -86,8 +88,9 @@ class TaoBao(object):
             insert_sql = """
             insert into goods(shop,title,price,sales,freight,etl_date,etl_time,kw,detail_url,img_url,gid) VALUES(
             '%s','%s',%d,%d,%d,'%s','%s','%s','%s','%s',%d)
-            """ % (shop, title, price, sales, freight, etl_date, etl_time, kw, detail_url, pic_url,gid)
+            """ % (shop, title, price, sales, freight, etl_date, etl_time, kw, detail_url, pic_url, gid)
             self.mysql.insert(insert_sql)
+
         # 统计首页总量
         if count_index_total == 1:
             self.mysql.update("update core_crawl_tb set total_sales = %d where id in (select id from("
@@ -147,7 +150,7 @@ class TaoBao(object):
         if good_list == 1:
             return
         print('首页数量: ', len(good_list))
-        self.info2mysql(good_list, etl_date, etl_time, search_good,gid, 1)
+        self.info2mysql(good_list, etl_date, etl_time, search_good, gid, 1)
         # 下一页
         if pages == 1:
             return
@@ -185,7 +188,7 @@ class TaoBao(object):
             good_list = json2info(json_)
             print('第', page + 2, '页数量: ', len(good_list))
             # 写入数据库
-            self.info2mysql(good_list, etl_date, etl_time, search_good, 0)
+            self.info2mysql(good_list, etl_date, etl_time, search_good, gid, 0)
 
 
 # 解析JS的json数据 return列表

@@ -1,10 +1,9 @@
 import os
 import random
 import tkinter
-
+from util.mysql_util import MySql
 import pymysql
 from appium import webdriver as appWebDriver
-from selenium import webdriver as selWebDriver
 import time
 from appium.webdriver.common.touch_action import TouchAction
 from selenium.common.exceptions import TimeoutException
@@ -221,6 +220,10 @@ class MyAppium(object):
         for num in str(num_str):
             self.driver.press_keycode(fish_constants['codeMap'][num])
 
+    # 后退
+    def back(self):
+        os.popen(fish_constants[phone]['返回'])
+        time.sleep(1)
 
 class CrawlFish(object):
     def __init__(self, app):
@@ -233,11 +236,9 @@ class CrawlFish(object):
         kw = good[1]  # 标题
         price = good[2]  # 价格
         print('开始检索: ', kw, ' 价格:', price)
-        '''
-            价格策略 ：低于数据库价格20 且 高于数据库价格50
-        '''
-        high_price = price - 20
-        low_price = price - 50
+
+        high_price = price - 5
+        low_price = price - 30
         # 输入标题
         input_area = WebDriverWait(driver, 10, 1).until(
             lambda x: x.find_element_by_xpath('//*[@resource-id="com.taobao.idlefish:id/search_term"]'))
@@ -274,7 +275,7 @@ class CrawlFish(object):
             res_els.append(i)
         return res_els, {'start_el': res_els[0].location, 'end_el': res_els[4].location}
 
-    # 分析els
+    # 点击事件进入 分析els
     def analyse(self, info, good):
         driver = self.driver
         kw = good[1]
@@ -284,6 +285,26 @@ class CrawlFish(object):
                 '//*[@class="android.widget.ScrollView"]/*[@class="android.view.View"]'))
         seller_info = els[0].text
         detail = els[2].text
+        # 数据库详情过滤
+        if good[4] is not None:  # enclude1
+            if good[4] in detail:
+                return
+        if good[5] is not None:  # enclude2
+            if good[5] in detail:
+                return
+        if good[6] is not None:  # enclude3
+            if good[6] in detail:
+                return
+        if good[7] is not None:  # include1
+            if good[7] not in detail:
+                return
+        if good[8] is not None:  # include2
+            if good[8] not in detail:
+                return
+        if good[9] is not None:  # include3
+            if good[9] not in detail:
+                return
+
 
         # 我想要页面 获取最终价格
         WebDriverWait(driver, 10, 1).until(lambda x: x.find_element_by_xpath('//*[@text="我想要"]')).click()
@@ -321,6 +342,7 @@ class CrawlFish(object):
         #     '//*[@class="android.view.View"]/*[@class="android.view.View"]/*[@class="android.view.View"]/*[@class="android.view.View"]')
         # end_price = float(es[9].text.strip('¥'))
         # os.popen(constants[phone]['返回'])
+
         title = info['标题']
         price = info['价格']
         high_price = info['最高价']
@@ -329,7 +351,7 @@ class CrawlFish(object):
 
         if end_price <= high_price:
             # 留言内容 手动付款购买
-            if 'switch' in kw:
+            if 'switch' or 'NS' in kw:
                 driver.set_clipboard_text(
                     fish_constants['switch留言'][random.randint(0, len(fish_constants['switch留言']) - 1)])
             elif 'ps' in kw:
@@ -339,15 +361,16 @@ class CrawlFish(object):
             elif '港版' in kw:
                 pass
             # 黏贴 留言
-            self.app.act.press(x=550, y=2269).wait(1500).release().perform()    # 长按
-            os.popen(fish_constants[phone]['黏贴'])     # os.popen(cmd)
+            self.app.act.press(x=550, y=2269).wait(1500).release().perform()  # 长按
+            os.popen(fish_constants[phone]['黏贴'])  # os.popen(cmd)
             # os.popen(constants[phone]['发送'])
             time.sleep(2)
             etl_date = time.strftime("%Y%m%d", time.localtime())
             etl_time = time.strftime("%H:%M:%S", time.localtime())
             # 存储有留言的记录 用于后续的搜索过滤和查错
             MySql2().commit(
-                sql='insert into fish_stock(kw, title, price, mailing, user, detail, count, etl_date, etl_time,view_text) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
+                sql='insert into fish_stock(kw, title, price, mailing, user, detail, count, etl_date, etl_time,'
+                    'view_text) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) '
                 , args=(kw, title, end_price, mailing, seller_info, detail, 0, etl_date, etl_time, view_text0))
 
         os.popen(fish_constants[phone]['返回'])
@@ -360,13 +383,11 @@ class CrawlFish(object):
 
         print('---------------------  筛选view  -------------------------')
         price = obj[2]
-        if high_price == 0:  # 没传入最高价默认猎人价-20
-            high_price = price - 20
-
+        high_price = price - 5
         # 分析点击位置
         view_size = len(els)
         if view_size > 6:
-            tkinter.messagebox.showinfo('tip', '--------滑动出错------------\nview数量大于6个  解析出错\n--------滑动出错------------')
+            tkinter.messagebox.showinfo('tip', 'code363--------滑动出错\nview数量大于6个')
 
         # 屏幕点击的6个坐标
         taps = (fish_constants[phone]['pos1'], fish_constants[phone]['pos2'], fish_constants[phone]['pos3'],
@@ -375,7 +396,7 @@ class CrawlFish(object):
         taps = taps[0:view_size]
 
         # 页面跳转会导致取不到循环中的Element  分析中不可有页面跳转
-        j = 0
+        j = 0  # 先分析出当前页所有的符合view
         res_taps = []
         res_info = []
         for el in els:
@@ -393,14 +414,14 @@ class CrawlFish(object):
                 j = j + 1
                 continue
 
-            # 价格过滤
+            # 价格
             price = float(re.compile(r'￥\n(.*?)\n', re.S).findall(el.text)[0])
-            if price >= high_price:
-                print('本页面第', j + 1, '个价格:', price, '高于我的最高回收价:', high_price, ',跳过')
-                j = j + 1
-                continue
+            # if price >= high_price:
+            #     print('本页面第', j + 1, '个价格:', price, '高于我的最高回收价:', high_price, ',跳过')
+            #     j = j + 1
+            #     continue
 
-            # 数据库过滤 (防止多次问候一个商品)
+            # 数据库过滤 (防止多次问候一个商品) 可省略 不影响功能只提高性能
             address = re.compile(r'￥\n.*\n(.*?)\n', re.S).findall(el.text)[0]
             view_text0 = title + '#' + str(price) + '#' + address
             if MySql2().query("select id from fish_stock where view_text ='%s'" % view_text0):
@@ -464,6 +485,7 @@ class CrawlFish(object):
         WebDriverWait(app.driver, 20, 1).until(
             lambda x: x.find_element_by_id('com.taobao.idlefish:id/root_c_view')).click()
 
+
 # 独有mysql封装
 class MySql2(object):
     def __init__(self):
@@ -480,10 +502,12 @@ class MySql2(object):
 
 
 if __name__ == '__main__':
-    # 爬取猎人
-    # focus表存的是的打算爬取的宝贝
-    # 获取要爬取的宝贝名称及 平均价格
-    flist = MySql2().query("select * from fish_kw_price")
+    mysql = MySql('localhost', 'root', 'root', 'vhr')
+    # 获取要爬取的宝贝名称及平均价格
+    sql = """select g.gid, concat(label,name),price,g.base,g.enclude1,g.enclude2,g.enclude3,g.include1,g.include2,
+    g.include3 from core_crawl_tb c ,good_key_word g,good_main m ,good_stock k 
+    where c.gid = g.gid and c.gid=m.id and c.gid = k.gid"""
+    flist = mysql.select(sql)
     print('crawl列表:', flist)
     # 雷电模拟器
     # app = MyAppium('Android', '5', 'emulator-5554', 'com.taobao.idlefish',

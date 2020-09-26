@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -22,4 +23,6 @@ public interface WarnLowerPriceMapper extends BaseMapper<WarnLowerPrice> {
     void delAll();
 
     void batchInsert(@Param("list") List<List<Goods>> resList);
+
+    List<HashMap> queryAll();
 }

@@ -14,4 +14,24 @@
             </foreach>
         </foreach>
     </insert>
+    <select id="queryAll" resultType="java.util.HashMap">
+        select
+            t1.id,
+            t1.gid,
+            t1.shop,
+            s.comment,
+            concat(t2.label,t2.name) as name,
+            t1.price as hprice,
+            t3.price as mprice,
+            t3.price-t1.price as diff,
+            t3.stock
+        from warn_lower_price t1
+            inner join shop s
+            on t1.shop = s.name
+                 inner join good_main t2
+                            on t1.gid = t2.id
+                 left join good_stock t3
+                           on t1.gid = t3.gid
+
+    </select>
 </mapper>

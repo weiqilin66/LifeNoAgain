@@ -1,5 +1,6 @@
 package com.lwq.hr.controller.warn;
 
+import com.lwq.hr.mapper.WarnHunterMapper;
 import com.lwq.hr.service.WarningService;
 import com.lwq.hr.utils.RespBean;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import java.lang.reflect.Method;
 public class WarningController {
     @Resource
     WarningService warningService;
+
     /**
      * 接受crawl结束信号
      * msg: 信号消息
@@ -36,12 +38,28 @@ public class WarningController {
             }else if("ping".equalsIgnoreCase(msg)){
                 System.out.println("pong");
             }else {
-                return RespBean.error(msg+"不存在");
+                return RespBean.error("["+msg+"]预警存在");
             }
 
         }catch (Exception e){
-            return RespBean.error(msg+"执行失败!");
+            System.out.println(e.getMessage());
+            return RespBean.error("["+msg+"]预警执行失败!");
         }
-        return RespBean.ok(msg+"执行结束!");
+        return RespBean.ok("["+msg+"]预警执行结束!");
+    }
+    /**
+     * @TODO   预警信息查询
+     * @return
+     * @param
+     * @date   2020/9/26
+     */
+    @GetMapping("/")
+    public RespBean get(String msg){
+        if ("hunter".equalsIgnoreCase(msg)) {
+            return RespBean.ok(warningService.getHunter());
+        }else if ("othersLower".equalsIgnoreCase(msg)){
+            return RespBean.ok(warningService.getOthersLower());
+        }
+        return RespBean.error("msg["+msg+"]不存在");
     }
 }

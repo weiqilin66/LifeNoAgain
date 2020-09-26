@@ -2,4 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lwq.hr.mapper.WarnHunterMapper">
 
+    <insert id="batchInsert">
+        insert into
+        warn_hunter(gid,shop, kw, price) VALUES
+        <foreach collection="list" item="goods" separator=",">
+            <foreach collection="goods" item="good" separator=",">
+                (
+                #{good.gid},#{good.shop},#{good.kw},#{good.price}
+                )
+            </foreach>
+        </foreach>
+    </insert>
+    <select id="queryAll" resultType="java.util.HashMap">
+        select
+        t1.id,
+        t1.gid,
+        t1.shop,
+        s.comment,
+        concat(t2.label,t2.name) as name,
+        t1.price as hprice,
+        t3.price as mprice,
+        t1.price-t3.price as diff,
+        t3.stock
+        from warn_hunter t1
+        inner join shop s
+            on t1.shop = s.name
+        inner join good_main t2
+        on t1.gid = t2.id
+        left join good_stock t3
+        on t1.gid = t3.gid
+        order by diff desc
+    </select>
 </mapper>
