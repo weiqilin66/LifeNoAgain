@@ -9,6 +9,7 @@ from appium.webdriver.common.touch_action import TouchAction
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
 import re
+from util.wayne_re import *
 
 # adb API
 """
@@ -124,7 +125,9 @@ fish_constants = {
         '立即登录': (0.45, 0.396),
         '输入法': 'com.baidu.input_heisha/.ImeService',
         '最低价': (0.443, 0.438),
+        '最低价2': 'adb shell input tap 468 534',
         '最高价': (0.796, 0.439),
+        '最高价2': 'adb shell input tap 813 542',
         '筛选确定': 'adb shell input tap 790 2333',
         '双击间隔': 110,  # ms
         '上滑加载': (531, 2269, 540, 0),
@@ -217,18 +220,21 @@ class MyAppium(object):
 
     # 数字转换driver输入
     def pressNum(self, num_str):
-        for num in str(num_str):
-            self.driver.press_keycode(fish_constants['codeMap'][num])
+        for num in str(int(num_str)):  # int()向下取整
+            enterNum = fish_constants['codeMap'][num]
+            self.driver.press_keycode(enterNum)
 
-    # 后退
-    def back(self):
-        os.popen(fish_constants[phone]['返回'])
-        time.sleep(1)
 
 class CrawlFish(object):
     def __init__(self, app):
         self.driver = app.driver
         self.app = app
+
+    # 后退
+    def errorDetailBack(self):
+        os.popen(fish_constants[phone]['返回'])
+        print('详情不符合关键词')
+        time.sleep(1)
 
     # 搜索+价格条件筛选
     def search(self, good):
@@ -250,10 +256,12 @@ class CrawlFish(object):
         # 筛选
         WebDriverWait(driver, 10, 1).until(lambda x: x.find_elements_by_xpath('//*[@text="筛选"]'))[0].click()
         time.sleep(1)
-        app.tapByPercentage(fish_constants[phone]['最低价'])
+        # app.tapByPercentage(fish_constants[phone]['最低价'])
+        os.popen(fish_constants[phone]['最低价2'])
         time.sleep(0.5)
         app.pressNum(low_price)
-        app.tapByPercentage(fish_constants[phone]['最高价'])
+        # app.tapByPercentage(fish_constants[phone]['最高价'])
+        os.popen(fish_constants[phone]['最高价2'])
         time.sleep(0.5)
         app.pressNum(high_price)
         # 分辨率之外的点击 os.popen('adb shell input tap x y ')
@@ -268,7 +276,8 @@ class CrawlFish(object):
         res_els = []
         print('-------------------------------  view总览  ---------------------------------------')
         for i in els:
-            if i.text == '综合排序' or i.text == '信用优先' or i.text == '区域' or i.text == '筛选':
+            if i.text == '综合排序' or i.text == '综合' or i.text == '信用优先' or i.text == '信用' \
+                    or i.text == '区域' or i.text == '筛选':
                 continue
             print(i.text)
             # print(i.location,',',i.size)
@@ -287,24 +296,29 @@ class CrawlFish(object):
         detail = els[2].text
         # 数据库详情过滤
         if good[4] is not None:  # enclude1
-            if good[4] in detail:
+            if checkIgnoreCase(good[4], detail):
+                self.errorDetailBack()
                 return
         if good[5] is not None:  # enclude2
-            if good[5] in detail:
+            if checkIgnoreCase(good[5], detail):
+                self.errorDetailBack()
                 return
         if good[6] is not None:  # enclude3
-            if good[6] in detail:
+            if checkIgnoreCase(good[6], detail):
+                self.errorDetailBack()
                 return
         if good[7] is not None:  # include1
-            if good[7] not in detail:
+            if checkIgnoreCase(good[7], detail) is False:
+                self.errorDetailBack()
                 return
         if good[8] is not None:  # include2
-            if good[8] not in detail:
+            if checkIgnoreCase(good[8], detail) is False:
+                self.errorDetailBack()
                 return
         if good[9] is not None:  # include3
-            if good[9] not in detail:
+            if checkIgnoreCase(good[9], detail) is False:
+                self.errorDetailBack()
                 return
-
 
         # 我想要页面 获取最终价格
         WebDriverWait(driver, 10, 1).until(lambda x: x.find_element_by_xpath('//*[@text="我想要"]')).click()

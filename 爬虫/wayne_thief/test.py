@@ -1,5 +1,15 @@
+from service.xianyu.fish import fish_constants
 
 
-s='1233444'
-if '33'  in s:
-    print(000)
+def pressNum( num_str):
+    for num in str(int(num_str)):  # int()向下取整
+        enterNum = fish_constants['codeMap'][num]
+
+        print('输入数字:', enterNum)
+
+
+if __name__ == '__main__':
+    pressNum(305.0)
+
+
+
