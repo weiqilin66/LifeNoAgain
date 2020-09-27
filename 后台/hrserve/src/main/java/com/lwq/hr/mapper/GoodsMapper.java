@@ -47,4 +47,6 @@ public interface GoodsMapper extends BaseMapper<Goods> {
     List<Goods> selHunter(String date, @Param("list") List<String> hunterShops, int gid,
                           float price, String base, String include1, String include2,
                           String include3, String enclude1, String enclude2, String enclude3);
+
+    List<Goods> getGoodByGidAndShop(@Param("gid") int gid, @Param("list") String[] shopList);
 }

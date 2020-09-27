@@ -62,4 +62,6 @@ public class WarningController {
         }
         return RespBean.error("msg["+msg+"]不存在");
     }
+
+
 }

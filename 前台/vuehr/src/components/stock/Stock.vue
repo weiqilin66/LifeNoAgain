@@ -8,7 +8,8 @@
         <div style="display: flex;">
             <MyInput :cData="cData" @resp="getCData"/>
             <el-button type="warning" icon="el-icon-search" @click="showAdd">添加商品</el-button>
-            <el-button type="success" icon="el-icon-search" @click="initStock">刷新数据</el-button>
+            <el-button type="primary" icon="el-icon-search" @click="initStock">刷新数据</el-button>
+            <el-button type="warning" icon="el-icon-search" @click="refresh">刷新预警</el-button>
 
         </div>
         <div>
@@ -30,12 +31,7 @@
                         align="center"
                         width="180">
                 </el-table-column>
-                <el-table-column
-                        prop="price"
-                        label="我的价格"
-                        align="center"
-                        width="180">
-                </el-table-column>
+
                 <el-table-column
                         label="库存"
                         sortable
@@ -48,17 +44,30 @@
                     </template>
                 </el-table-column>
                 <el-table-column
-                        prop="total"
-                        label="总额"
+                        prop="price"
+                        label="我的价格"
                         align="center"
                         width="180">
                 </el-table-column>
                 <el-table-column
                         prop="comment"
-                        label="备注"
+                        label="建议价"
                         align="center"
-                        width="100">
+                        width="200">
                 </el-table-column>
+                <el-table-column
+                        prop="hunterPrice"
+                        label="老猎人"
+                        align="center"
+                        width="180">
+                </el-table-column>
+                <el-table-column
+                        prop="LangYuePrice"
+                        label="朗月"
+                        align="center"
+                        width="180">
+                </el-table-column>
+
                 <el-table-column label="操作" align="center"
                                  width="250px">
                     <template slot-scope="scope">
@@ -173,7 +182,7 @@
     import MyInput from "../public/MyInput";
     import MyGoodSelect from "../public/MyGoodSelect";
     export default {
-        name: "Stock1",
+        name: "Stock",
         components:{
             MyInput,
             MyGoodSelect
@@ -215,6 +224,13 @@
             this.initStock()
         },
         methods: {
+            refresh(){
+                this.getRequest("/price/?msg="+'setLow').then(resp=>{
+                    if (resp) {
+                        this.initStock();
+                    }
+                })
+            },
             //自定义统计
             getSummaries(param) {
                 const { columns, data } = param;
@@ -235,17 +251,18 @@
                             }
                         }, 0);
                         if (index === 3) {
-                            sums[index] += ' 件';
-                        }else {
                             sums[index] += ' 元';
+                        }else {
+                            sums[index] += ' 件';
                         }
 
                     } else {
                         sums[index] = '';
                     }
                 });
-                sums[2]='';
+                sums[4]='';
                 sums[5]='';
+                sums[6]='';
                 return sums;
             },
             getGood(data){

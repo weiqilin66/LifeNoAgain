@@ -25,4 +25,6 @@ public interface WarnLowerPriceMapper extends BaseMapper<WarnLowerPrice> {
     void batchInsert(@Param("list") List<List<Goods>> resList);
 
     List<HashMap> queryAll();
+
+    WarnLowerPrice selectLowestByGid(int gid);
 }

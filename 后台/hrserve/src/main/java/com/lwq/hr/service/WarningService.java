@@ -1,10 +1,7 @@
 package com.lwq.hr.service;
 
 import com.google.gson.internal.LinkedTreeMap;
-import com.lwq.hr.entity.GoodStock;
-import com.lwq.hr.entity.GoodStockVo;
-import com.lwq.hr.entity.Goods;
-import com.lwq.hr.entity.Shop;
+import com.lwq.hr.entity.*;
 import com.lwq.hr.mapper.*;
 import com.lwq.hr.utils.DateFormatUtil;
 import org.springframework.stereotype.Service;
@@ -33,6 +30,7 @@ public class WarningService {
     ShopMapper shopMapper;
     @Resource
     WarnHunterMapper warnHunterMapper;
+
     /**
      * 市场价低于自身预警 底价策略
      * 有库存商品未设置关键词预警
@@ -62,7 +60,7 @@ public class WarningService {
             }
             String include1 = map.get("include1")!=null?map.get("include1").toString():"";
             String include2 = map.get("include2")!=null?map.get("include2").toString():"";
-            String include3 = map.get("include2")!=null?map.get("include2").toString():"";
+            String include3 = map.get("include3")!=null?map.get("include3").toString():"";
             String enclude1 = map.get("enclude1")!=null?map.get("enclude1").toString():"";
             String enclude2 = map.get("enclude2")!=null?map.get("enclude2").toString():"";
             String enclude3 = map.get("enclude3")!=null?map.get("enclude3").toString():"";
@@ -102,4 +100,32 @@ public class WarningService {
     public List<HashMap> getOthersLower() {
         return warnLowerPriceMapper.queryAll();
     }
+    /**
+     * 智能建议底价
+     */
+    public void computeLowerPrice() throws Exception {
+        //先刷新入库预警
+        warning001();
+        final List<HashMap> mapList = goodStockMapper.queryAllWithKeyWord();
+        mapList.parallelStream().forEach(map->{
+            int gid = Integer.parseInt(map.get("gid").toString());
+            float price =map.get("price")!=null? (float) map.get("price"):0;
+            //低价建议
+            WarnLowerPrice entity = warnLowerPriceMapper.selectLowestByGid(gid);
+            //更新最低建议价格
+            if (entity!=null) {
+                final float lowerPrice = entity.getPrice();
+                final String shop = entity.getShop();
+                String comment = shop +"-"+(lowerPrice -1)+"-"+(price-lowerPrice);//比最低价低1元
+                if ("宁波老猎人电玩店".equals(shop)) {
+                    comment = shop +"-"+(lowerPrice -5)+"-"+(price-lowerPrice);//比最低价低5元
+                }
+                goodStockMapper.updateCommentById(gid,comment);
+            }else {
+                goodStockMapper.updateCommentById(gid,"");
+            }
+        });
+    }
+
+    
 }

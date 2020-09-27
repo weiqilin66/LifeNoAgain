@@ -200,6 +200,19 @@
             AND locate(#{condition},title) = 0
         </if>
     </select>
+    <select id="getGoodByGidAndShop" resultType="com.lwq.hr.entity.Goods">
+        select
+            etl_date,shop,price,gid
+        from goods
+        where 1=1
+        and shop in
+        <foreach collection="list" separator="," open="(" close=")" item="shop">
+            #{shop}
+        </foreach>
+        and gid = #{gid)
+        and etl_date = (select max(etl_date) from goods)
+        order by shop
+    </select>
     <!--宝可梦 剑盾-->
     <sql id="pokmon">
         and locate('6V',title)=0

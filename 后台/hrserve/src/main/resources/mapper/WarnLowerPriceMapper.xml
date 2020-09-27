@@ -34,4 +34,14 @@
                            on t1.gid = t3.gid
 
     </select>
+    <select id="selectLowestByGid" resultType="com.lwq.hr.entity.WarnLowerPrice">
+    select gid,shop, kw, price from warn_lower_price
+        where gid = #{gid}
+        and price =
+        (select
+            min(price)
+        from warn_lower_price
+        where gid = #{gid})
+
+    </select>
 </mapper>
