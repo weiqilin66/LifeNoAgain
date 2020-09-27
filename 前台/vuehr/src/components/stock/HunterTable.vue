@@ -1,7 +1,7 @@
 <template>
     <!--
 
-        商品定义
+
 
     -->
     <div>
@@ -9,6 +9,8 @@
             <MyInput :cData="cData" @resp="getCData"/>
 <!--            <el-button type="success" icon="el-icon-search" @click="initStock">刷新数据</el-button>-->
             <el-button type="warning" icon="el-icon-search" @click="refresh">刷新预警</el-button>
+            <el-tag size ="normal" style="margin-left: 10px" type="info">比猎人低超过10元</el-tag>
+
         </div>
         <div>
             <el-table

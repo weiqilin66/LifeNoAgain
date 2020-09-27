@@ -26,12 +26,49 @@
                 <a id="toChart">{{item.name}}</a>
             </el-button>
         </div>
-        <!--趋势图详情表-->
+        <!--库存表-->
+        <el-table
+                v-show="stockTable.length !==0"
+                :data="stockTable"
+                stripe
+                style="width: 100%;margin-bottom: 50px">
+            <el-table-column
+                    prop="label"
+                    label="商品"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="name"
+                    label="商品"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="price"
+                    label="价格"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="stock"
+                    label="库存"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="comment"
+                    label="建议"
+                    width="180">
+            </el-table-column>
+            <!--            <el-table-column-->
+            <!--                    label="地址">-->
+            <!--                <template slot-scope="scope">-->
+            <!--                    <a :href="scope.row.detailUrl" target="_blank">{{scope.row.detailUrl}}</a>-->
+            <!--                </template>-->
+            <!--            </el-table-column>-->
+        </el-table>
         <el-table
                 v-show="objList.length!==0"
                 :data="objList"
                 stripe
-                style="width: 100%">
+                style="width: 100%;margin-bottom: 50px">
             <el-table-column
                     prop="shop"
                     label="店铺"
@@ -55,6 +92,7 @@
             </el-table-column>
         </el-table>
 
+
         <div id="echarts" ref="echarts"></div>
         <div><a href="#toChart">-</a></div>
     </div>
@@ -76,6 +114,7 @@
                 etlDate: [],
                 startDate:'',
                 endDate:'',
+                stockTable:[],
                 chartData: {
                     // 配置标题
                     title: {
@@ -215,6 +254,7 @@
                     if (resp) {
                         //旺旺名
                         let shopNameTitle=[]
+                        this.stockTable=[]
                         resp.shops.forEach(s =>{
                             shopNameTitle.push(s.comment)
                         })
@@ -244,7 +284,10 @@
                         })
                         //重新绘制图表加载数据
                         this.drawLine()
+                        this.stockTable.push(resp['stockTable'])
+                        console.log(this.stockTable);
                         this.objList=resp.objList
+
                     }
                 })
             },

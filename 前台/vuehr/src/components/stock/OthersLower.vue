@@ -9,6 +9,7 @@
             <MyInput :cData="cData" @resp="getCData"/>
 <!--            <el-button type="success" icon="el-icon-search" @click="initStock">刷新数据</el-button>-->
             <el-button type="warning" icon="el-icon-search" @click="refresh">刷新预警</el-button>
+            <el-tag size ="normal" style="margin-left: 10px" type="info">别人价格比我低</el-tag>
 
         </div>
         <div>
@@ -38,7 +39,7 @@
                 </el-table-column>
                 <el-table-column
                         prop="hprice"
-                        label="猎人价"
+                        label="价格"
                         align="center"
                         width="80">
                 </el-table-column>
