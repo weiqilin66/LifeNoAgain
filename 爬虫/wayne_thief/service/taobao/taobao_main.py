@@ -28,7 +28,7 @@ if __name__ == '__main__':
         print('任务执行休息间隔3小时')
         time.sleep(1 * 60 * 60 * 3)
         while 1 == 1:
-            for i in range(3):   # 0 1 2
+            for i in range(3):  # 0 1 2
                 main(taobao, chrome, mysql, db.t_goods(3))
                 print('T3卡爬取休息间隔3小时', '-' * 30)
                 time.sleep(1 * 60 * 60 * 3)
@@ -37,6 +37,7 @@ if __name__ == '__main__':
             time.sleep(1 * 60 * 60 * 2)
     except Exception as e:
         mysql.closeDb()
-        tkinter.messagebox.showerror('提示', '请登录')
+        error_msg = '出错了:', e
+        tkinter.messagebox.showerror('提示', error_msg)
         chrome.quit()
         print("爬取出错:", e, '#' * 30)

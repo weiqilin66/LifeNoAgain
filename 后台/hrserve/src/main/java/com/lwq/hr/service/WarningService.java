@@ -116,9 +116,9 @@ public class WarningService {
             if (entity!=null) {
                 final float lowerPrice = entity.getPrice();
                 final String shop = entity.getShop();
-                String comment = shop +"-"+(lowerPrice -1)+"-"+(price-lowerPrice);//比最低价低1元
+                String comment = "店铺:"+shop +" 售价:"+lowerPrice+" 建议价:"+(lowerPrice -1)+" 差价:"+(price-lowerPrice);//比最低价低1元
                 if ("宁波老猎人电玩店".equals(shop)) {
-                    comment = shop +"-"+(lowerPrice -5)+"-"+(price-lowerPrice);//比最低价低5元
+                    comment = "店铺:"+shop +" 售价:"+lowerPrice+" 建议价:"+(lowerPrice -5)+" 差价:"+(price-lowerPrice);;//比最低价低5元
                 }
                 goodStockMapper.updateCommentById(gid,comment);
             }else {

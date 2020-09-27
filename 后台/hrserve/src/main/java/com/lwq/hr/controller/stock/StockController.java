@@ -34,8 +34,7 @@ public class StockController {
      */
     @GetMapping("/")
     public RespBean getAll(){
-        List<GoodStockVo> list = stockMapper.queryAll();
-        return RespBean.ok(list);
+        return RespBean.ok(stockMapper.queryAll());
     }
     @PostMapping("/check")
     public RespBean check(@RequestBody GoodStockVo stock){

@@ -23,7 +23,7 @@ public interface GoodStockMapper extends BaseMapper<GoodStock> {
     @Select("select * from good_main where name like '%'||#{title}||'%'")
     List<String> chooseGoodTitle(String title);
 
-    List<GoodStockVo> queryAll();
+    List<HashMap> queryAll();
 
     List<GoodStock> checkByStockId(@Param("stock") GoodStockVo stock);
 
@@ -31,4 +31,6 @@ public interface GoodStockMapper extends BaseMapper<GoodStock> {
 
     @Update("update good_stock set comment =#{comment} where gid = #{gid}")
     int updateCommentById(@Param("gid") int gid, @Param("comment") String comment);
+
+    HashMap queryByGid(int gid);
 }

@@ -34,7 +34,7 @@ public class ChartController {
     @Autowired
     ChartService chartService;
     @Resource
-    TbKwMapper tbKwMapper;
+    GoodStockMapper goodStockMapper;
     @Resource
     ShopMapper shopmapper;
 
@@ -121,6 +121,7 @@ public class ChartController {
         List<Goods> resList = new ArrayList<>();
         // 检索关键字优化
         final GoodKeyWord goodKeyWord = goodKeyWordMapper.selectById(id);
+        int gid =goodKeyWord.getGid();
         List<Shop> shops = shopmapper.selectAll();// 统计名店
         resMap.put("shops", shops);//图例店铺名
         String [] xAxis = MonitorUtil.getTimes(startDate, endDate);
@@ -149,7 +150,7 @@ public class ChartController {
                 }
             });
             float[] prices = new float[xAxis.length];
-            for (int j = 0; j < goods.size(); j++) {
+            for (int j = 0; j < prices.length; j++) {
                 prices[j] = goods.get(j).getPrice();
             }
 
@@ -167,6 +168,7 @@ public class ChartController {
             }
         });
         resMap.put("objList",resList);
+        resMap.put("stockTable",goodStockMapper.queryByGid(gid));
         return resMap;
     }
 
