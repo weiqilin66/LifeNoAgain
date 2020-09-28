@@ -9,7 +9,8 @@ def pressNum( num_str):
 
 
 if __name__ == '__main__':
-    pressNum(305.0)
+   ss='二手 小秀秀'
+   print(ss[1:])
 
 
 

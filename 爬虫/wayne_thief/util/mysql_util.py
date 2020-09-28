@@ -46,8 +46,8 @@ class MySql(object):
             self.conn.commit()
         except:
             # 发生错误时回滚
-            self.conn.rollback()
             print('Error :SQL_UPDATE:', sql)
+            self.conn.rollback()
         finally:
             self.cursor.close()
 

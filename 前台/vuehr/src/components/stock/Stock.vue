@@ -44,6 +44,12 @@
                     </template>
                 </el-table-column>
                 <el-table-column
+                        prop="total"
+                        label="总额"
+                        align="center"
+                        width="80">
+                </el-table-column>
+                <el-table-column
                         prop="price"
                         label="我的价格"
                         align="center"
@@ -54,18 +60,6 @@
                         label="建议价"
                         align="center"
                         width="400">
-                </el-table-column>
-                <el-table-column
-                        prop="hunterPrice"
-                        label="老猎人"
-                        align="center"
-                        width="80">
-                </el-table-column>
-                <el-table-column
-                        prop="LangYuePrice"
-                        label="朗月"
-                        align="center"
-                        width="80">
                 </el-table-column>
 
                 <el-table-column label="操作" align="center"
@@ -262,7 +256,6 @@
                 });
                 sums[4]='';
                 sums[5]='';
-                sums[6]='';
                 return sums;
             },
             getGood(data){

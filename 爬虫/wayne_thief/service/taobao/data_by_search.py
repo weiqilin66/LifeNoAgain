@@ -230,23 +230,23 @@ def init():
     # 点击二手标签
     # taobao.tapSecondHand()
     # 最小化
-    chrome.minimize_window()
+    # chrome.minimize_window()
     return taobao, chrome, mysql
 
 
 def main(taobao, chrome, mysql, search_goods):
     # 数据日期
-    etl_date = time.strftime("%Y%m%d", time.localtime())
+    etl_date = time.strftime("%Y-%m-%d", time.localtime())
     etl_time = time.strftime("%H:%M:%S", time.localtime())
     last_update = etl_date + ' ' + etl_time
     # 遍历宝贝标题检索数据
     for search_good in search_goods:
         pages = 2  # 按销量爬取2页
         taobao.data_by_search(etl_date, etl_time, chrome, search_good, 1, pages)
-
+        goodName = search_good[0][2:]
         mysql.update("update core_crawl_tb set finished = 0, last_update = '%s' where id in (select id from("
                      "select t1.id from core_crawl_tb t1 inner join good_main t2 on t1.gid = t2.id where concat("
-                     "label,name)='%s')a) " % (last_update, search_good[0]))
+                     "label,name)='%s')a) " % (last_update, goodName))
 
     # 一次完整爬取结束后 所有爬取状态复位
     mysql.update('update core_crawl_tb set finished = 1')

@@ -4,9 +4,10 @@
         <el-tabs v-model="activeName" >
             <el-tab-pane label="定义" name="init"><good-manage></good-manage></el-tab-pane>
             <el-tab-pane label="爬虫" name="first"><Crawl></Crawl></el-tab-pane>
+            <el-tab-pane label="ETL" name="forth"><KeyWord></KeyWord></el-tab-pane>
             <el-tab-pane label="趋势" name="fifth"><ChartTrend></ChartTrend></el-tab-pane>
             <el-tab-pane label="仓库" name="second"><Stock></Stock></el-tab-pane>
-            <el-tab-pane label="ETL" name="forth"><KeyWord></KeyWord></el-tab-pane>
+
 <!--            <el-tab-pane label="咸鱼" name="third"><FishFocus></FishFocus></el-tab-pane>-->
 
         </el-tabs>

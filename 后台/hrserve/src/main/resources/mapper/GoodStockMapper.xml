@@ -18,15 +18,10 @@
             t1.stock as stock,
             t1.comment as comment,
             t1.gid as gid,
-            t3.price as hunterPrice,
-            t4.price as LangYuePrice
-
+            t1.price * t1.stock as total
         from good_stock t1 inner join good_main t2
         on t1.gid = t2.id
-        left join goods t3 on t3.gid =t1.gid and t3.shop = '宁波老猎人电玩店'
-        and t3.etl_date =(select max(etl_date) from goods)
-        left join goods t4 on t4.gid =t1.gid and t4.shop = 'nicewg'
-        and t4.etl_date =(select max(etl_date) from goods)
+        order by t1.id desc
     </select>
     <select id="queryAllWithKeyWord" resultType="java.util.HashMap">
         select

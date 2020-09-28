@@ -28,7 +28,7 @@
         </div>
         <!--库存表-->
         <el-table
-                v-show="stockTable.length !==0"
+                v-show="stockTable.length >0"
                 :data="stockTable"
                 stripe
                 style="width: 100%;margin-bottom: 50px">
@@ -46,7 +46,11 @@
                     prop="price"
                     label="价格"
                     width="180">
+                <template slot-scope="scope">
+                    <el-input v-model="scope.row.price" @blur="doUpdate(scope.row)"/>
+                </template>
             </el-table-column>
+
             <el-table-column
                     prop="stock"
                     label="库存"
@@ -65,7 +69,7 @@
             <!--            </el-table-column>-->
         </el-table>
         <el-table
-                v-show="objList.length!==0"
+                v-show="objList.length>0"
                 :data="objList"
                 stripe
                 style="width: 100%;margin-bottom: 50px">
@@ -105,6 +109,7 @@
 <script>
     export default {
         name: "ChartTrend",
+
         data() {
             return {
                 kw: '',
@@ -229,7 +234,13 @@
             this.drawLine() //必须第一个显示此组件 否则初始化失败
         },
         methods: {
-
+            doUpdate(row){
+                this.putRequest('/stock/stock1/', row).then(resp => {
+                    if (resp) {
+                        this.$message.success("修改成功!")
+                    }
+                })
+            },
             reSet(){
               this.kw=''
             },
@@ -284,8 +295,9 @@
                         })
                         //重新绘制图表加载数据
                         this.drawLine()
-                        this.stockTable.push(resp['stockTable'])
-                        console.log(this.stockTable);
+                        if (resp['stockTable']) {
+                            this.stockTable.push(resp['stockTable'])
+                        }
                         this.objList=resp.objList
 
                     }
