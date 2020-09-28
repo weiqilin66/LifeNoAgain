@@ -10,7 +10,7 @@ def pressNum( num_str):
 
 if __name__ == '__main__':
    ss='二手 小秀秀'
-   print(ss[1:])
+   print(ss[3:])
 
 
 

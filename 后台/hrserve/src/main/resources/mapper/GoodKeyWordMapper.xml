@@ -17,6 +17,7 @@
             t1.enclude3
         from good_key_word t1,good_main t2
         where t1.gid = t2.id
+        order by label
     </select>
     <select id="check" resultType="java.lang.Integer">
         select

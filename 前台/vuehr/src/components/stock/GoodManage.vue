@@ -167,6 +167,17 @@
             this.initStock()
         },
         methods: {
+            getKeyWord() {
+                this.getRequest("/statistics/chart/goodList").then(resp => {
+                    if (resp) {
+                        this.btnList = resp.data
+                        //趋势图使用 存入store
+                        this.$store.commit("initBtnList", this.btnList)
+                        this.$store.commit("backBtnList",this.btnList)
+                        console.log('Home初始化存入折线图btnList>>>')
+                    }
+                })
+            },
             getCData(data){
                 this.tableData=data
             },
@@ -195,6 +206,7 @@
                         this.initStock()
                         this.addDialogVisible = false
                         this.$message.success("添加成功!")
+                        this.getKeyWord()
                     }
                 })
             },
@@ -204,6 +216,7 @@
                         this.initStock()
                         this.updateDialogVisible = false
                         this.$message.success("修改成功!")
+                        this.getKeyWord()
                     }
                 })
             },

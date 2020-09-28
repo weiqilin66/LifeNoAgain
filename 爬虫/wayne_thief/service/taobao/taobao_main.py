@@ -13,12 +13,12 @@ if __name__ == '__main__':
     # 遍历标题检索
     try:
         # 第一遍为全部爬取
-        etl_date = time.strftime("%Y-%m-%d", time.localtime())
+        etl_date = time.strftime("%Y%m%d", time.localtime())
         etl_time = time.strftime("%H:%M:%S", time.localtime())
         res, chrome, mysql = main(taobao, chrome, mysql, db.all_goods())
         if res == 'over':
             print('task全额爬取： ', etl_date, '-', etl_time, ' 开始', '-' * 30)
-            etl_date = time.strftime("%Y-%m-%d", time.localtime())
+            etl_date = time.strftime("%Y%m%d", time.localtime())
             etl_time = time.strftime("%H:%M:%S", time.localtime())
             print('task全额爬取： ', etl_date, '-', etl_time, ' 结束', '-' * 30)
             # 执行预警任务
