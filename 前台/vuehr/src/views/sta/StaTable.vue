@@ -10,8 +10,8 @@
 </template>
 
 <script>
-    import table1 from '../../components/sta/Table1'
-    import table2 from '../../components/sta/Table2'
+    import table1 from '../../components/sta/GoodTable'
+    import table2 from '../../components/sta/TestEcharts'
     export default {
         name: "StaAll",
         data(){

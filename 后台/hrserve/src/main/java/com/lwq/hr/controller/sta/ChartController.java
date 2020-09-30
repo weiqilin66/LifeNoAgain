@@ -6,6 +6,7 @@ import com.lwq.hr.service.ChartService;
 import com.lwq.hr.utils.MonitorUtil;
 import com.lwq.hr.utils.RespBean;
 
+import com.lwq.hr.utils.WayneCheckListUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
@@ -119,6 +120,8 @@ public class ChartController {
     public Map<String, Object> byTitle(int id, String startDate,String endDate) {
         Map<String, Object> resMap = new HashMap<>();
         List<Goods> resList = new ArrayList<>();
+        List<String> errorList = Collections.synchronizedList(new ArrayList<>());
+
         // 检索关键字优化
         final GoodKeyWord goodKeyWord = goodKeyWordMapper.selectById(id);
         int gid =goodKeyWord.getGid();
@@ -133,10 +136,15 @@ public class ChartController {
             for (Goods good : goods) {
                 times.add(good.getEtlDate());
             }
+            if (WayneCheckListUtil.checkRepeat(times)) {
+                errorList.add("店铺:["+shop+"]存在2天及以上重复数据,检查关键词");
+                resMap.put("error",errorList);
+                return;
+            }
             // 得到两个日期数组差异 加工没获取到数据price为0
             List<String> newList = getDIffList(Arrays.asList(xAxis), times);
             for (String s : newList) {
-                Goods good = new Goods();//添加到list中每次都要new新对象 如果是重复set 在集合中上一个对象的值也会被改掉
+                Goods good = new Goods();
                 good.setEtlDate(s);
                 good.setPrice((float) 0);
                 goods.add(good);
@@ -254,4 +262,5 @@ public class ChartController {
             return allOpenidList;
         }
     }
+
 }

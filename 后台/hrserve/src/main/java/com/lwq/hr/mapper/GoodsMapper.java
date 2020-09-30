@@ -49,4 +49,7 @@ public interface GoodsMapper extends BaseMapper<Goods> {
                           String include3, String enclude1, String enclude2, String enclude3);
 
     List<Goods> getGoodByGidAndShop(@Param("gid") int gid, @Param("list") String[] shopList);
+
+    @Select("select * from goods where shop = #{shop} and title like '%'||#{title}||'%' and etl_date=#{etlDate} ")
+    List<Goods> tableSearch(String title, String shop,String etlDate);
 }

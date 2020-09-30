@@ -263,6 +263,11 @@
                 this.getRequest('/statistics/chart/byTitle?id=' + item.id
                     + '&startDate=' + this.startDate+ '&endDate=' + this.endDate).then(resp => {
                     if (resp) {
+                        if (resp['error']!=null) {
+                            resp.error.forEach(error=>{
+                            this.$message.error(error)
+                            })
+                        }
                         //旺旺名
                         let shopNameTitle=[]
                         this.stockTable=[]

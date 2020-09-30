@@ -2,12 +2,16 @@ package com.lwq.hr.controller.sta;
 
 import com.lwq.hr.entity.Goods;
 import com.lwq.hr.mapper.GoodsMapper;
+import com.lwq.hr.utils.DateFormatUtil;
+import com.lwq.hr.utils.RespBean;
 import com.lwq.hr.utils.RespPageBean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,6 +39,12 @@ public class TableController {
         List<Goods> list = goodsMapper.selectByMap(columnMap);
         respPageBean.setData(list);
         return respPageBean;
+    }
+    @GetMapping("/search")
+    public RespBean doSearch(String title,String shop,@RequestParam(defaultValue = "") String etlDate){
+        etlDate = DateFormatUtil.formatStr(new Date(),"yyyyMMdd");
+
+        return RespBean.ok(goodsMapper.tableSearch(title,shop,etlDate));
     }
 
 }

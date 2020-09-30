@@ -128,6 +128,7 @@ fish_constants = {
         '最低价2': 'adb shell input tap 468 534',
         '最高价': (0.796, 0.439),
         '最高价2': 'adb shell input tap 813 542',
+        '信用': 'adb shell input tap 492 1078',
         '筛选确定': 'adb shell input tap 790 2333',
         '双击间隔': 110,  # ms
         '上滑加载': (531, 2269, 540, 0),
@@ -167,8 +168,8 @@ fish_constants = {
         'home': 3,
         'back': 4,
     },
-    'ps留言': ('盘无划痕吗 盒子有损坏吗 老铁', '老铁 盒子有损吗 盘有划痕吗'),
-    'switch留言': ('老铁 卡带盒子无损吗', '卡带盒子有损坏吗 老铁'),
+    'ps留言': ('盘无划痕吗 老铁', '铁子 盘有划痕吗'),
+    'switch留言': ('老铁 卡带盒子无损吗', '卡带盒子有损坏吗 铁子'),
     '中文': '',
     '港版': '',
 }
@@ -244,7 +245,7 @@ class CrawlFish(object):
         print('开始检索: ', kw, ' 价格:', price)
 
         high_price = price - 5
-        low_price = price - 30
+        low_price = price - 20
         # 输入标题
         input_area = WebDriverWait(driver, 10, 1).until(
             lambda x: x.find_element_by_xpath('//*[@resource-id="com.taobao.idlefish:id/search_term"]'))
@@ -264,6 +265,8 @@ class CrawlFish(object):
         os.popen(fish_constants[phone]['最高价2'])
         time.sleep(0.5)
         app.pressNum(high_price)
+        # 信用较好以上
+        os.popen(fish_constants[phone]['信用'])
         # 分辨率之外的点击 os.popen('adb shell input tap x y ')
         os.popen(fish_constants[phone]['筛选确定'])
         time.sleep(1)

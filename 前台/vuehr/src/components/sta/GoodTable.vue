@@ -6,8 +6,9 @@
     -->
     <div>
         <div>
-            <el-input placeholder="输入要搜索的店铺..." v-model="shopName" style="width: 300px;margin-right: 5px" disabled/>
-            <el-input placeholder="输入要搜索的宝贝..." v-model="title" style="width: 300px;margin-right: 5px" disabled/>
+            <el-input placeholder="搜索的店铺..." v-model="shopName" style="width: 300px;margin-right: 5px" />
+            <el-input placeholder="搜索的宝贝..." v-model="title" style="width: 300px;margin-right: 5px" />
+            <el-input  v-model="etlDate" style="width: 300px;margin-right: 5px" disabled/>
             <el-button type="primary" icon="el-icon-search" @click="doSearch">搜索</el-button>
         </div>
 
@@ -15,7 +16,6 @@
             <el-table
                     :data="tableData"
                     style="width: 90%"
-                    :default-sort="{prop: 'date', order: 'descending'}"
             >
                 <el-table-column
                         prop="kw"
@@ -96,6 +96,7 @@
             return {
                 shopName: '',
                 title: '',
+                etlDate:'',
                 tableData: [],
             }
         },
@@ -104,15 +105,12 @@
         },
         methods: {
             doSearch() {
-                this.initData()
-            },
-            initData(){
-                this.getRequest('/statistics/table/').then(resp=>{
-                    if (resp) {
-                        this.tableData = resp.data
-                    }
+                const params = '?title='+this.title+'&shop='+this.shop
+                this.getRequest("/statistics/table/search"+params).then(resp=>{
+                    this.tableData = resp.data
+                    this.etlDate = this.tableData[0].etlDate
                 })
-            }
+            },
         },
         components: {}
 
