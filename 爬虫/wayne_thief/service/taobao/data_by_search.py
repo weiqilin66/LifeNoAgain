@@ -93,9 +93,8 @@ class TaoBao(object):
 
         # 统计首页总量
         if count_index_total == 1:
-            self.mysql.update("update core_crawl_tb set total_sales = %d where id in (select id from("
-                              "select t1.id from core_crawl_tb t1 inner join good_main t2 on t1.gid = t2.id "
-                              "where concat(label,name)='%s')a) " % (index_total, kw))
+            print(kw, '总销量: ', index_total)
+            self.mysql.update("update core_crawl_tb set total_sales = %d where gid = %d" % (index_total, gid))
 
     # 核心方法 关键词搜索爬取数据
     def data_by_search(self, etl_date, etl_time, chrome, search_good_obj, crawl_type, pages):

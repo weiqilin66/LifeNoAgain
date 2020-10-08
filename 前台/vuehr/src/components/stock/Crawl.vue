@@ -276,11 +276,11 @@
                 this.getRequest('/stock/crawl/').then(resp => {
                     if (resp) {
                         //格式化
-                        resp.data.forEach(item=>{
-                            if (item.lastUpdate) {
-                                item.lastUpdate = this.formatDateTime(item.lastUpdate)
-                            }
-                        })
+                        // resp.data.forEach(item=>{
+                        //     if (item.lastUpdate) {
+                        //         item.lastUpdate = this.formatDateTime(item.lastUpdate)
+                        //     }
+                        // })
                         this.tableData = resp.data
                         this.cData.bak = resp.data
                     }

@@ -20,7 +20,7 @@
         on t1.gid = t2.id
         left join good_stock t3
         on t2.id = t3.gid
-        order by label
+        order by enabled desc
 
     </select>
 </mapper>
