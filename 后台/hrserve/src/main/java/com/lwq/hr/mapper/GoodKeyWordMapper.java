@@ -19,7 +19,7 @@ import java.util.List;
  */
 public interface GoodKeyWordMapper extends BaseMapper<GoodKeyWord> {
 
-    @Select("select t1.id as id , concat(label,`name`) as name " +
+    @Select("select t1.id as id , concat(label,`name`) as name ,t1.gid " +
             "from good_key_word t1,good_main t2 where t1.gid = t2.id")
     List<HashMap> queryMap();
 

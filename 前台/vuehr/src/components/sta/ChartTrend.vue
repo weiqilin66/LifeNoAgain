@@ -95,21 +95,33 @@
                 </template>
             </el-table-column>
         </el-table>
+        <div style="display: flex;justify-content: space-between">
+            <div style="height: 1200px;width:800px">
+                <div id="echarts" ref="echarts"></div>
+            </div>
+            <div style="height: 1200px;width:800px">
+                <div id="echarts2" ref="echarts2"></div>
+            </div>
+        </div>
 
-
-        <div id="echarts" ref="echarts"></div>
-        <div><a href="#toChart">-</a></div>
+            <div><a href="#toChart">-</a></div>
     </div>
 </template>
 <style scoped>
     #echarts {
-        height: 900px;
+        width: 100%;
+        height: 70%;
+
     }
+    #echarts2 {
+        width: 100%;
+        height: 70%;
+    }
+
 </style>
 <script>
     export default {
         name: "ChartTrend",
-
         data() {
             return {
                 kw: '',
@@ -119,6 +131,7 @@
                 etlDate: [],
                 startDate:'',
                 endDate:'',
+                startDate2:'',
                 stockTable:[],
                 chartData: {
                     // 配置标题
@@ -138,17 +151,18 @@
                     // 图例
                     legend: {
                         data: ['皮卡皮电玩'],
-                        width:'70%',
+                        width:'90%',
+                        //height:'150%',
                         selector: [
                             {
                                 type: 'all or inverse',
                                 // 可以是任意你喜欢的 title
                                 title: '全选'
                             },
-                            {
-                                type: 'inverse',
-                                title: '反选'
-                            }
+                            // {
+                            //     type: 'inverse',
+                            //     title: '反选'
+                            // }
                         ]
                     },
                     // 工具(下载...)
@@ -157,11 +171,85 @@
                             saveAsImage: {}
                         }
                     },
-                    // 位置
+                    // 上下左右位置 top 图例和图的距离
                     grid: {
                         left: '3%',
                         right: '4%',
                         bottom: '3%',
+                        top:100,
+                        containLabel: true
+                    },
+                    xAxis: [//横坐标
+                        {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: ['周一','周二','周三']
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value',
+                        }
+                    ],
+                    series: [
+                        {
+                            name: '皮卡皮电玩',//toolTip提示使用
+                            type: 'line',// 类型 折线图
+                            areaStyle: {}, //填充颜色
+                            label: {    // 显示数据
+                                normal: {
+                                    show: false,
+                                    position: 'top'
+                                }
+                            },
+                            data: [0,220,0]
+                        }
+                    ]
+                },
+                chartData2: {
+                    // 配置标题
+                    title: {
+                        text: '欢迎帅奇'
+                    },
+                    // 提示
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'cross',
+                            label: {
+                                backgroundColor: '#6a7985'
+                            }
+                        }
+                    },
+                    // 图例
+                    // legend: {
+                    //     data: ['皮卡皮电玩'],
+                    //     width:'90%',
+                    //     //height:'150%',
+                    //     selector: [
+                    //         {
+                    //             type: 'all or inverse',
+                    //             // 可以是任意你喜欢的 title
+                    //             title: '全选'
+                    //         },
+                    //         // {
+                    //         //     type: 'inverse',
+                    //         //     title: '反选'
+                    //         // }
+                    //     ]
+                    // },
+                    // 工具(下载...)
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {}
+                        }
+                    },
+                    // 上下左右位置 top 图例和图的距离
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        top:100,
                         containLabel: true
                     },
                     xAxis: [//横坐标
@@ -191,6 +279,7 @@
                         }
                     ]
                 }
+
             }
         },
         watch:{
@@ -232,6 +321,7 @@
         },
         mounted() {
             this.drawLine() //必须第一个显示此组件 否则初始化失败
+            this.drawLine2() //必须第一个显示此组件 否则初始化失败
         },
         methods: {
             doUpdate(row){
@@ -251,12 +341,24 @@
                 let option = this.chartData
                 myChart.setOption(option);
             },
-            // doSearch(kw) {
-            //     this.changeChart2(kw)
-            // },
-            changeChart2(item) {
-                window.scrollTo(0, document.documentElement.clientHeight);//滚动到底部定位视图
-                this.getXDate()
+            drawLine2() {
+                let myChart = this.echarts.init(this.$refs['echarts2']);
+                let option = this.chartData2
+                myChart.setOption(option);
+            },
+            getSalesEcharts(item){
+                this.chartData2.title['text'] = item.name
+                const params = '?gid='+ item.gid + '&startDate=' + this.startDate2+ '&endDate=' + this.endDate
+                this.getRequest('/statistics/chart/bySales'+params).then(resp=>{
+                    if (resp) {
+                        this.chartData2.xAxis[0].data = resp.data.xAxis
+                        this.chartData2.series[0].data = resp.data.sales
+                        //重新绘制图表加载数据
+                        this.drawLine2()
+                    }
+                })
+            },
+            getPriceEcharts(item){
                 // 横坐标日期
                 this.chartData.xAxis[0].data = this.etlDate
                 this.chartData.title['text'] = item.name
@@ -265,7 +367,7 @@
                     if (resp) {
                         if (resp['error']!=null) {
                             resp.error.forEach(error=>{
-                            this.$message.error(error)
+                                this.$message.error(error)
                             })
                         }
                         //旺旺名
@@ -278,6 +380,8 @@
                         const shops = shopNameTitle
                         // 图例
                         this.chartData.legend.data = shopNameTitle
+                        this.chartData.legend.data.unshift('','')
+
                         //线实例
                         this.chartData.series=[]
                         shops.forEach(shop =>{
@@ -308,6 +412,12 @@
                     }
                 })
             },
+            changeChart2(item) {
+                this.getXDate()
+                window.scrollTo(0, document.documentElement.clientHeight);//滚动到底部定位视图
+                this.getPriceEcharts(item);
+                this.getSalesEcharts(item);
+            },
             // 获取 x轴的日期数组
             getXDate: function (num) {
                 this.etlDate = []
@@ -324,10 +434,13 @@
                 const day = 1000*3600*24
                 this.endDate = this.getyyyyMMdd(new Date())
                 let startDate = new Date().getTime();
-                startDate = startDate- day * num
-                this.startDate = this.getyyyyMMdd(new Date(startDate))
+                const startDate1 = startDate- day * num
+                const startDate2 = startDate- day * 90 //销量趋势显示近3个月
+                this.startDate = this.getyyyyMMdd(new Date(startDate1))
+                this.startDate2 = this.getyyyyMMdd(new Date(startDate2))
                 //console.log('折线图开始时间： ' +this.startDate)
                 //console.log('折线图结束时间： ' +this.endDate)
+
             }
             /* // 同步实例
                         async changeChart(kw) {

@@ -6,6 +6,7 @@ import random
 from selenium import common
 from util.mysql_util import MySql
 from bean.my_selenium import MySelenium
+from service.taobao.db import *
 
 """ 半自动实现 """
 mp3_path = r'd:/菊花台.mp3'
@@ -30,14 +31,6 @@ class TaoBao(object):
         ser_btn.click()
         return chrome
 
-    # 二手栏位
-    def start2(self):
-        chrome = self.chrome
-        url = 'https://s.taobao.com/search?tab=old'
-        chrome.get(url)
-        # chrome.maximize_window()  # 窗口最大化方便扫码
-        return chrome
-
     # 回调登录
     def login(self):
         chrome = self.chrome
@@ -47,22 +40,8 @@ class TaoBao(object):
             time.sleep(1)
             self.login()
 
-    # 点击二手标签
-    def tapSecondHand(self):
-        try:
-            btton = self.chrome.find_elements_by_id("//ul[@class='tabs']/li/a[text()='二手']")
-            print(len(btton))
-            btton = self.chrome.find_elements_by_id("//a[text()='二手']")
-            print(len(btton))
-            btton = self.chrome.find_elements_by_id("//ul[@class='tabs']/li/a")
-            print(len(btton))
-            btton.click()
-            time.sleep(random.randint(10, 15))
-        except Exception as e:
-            print("找不到二手按钮", e)
-
     # 插入数据库
-    def info2mysql(self, good_list, etl_date, etl_time, kw, gid, count_index_total):
+    def info2mysql(self, good_list, etl_date, etl_time, kw, gid, page):
         index_total = 0
         # 一个good_list是一个网页数据
         for good in good_list:
@@ -90,11 +69,12 @@ class TaoBao(object):
             '%s','%s',%d,%d,%d,'%s','%s','%s','%s','%s',%d)
             """ % (shop, title, price, sales, freight, etl_date, etl_time, kw, detail_url, pic_url, gid)
             self.mysql.insert(insert_sql)
-
         # 统计首页总量
-        if count_index_total == 1:
-            print(kw, '总销量: ', index_total)
+        if page == 1:
+            print(kw, ' 总销量: ', index_total)
             self.mysql.update("update core_crawl_tb set total_sales = %d where gid = %d" % (index_total, gid))
+            del_good_sales(gid, etl_date)
+            ins_good_sales(gid, etl_date, index_total)
 
     # 核心方法 关键词搜索爬取数据
     def data_by_search(self, etl_date, etl_time, chrome, search_good_obj, crawl_type, pages):

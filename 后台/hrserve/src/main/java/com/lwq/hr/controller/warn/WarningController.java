@@ -59,6 +59,8 @@ public class WarningController {
             return RespBean.ok(warningService.getHunter());
         }else if ("othersLower".equalsIgnoreCase(msg)){
             return RespBean.ok(warningService.getOthersLower());
+        }else if("sales".equalsIgnoreCase(msg)){
+            return RespBean.ok(warningService.sales());
         }
         return RespBean.error("msg["+msg+"]不存在");
     }

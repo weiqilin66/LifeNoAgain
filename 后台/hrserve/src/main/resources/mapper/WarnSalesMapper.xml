@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lwq.hr.mapper.WarnSalesMapper">
+
+    <insert id="batchInsert">
+        insert into
+        warn_sales(gid, type) VALUES
+
+        <foreach collection="list" open="(" close=")" separator="," item="map">
+            #{map.gid},#{map.type}
+        </foreach>
+    </insert>
+    <select id="queryAll" resultType="java.util.HashMap">
+        select t1.type,
+               case when t1.type='1' then '剧增'
+               when t1.type='2' then '骤降'
+               when t1.type='3' then '7天增加'
+               when t1.type='4' then '7天减少'
+               end as typeName,
+        concat(t2.label,t2.name) as name from warn_sales t1 ,good_main t2 where t1.gid = t2.id
+    </select>
+</mapper>

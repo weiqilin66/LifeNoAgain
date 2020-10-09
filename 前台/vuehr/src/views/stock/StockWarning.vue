@@ -5,6 +5,7 @@
             <el-tab-pane label="Hunter" name="init"><HunterTable></HunterTable></el-tab-pane>
             <el-tab-pane label="底价策略" name="first"><OthersLower></OthersLower></el-tab-pane>
             <el-tab-pane label="仓库" name="2"><Stock></Stock></el-tab-pane>
+            <el-tab-pane label="首页销量" name="3"><Sales></Sales></el-tab-pane>
 
 
         </el-tabs>
@@ -16,6 +17,7 @@
    import HunterTable from "../../components/stock/HunterTable";
    import OthersLower from "../../components/stock/OthersLower";
    import Stock from "../../components/stock/Stock";
+   import Sales from "../../components/stock/Sales";
     export default {
         name: "StockWarning",
         data(){
@@ -24,9 +26,11 @@
             }
         },
         components:{
+            Sales,
             HunterTable,
             OthersLower,
-            Stock
+            Stock,
+
         }
     }
 </script>

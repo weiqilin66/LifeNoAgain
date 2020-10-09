@@ -30,7 +30,10 @@ public class WarningService {
     ShopMapper shopMapper;
     @Resource
     WarnHunterMapper warnHunterMapper;
-
+    @Resource
+    GoodSalesMapper goodSalesMapper;
+    @Resource
+    WarnSalesMapper warnSalesMapper;
     /**
      * 市场价低于自身预警 底价策略
      * 有库存商品未设置关键词预警
@@ -40,6 +43,7 @@ public class WarningService {
         List<List<Goods>> lowerList = Collections.synchronizedList(new ArrayList<>());
         List<List<Goods>> hunterList = Collections.synchronizedList(new ArrayList<>());
         List<HashMap> noKeyWordList = Collections.synchronizedList(new ArrayList<>());
+        List<WarnSales> salesList = Collections.synchronizedList(new ArrayList<>());
         //关注的店铺
         List<String> othersLowerShops = shopMapper.selByType("othersLower");
         List<String> hunterShops = shopMapper.selByType("hunter");
@@ -48,6 +52,7 @@ public class WarningService {
         }
         final List<HashMap> mapList = goodStockMapper.queryAllWithKeyWord();
         final String date = goodsMapper.selMaxDate();
+        final String nowDate = DateFormatUtil.formatStr(new Date(), "yyyyMMdd");
         mapList.parallelStream().forEach(map->{
             int gid = Integer.parseInt(map.get("gid").toString());
             float price =map.get("price")!=null? (float) map.get("price"):0;
@@ -58,13 +63,53 @@ public class WarningService {
             }else {
                 noKeyWordList.add(map);
             }
+            //销量走势预警
+            //销量1天剧增减 超0.1
+            final float resRate = goodSalesMapper.selByGid2(gid, nowDate);
+            if (resRate>=1.1) {
+                final WarnSales e = new WarnSales();
+                e.setGid(gid);
+                e.setType("1");//1天剧增
+                salesList.add(e);
+            }else if(resRate<=0.9){
+                final WarnSales e = new WarnSales();
+                e.setGid(gid);
+                e.setType("2");//1天骤降
+                salesList.add(e);
+            }
+            //7天内5天增加 减少
+            int j = 7;
+            int n = 0;
+            int m = 0;
+            for (int i = 0; i < j; i++) {
+                final String lastDay = DateFormatUtil.formatStr(
+                        DateFormatUtil.getOtherDate(new Date(), -i), "yyyyMMdd");
+                float rate = goodSalesMapper.selByGid2(gid, lastDay);
+                if (rate>1) {
+                    m++;
+                }else if(rate<1){
+                    n++;
+                }
+            }
+            if (m>=5) {
+                final WarnSales e = new WarnSales();
+                e.setGid(gid);
+                e.setType("3");//一周5天涨
+                salesList.add(e);
+            }else if(n>=5){
+                final WarnSales e = new WarnSales();
+                e.setGid(gid);
+                e.setType("4");//一周5天降
+                salesList.add(e);
+            }
+
             String include1 = map.get("include1")!=null?map.get("include1").toString():"";
             String include2 = map.get("include2")!=null?map.get("include2").toString():"";
             String include3 = map.get("include3")!=null?map.get("include3").toString():"";
             String enclude1 = map.get("enclude1")!=null?map.get("enclude1").toString():"";
             String enclude2 = map.get("enclude2")!=null?map.get("enclude2").toString():"";
             String enclude3 = map.get("enclude3")!=null?map.get("enclude3").toString():"";
-            //我的商品价格>关注店铺的商品价格
+            //我的商品价格>关注店铺的商品价格 底价预警
             List<Goods> res = goodsMapper.selWarningLower(date,othersLowerShops,gid,price,base,
                     include1,include2,include3,enclude1,enclude2,enclude3);
             if (res.size()>0) {
@@ -90,16 +135,12 @@ public class WarningService {
         if (hunterList.size()>0) {
             warnHunterMapper.batchInsert(hunterList);
         }
+        warnSalesMapper.delAll();
+        if (salesList.size()>0) {
+            warnSalesMapper.batchInsert(salesList);
+        }
     }
 
-
-    public List<HashMap> getHunter(){
-        return warnHunterMapper.queryAll();
-    }
-
-    public List<HashMap> getOthersLower() {
-        return warnLowerPriceMapper.queryAll();
-    }
     /**
      * 智能建议底价
      */
@@ -127,5 +168,15 @@ public class WarningService {
         });
     }
 
-    
+    public List<HashMap> getHunter(){
+        return warnHunterMapper.queryAll();
+    }
+
+    public List<HashMap> getOthersLower() {
+        return warnLowerPriceMapper.queryAll();
+    }
+    public List<HashMap> sales() {
+        return warnSalesMapper.queryAll();
+    }
+
 }

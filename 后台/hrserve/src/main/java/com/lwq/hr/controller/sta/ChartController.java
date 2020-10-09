@@ -35,6 +35,8 @@ public class ChartController {
     @Autowired
     ChartService chartService;
     @Resource
+    GoodSalesMapper goodSalesMapper;
+    @Resource
     GoodStockMapper goodStockMapper;
     @Resource
     ShopMapper shopmapper;
@@ -113,7 +115,7 @@ public class ChartController {
         return RespBean.build().setMessage("ok").setData(chartService.getCharts(vo));
     }
     /**
-     * @TODO 折线图接口
+     * @TODO price折线图接口
      * @date 2020/5/13
      */
     @GetMapping("/byTitle")
@@ -180,6 +182,26 @@ public class ChartController {
         return resMap;
     }
 
+    /**
+     * @TODO   sales走势图,预测price走势
+     * @date   2020/10/9
+     */
+    @GetMapping("/bySales")
+    public RespBean bySales(Integer gid, String startDate,String endDate){
+        final List<HashMap> list = goodSalesMapper.selByGid(gid, startDate, endDate);
+        Map<String,Object> res = new HashMap<>();
+        String[] xAxis = new String[list.size()];
+        String[] sales = new String[list.size()];
+        int index = 0;
+        for (HashMap hashMap : list) {
+            xAxis[index] = hashMap.get("etl_date").toString();
+            sales[index] = hashMap.get("sales").toString();
+            index ++;
+        }
+        res.put("xAxis",xAxis);
+        res.put("sales",sales);
+        return RespBean.ok(res);
+    }
     /**
      * @TODO 查当日价格差超过20的宝贝
      * @date 2020/3/11

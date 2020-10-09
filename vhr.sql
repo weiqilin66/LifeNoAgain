@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : mysql
  Source Server Type    : MySQL
- Source Server Version : 80016
+ Source Server Version : 80021
  Source Host           : localhost:3306
  Source Schema         : vhr
 
  Target Server Type    : MySQL
- Target Server Version : 80016
+ Target Server Version : 80021
  File Encoding         : 65001
 
- Date: 08/10/2020 20:19:33
+ Date: 09/10/2020 15:23:29
 */
 
 SET NAMES utf8mb4;
@@ -22,9 +22,9 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `black_list_shop`;
 CREATE TABLE `black_list_shop`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `enabled` int(11) NULL DEFAULT NULL,
+  `enabled` int(0) NULL DEFAULT NULL,
   `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
@@ -51,7 +51,7 @@ CREATE TABLE `core_crawl_tb`  (
   `gid` int(4) UNSIGNED ZEROFILL NULL DEFAULT NULL,
   `advance` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '0-3优先级',
   `last_update` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `total_sales` int(10) UNSIGNED NULL DEFAULT NULL,
+  `total_sales` int(0) UNSIGNED NULL DEFAULT NULL,
   `enabled` tinyint(1) NULL DEFAULT NULL,
   `finished` tinyint(1) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
@@ -80,9 +80,9 @@ INSERT INTO `core_crawl_tb` VALUES (0018, 0020, '2', '20200930 21:05:37', NULL, 
 -- ----------------------------
 DROP TABLE IF EXISTS `department`;
 CREATE TABLE `department`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '部门名称',
-  `parentId` int(11) NULL DEFAULT NULL,
+  `parentId` int(0) NULL DEFAULT NULL,
   `depPath` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `enabled` tinyint(1) NULL DEFAULT 1,
   `isParent` tinyint(1) NULL DEFAULT 0,
@@ -116,21 +116,21 @@ INSERT INTO `department` VALUES (118, '项昆仑', 117, '.1.117.118', 1, 0);
 -- ----------------------------
 DROP TABLE IF EXISTS `employee`;
 CREATE TABLE `employee`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '员工编号',
+  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '员工编号',
   `name` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '员工姓名',
   `gender` char(4) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '性别',
   `birthday` date NULL DEFAULT NULL COMMENT '出生日期',
   `idCard` char(18) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '身份证号',
   `wedlock` enum('已婚','未婚','离异') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '婚姻状况',
-  `nationId` int(11) NULL DEFAULT NULL COMMENT '民族',
+  `nationId` int(0) NULL DEFAULT NULL COMMENT '民族',
   `nativePlace` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '籍贯',
-  `politicId` int(11) NULL DEFAULT NULL COMMENT '政治面貌',
+  `politicId` int(0) NULL DEFAULT NULL COMMENT '政治面貌',
   `email` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
   `phone` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电话号码',
   `address` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '联系地址',
-  `departmentId` int(11) NULL DEFAULT NULL COMMENT '所属部门',
-  `jobLevelId` int(11) NULL DEFAULT NULL COMMENT '职称ID',
-  `posId` int(11) NULL DEFAULT NULL COMMENT '职位ID',
+  `departmentId` int(0) NULL DEFAULT NULL COMMENT '所属部门',
+  `jobLevelId` int(0) NULL DEFAULT NULL COMMENT '职称ID',
+  `posId` int(0) NULL DEFAULT NULL COMMENT '职位ID',
   `engageForm` varchar(8) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '聘用形式',
   `tiptopDegree` enum('博士','硕士','本科','大专','高中','初中','小学','其他') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最高学历',
   `specialty` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属专业',
@@ -143,7 +143,7 @@ CREATE TABLE `employee`  (
   `notWorkDate` date NULL DEFAULT NULL COMMENT '离职日期',
   `beginContract` date NULL DEFAULT NULL COMMENT '合同起始日期',
   `endContract` date NULL DEFAULT NULL COMMENT '合同终止日期',
-  `workAge` int(11) NULL DEFAULT NULL COMMENT '工龄',
+  `workAge` int(0) NULL DEFAULT NULL COMMENT '工龄',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `departmentId`(`departmentId`) USING BTREE,
   INDEX `jobId`(`jobLevelId`) USING BTREE,
@@ -791,9 +791,9 @@ INSERT INTO `employee` VALUES (11122, 'javaboy', '男', '1989-12-30', '610122199
 -- ----------------------------
 DROP TABLE IF EXISTS `fish_kw_price`;
 CREATE TABLE `fish_kw_price`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
   `kw` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `price` int(11) NULL DEFAULT NULL COMMENT '猎人价格',
+  `price` int(0) NULL DEFAULT NULL COMMENT '猎人价格',
   `enabled` int(1) UNSIGNED ZEROFILL NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 105 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
@@ -808,14 +808,14 @@ INSERT INTO `fish_kw_price` VALUES (104, 'ps怪物猎人', 255, 1);
 -- ----------------------------
 DROP TABLE IF EXISTS `fish_stock`;
 CREATE TABLE `fish_stock`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
   `kw` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `price` int(11) NULL DEFAULT NULL,
+  `price` int(0) NULL DEFAULT NULL,
   `mailing` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `detail` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `count` int(11) NULL DEFAULT NULL COMMENT '在我数据库出现的次数',
+  `count` int(0) NULL DEFAULT NULL COMMENT '在我数据库出现的次数',
   `etl_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `etl_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `view_text` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '根据view文本判断是否符合规则发送过信息',
@@ -865,7 +865,7 @@ INSERT INTO `good_key_word` VALUES (0023, 0020, '神秘海域4', NULL, NULL, NUL
 -- ----------------------------
 DROP TABLE IF EXISTS `good_label`;
 CREATE TABLE `good_label`  (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` int(0) UNSIGNED NOT NULL AUTO_INCREMENT,
   `label` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -885,7 +885,7 @@ CREATE TABLE `good_main`  (
   `label` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of good_main
@@ -926,6 +926,25 @@ CREATE TABLE `good_price_diff`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Table structure for good_sales
+-- ----------------------------
+DROP TABLE IF EXISTS `good_sales`;
+CREATE TABLE `good_sales`  (
+  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `gid` int(4) UNSIGNED ZEROFILL NULL DEFAULT NULL,
+  `etl_date` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `sales` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `status` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of good_sales
+-- ----------------------------
+INSERT INTO `good_sales` VALUES (1, 0018, '20201009', '222', NULL);
+INSERT INTO `good_sales` VALUES (2, 0018, '20201008', '333', NULL);
+
+-- ----------------------------
 -- Table structure for good_stock
 -- ----------------------------
 DROP TABLE IF EXISTS `good_stock`;
@@ -933,10 +952,10 @@ CREATE TABLE `good_stock`  (
   `id` int(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
   `gid` int(4) UNSIGNED ZEROFILL NULL DEFAULT NULL,
   `price` float NULL DEFAULT 0,
-  `stock` int(11) NULL DEFAULT NULL,
+  `stock` int(0) NULL DEFAULT NULL,
   `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 50 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 51 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of good_stock
@@ -944,40 +963,40 @@ CREATE TABLE `good_stock`  (
 INSERT INTO `good_stock` VALUES (0001, 0004, 310, 1, '');
 INSERT INTO `good_stock` VALUES (0035, 0006, 254, 0, '');
 INSERT INTO `good_stock` VALUES (0036, 0005, 213, 0, '');
-INSERT INTO `good_stock` VALUES (0037, 0011, 359, 5, '');
+INSERT INTO `good_stock` VALUES (0037, 0011, 359, 5, '店铺:nicewg 售价:355.0 建议价:354.0 差价:4.0');
 INSERT INTO `good_stock` VALUES (0038, 0013, 184, 0, '');
-INSERT INTO `good_stock` VALUES (0039, 0014, 319, 0, '店铺:江南美食荟 售价:310.0 建议价:309.0 差价:9.0');
+INSERT INTO `good_stock` VALUES (0039, 0014, 319, 0, '');
 INSERT INTO `good_stock` VALUES (0040, 0015, 259, 0, '');
 INSERT INTO `good_stock` VALUES (0041, 0008, 199, 0, '');
-INSERT INTO `good_stock` VALUES (0042, 0007, 118, 0, '店铺:江南美食荟 售价:115.0 建议价:114.0 差价:3.0');
+INSERT INTO `good_stock` VALUES (0042, 0007, 118, 0, '');
 INSERT INTO `good_stock` VALUES (0043, 0016, 137, 1, '');
 INSERT INTO `good_stock` VALUES (0044, 0010, 325, 0, '');
 INSERT INTO `good_stock` VALUES (0045, 0012, 294, 0, '');
-INSERT INTO `good_stock` VALUES (0046, 0018, 166, 9, '');
-INSERT INTO `good_stock` VALUES (0047, 0017, 139, 5, '店铺:宁波老猎人电玩店 售价:115.0 建议价:110.0 差价:24.0');
+INSERT INTO `good_stock` VALUES (0046, 0018, 166, 9, '店铺:江南美食荟 售价:165.0 建议价:164.0 差价:1.0');
+INSERT INTO `good_stock` VALUES (0047, 0017, 139, 5, '');
 INSERT INTO `good_stock` VALUES (0048, 0019, 395, 0, '');
-INSERT INTO `good_stock` VALUES (0050, 0021, 110, 2, NULL);
+INSERT INTO `good_stock` VALUES (0050, 0021, 110, 2, '');
 
 -- ----------------------------
 -- Table structure for goods
 -- ----------------------------
 DROP TABLE IF EXISTS `goods`;
 CREATE TABLE `goods`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `gid` int(11) NULL DEFAULT NULL COMMENT '关联goodMain',
+  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `gid` int(0) NULL DEFAULT NULL COMMENT '关联goodMain',
   `etl_date` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `etl_time` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `shop` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '店铺名',
   `kw` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '关键词',
   `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '宝贝',
   `price` float NULL DEFAULT NULL COMMENT '价格',
-  `sales` int(11) NULL DEFAULT NULL COMMENT '销量',
+  `sales` int(0) NULL DEFAULT NULL COMMENT '销量',
   `freight` float NULL DEFAULT NULL COMMENT '运费',
   `img_url` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片链接',
   `comment` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标识0 1 2 3',
   `detail_url` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '宝贝连接',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 249029 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 249358 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of goods
@@ -4552,14 +4571,14 @@ INSERT INTO `goods` VALUES (249357, 19, '20201008', '19:36:46', 'imstillalive', 
 -- ----------------------------
 DROP TABLE IF EXISTS `goods_shop`;
 CREATE TABLE `goods_shop`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
   `etl_date` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `etl_time` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `shop` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '店铺名',
   `kw` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '关键词',
   `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '宝贝',
   `price` float NULL DEFAULT NULL COMMENT '价格',
-  `sales` int(11) NULL DEFAULT NULL COMMENT '销量',
+  `sales` int(0) NULL DEFAULT NULL COMMENT '销量',
   `freight` float NULL DEFAULT NULL COMMENT '运费',
   `img_url` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '图片链接',
   `comment` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '标识0 1 2 3',
@@ -4579,7 +4598,7 @@ INSERT INTO `goods_shop` VALUES (37427, '20200623', '15:05:30', '宁波老猎人
 -- ----------------------------
 DROP TABLE IF EXISTS `hr`;
 CREATE TABLE `hr`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'hrID',
+  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT 'hrID',
   `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '姓名',
   `phone` char(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '手机号码',
   `telephone` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '住宅电话',
@@ -4606,9 +4625,9 @@ INSERT INTO `hr` VALUES (12, '曾巩', '18568128888', '029-82111222', '广州越
 -- ----------------------------
 DROP TABLE IF EXISTS `hr_role`;
 CREATE TABLE `hr_role`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `hrid` int(11) NULL DEFAULT NULL,
-  `rid` int(11) NULL DEFAULT NULL,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `hrid` int(0) NULL DEFAULT NULL,
+  `rid` int(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `rid`(`rid`) USING BTREE,
   INDEX `hr_role_ibfk_1`(`hrid`) USING BTREE,
@@ -4637,7 +4656,7 @@ INSERT INTO `hr_role` VALUES (98, 5, 2);
 -- ----------------------------
 DROP TABLE IF EXISTS `joblevel`;
 CREATE TABLE `joblevel`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '职称名称',
   `titleLevel` enum('正高级','副高级','中级','初级','员级') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `createDate` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
@@ -4663,7 +4682,7 @@ INSERT INTO `joblevel` VALUES (23, '1111', '正高级', '2020-02-14 12:39:51', 1
 -- ----------------------------
 DROP TABLE IF EXISTS `menu`;
 CREATE TABLE `menu`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
   `url` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `path` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `component` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
@@ -4671,7 +4690,7 @@ CREATE TABLE `menu`  (
   `iconCls` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `keepAlive` tinyint(1) NULL DEFAULT NULL,
   `requireAuth` tinyint(1) NULL DEFAULT NULL,
-  `parentId` int(11) NULL DEFAULT NULL,
+  `parentId` int(0) NULL DEFAULT NULL,
   `enabled` tinyint(1) NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `parentId`(`parentId`) USING BTREE,
@@ -4715,9 +4734,9 @@ INSERT INTO `menu` VALUES (28, '/system/init/**', '/sys/init', 'SysInit', '系�
 -- ----------------------------
 DROP TABLE IF EXISTS `menu_role`;
 CREATE TABLE `menu_role`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `mid` int(11) NULL DEFAULT NULL,
-  `rid` int(11) NULL DEFAULT NULL,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `mid` int(0) NULL DEFAULT NULL,
+  `rid` int(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `mid`(`mid`) USING BTREE,
   INDEX `rid`(`rid`) USING BTREE,
@@ -4798,9 +4817,9 @@ INSERT INTO `menu_role` VALUES (402, 28, 1);
 -- ----------------------------
 DROP TABLE IF EXISTS `my_focus`;
 CREATE TABLE `my_focus`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `enabled` tinyint(4) NULL DEFAULT NULL,
+  `enabled` tinyint(0) NULL DEFAULT NULL,
   `label` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `kw` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
@@ -4813,11 +4832,45 @@ INSERT INTO `my_focus` VALUES (1, '怪物猎人', 1, 'ps', '冰原');
 INSERT INTO `my_focus` VALUES (2, 'fd', 0, 'NS', NULL);
 
 -- ----------------------------
+-- Table structure for my_stock
+-- ----------------------------
+DROP TABLE IF EXISTS `my_stock`;
+CREATE TABLE `my_stock`  (
+  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `price` float(10, 2) NULL DEFAULT NULL,
+  `stock` int(0) NULL DEFAULT NULL,
+  `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `kw` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `label` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of my_stock
+-- ----------------------------
+INSERT INTO `my_stock` VALUES (18, 'PS4正版二手游戏 鬼泣5 恶魔猎人5  Devil May Cry5英文 现货即发', 60.00, 0, NULL, '鬼泣5', 'PS4');
+INSERT INTO `my_stock` VALUES (19, '任天堂二手Switch游戏 NS 巫师3 巫师3狂猎 年度版 带全dlc 中文', 310.00, 0, '港版', '巫师3 ', 'NS');
+INSERT INTO `my_stock` VALUES (20, '任天堂二手Switch游戏 NS 超级马里奥 奥德赛 中文 现货即发', 255.00, 0, '国行!', '马里奥 奥德赛', 'NS');
+INSERT INTO `my_stock` VALUES (21, 'PS4正版二手游戏 旺达与巨像 Shadow of Colossus 中文 现货即发', 95.00, 1, NULL, '旺达与巨像', 'PS4');
+INSERT INTO `my_stock` VALUES (22, '任天堂二手Switch游戏 NS 大人的脑力锻炼 脑锻  内置触控笔 现货', 165.00, 0, '内置笔', '脑力锻炼 带笔', 'NS');
+INSERT INTO `my_stock` VALUES (23, 'PS4正版二手游戏 星球大战3 绝地组织殒落 堕落秩序 中文 现货', 175.00, 1, NULL, '星球大战3', 'PS4');
+INSERT INTO `my_stock` VALUES (24, 'PS4正版二手游戏  地平线 黎明时分 年度版 完全版 中文 现货即发', 110.00, 2, NULL, '地平线', 'PS4');
+INSERT INTO `my_stock` VALUES (25, 'PS4正版二手游戏 漫威蜘蛛侠 新蜘蛛人 Spider Man 中文 现货即发', 189.00, 0, NULL, '蜘蛛侠', 'PS4');
+INSERT INTO `my_stock` VALUES (26, '任天堂二手Switch游戏 NS 火纹 火焰之纹章 风花雪月 中文 现货', 315.00, 0, NULL, '火纹 风花雪月', 'NS');
+INSERT INTO `my_stock` VALUES (27, 'PS4正版二手游戏  神海4 神秘海域4 盗贼末路 中文  现货即发', 125.00, 1, NULL, '神秘海域4', 'PS4');
+INSERT INTO `my_stock` VALUES (28, 'PS4正版二手游戏 最终幻想7 重制版 FF7 FINAL FANTASY 中文 现货', 375.00, 0, NULL, '最终幻想7', 'PS4');
+INSERT INTO `my_stock` VALUES (29, 'PS4正版二手游戏  最终幻想15 ff15 中文 现货即发', 89.00, 0, NULL, '最终幻想15', 'PS4');
+INSERT INTO `my_stock` VALUES (30, 'PS4正版二手游戏  巫师3 狂猎  普通版 中文  现货即发', 40.00, 2, NULL, '巫师3 普通', 'PS4');
+INSERT INTO `my_stock` VALUES (31, 'PS4正版二手游戏 怪物猎人世界冰原 怪猎冰原 ICEBORNE 中文 现货', 239.00, 1, NULL, '怪物猎人 冰原', 'PS4');
+INSERT INTO `my_stock` VALUES (32, 'PS4正版二手游戏 刺客信条：奥德赛  刺客信条奥德赛 中文 现货', 135.00, 1, NULL, '刺客信条', 'PS4');
+
+-- ----------------------------
 -- Table structure for nation
 -- ----------------------------
 DROP TABLE IF EXISTS `nation`;
 CREATE TABLE `nation`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 57 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -4887,14 +4940,14 @@ INSERT INTO `nation` VALUES (56, '基诺族');
 -- ----------------------------
 DROP TABLE IF EXISTS `ns_goods_shop`;
 CREATE TABLE `ns_goods_shop`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
   `etl_date` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `etl_time` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `shop` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '店铺名',
   `kw` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '关键词',
   `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '宝贝',
   `price` float NULL DEFAULT NULL COMMENT '价格',
-  `sales` int(11) NULL DEFAULT NULL COMMENT '销量',
+  `sales` int(0) NULL DEFAULT NULL COMMENT '销量',
   `freight` float NULL DEFAULT NULL COMMENT '运费',
   `img_url` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '图片链接',
   `comment` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '标识0 1 2 3',
@@ -4907,7 +4960,7 @@ CREATE TABLE `ns_goods_shop`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `politicsstatus`;
 CREATE TABLE `politicsstatus`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -4934,7 +4987,7 @@ INSERT INTO `politicsstatus` VALUES (13, '普通公民');
 -- ----------------------------
 DROP TABLE IF EXISTS `position`;
 CREATE TABLE `position`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '职位',
   `createDate` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
   `enabled` tinyint(1) NULL DEFAULT 1,
@@ -4958,7 +5011,7 @@ INSERT INTO `position` VALUES (39, '吊炸天', '2020-02-02 13:59:15', 1);
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `nameZh` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色名称',
   PRIMARY KEY (`id`) USING BTREE
@@ -4985,10 +5038,10 @@ INSERT INTO `role` VALUES (20, 'ROLE_test5', '测试角色5');
 -- ----------------------------
 DROP TABLE IF EXISTS `shop`;
 CREATE TABLE `shop`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `enabled` tinyint(4) NULL DEFAULT NULL,
+  `enabled` tinyint(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
@@ -5016,7 +5069,7 @@ INSERT INTO `shop` VALUES (15, '芸峰科技', '芸峰海螺电玩', 0);
 -- ----------------------------
 DROP TABLE IF EXISTS `shop_good_url`;
 CREATE TABLE `shop_good_url`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `switch_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `ps4_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
@@ -5024,7 +5077,7 @@ CREATE TABLE `shop_good_url`  (
   `xbox_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `xbox2_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `switch2_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `enable` int(11) NULL DEFAULT NULL COMMENT '1启用0禁用',
+  `enable` int(0) NULL DEFAULT NULL COMMENT '1启用0禁用',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
@@ -5053,7 +5106,7 @@ INSERT INTO `shop_good_url` VALUES (18, '南昌圆梦玩家', 'https://pspsp.tao
 DROP TABLE IF EXISTS `shop_warning`;
 CREATE TABLE `shop_warning`  (
   `id` int(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
-  `sid` int(11) NULL DEFAULT NULL,
+  `sid` int(0) NULL DEFAULT NULL,
   `type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'otherLower别人比我低',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -5071,7 +5124,7 @@ INSERT INTO `shop_warning` VALUES (0004, 1, 'hunter');
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_kw`;
 CREATE TABLE `tb_kw`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `type` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
@@ -5319,10 +5372,10 @@ INSERT INTO `tb_kw` VALUES (95101, 'ps4 狂战传说 绯夜', 'info');
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_search`;
 CREATE TABLE `tb_search`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `type` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `enabled` int(11) NULL DEFAULT NULL,
+  `enabled` int(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 23138 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
@@ -5561,7 +5614,7 @@ INSERT INTO `tb_search` VALUES (23137, 'ps4二手游戏 狂战传说绯夜', 'in
 DROP TABLE IF EXISTS `warn_hunter`;
 CREATE TABLE `warn_hunter`  (
   `id` int(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
-  `gid` int(11) NULL DEFAULT NULL,
+  `gid` int(0) NULL DEFAULT NULL,
   `shop` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `kw` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `price` float NULL DEFAULT NULL,
@@ -5574,9 +5627,14 @@ CREATE TABLE `warn_hunter`  (
 DROP TABLE IF EXISTS `warn_keyword_noset`;
 CREATE TABLE `warn_keyword_noset`  (
   `id` int(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
-  `gid` int(11) NULL DEFAULT NULL,
+  `gid` int(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of warn_keyword_noset
+-- ----------------------------
+INSERT INTO `warn_keyword_noset` VALUES (0001, 21);
 
 -- ----------------------------
 -- Table structure for warn_lower_price
@@ -5584,7 +5642,7 @@ CREATE TABLE `warn_keyword_noset`  (
 DROP TABLE IF EXISTS `warn_lower_price`;
 CREATE TABLE `warn_lower_price`  (
   `id` int(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
-  `gid` int(11) NULL DEFAULT NULL,
+  `gid` int(0) NULL DEFAULT NULL,
   `shop` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `kw` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `price` float NULL DEFAULT NULL,
@@ -5595,8 +5653,23 @@ CREATE TABLE `warn_lower_price`  (
 -- Records of warn_lower_price
 -- ----------------------------
 INSERT INTO `warn_lower_price` VALUES (0001, 18, '江南美食荟', '二手 PS4荒野大镖客2', 165);
-INSERT INTO `warn_lower_price` VALUES (0002, 11, '宁波老猎人电玩店', '二手 PS4对马岛之魂', 365);
-INSERT INTO `warn_lower_price` VALUES (0003, 11, 'nicewg', '二手 PS4对马岛之魂', 355);
+INSERT INTO `warn_lower_price` VALUES (0002, 11, 'nicewg', '二手 PS4对马岛之魂', 355);
+
+-- ----------------------------
+-- Table structure for warn_sales
+-- ----------------------------
+DROP TABLE IF EXISTS `warn_sales`;
+CREATE TABLE `warn_sales`  (
+  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `gid` int(4) UNSIGNED ZEROFILL NULL DEFAULT NULL,
+  `type` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of warn_sales
+-- ----------------------------
+INSERT INTO `warn_sales` VALUES (1, 0018, '2');
 
 -- ----------------------------
 -- Procedure structure for addDep

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lwq.hr.mapper.GoodSalesMapper">
+
+    <select id="selByGid" resultType="java.util.HashMap">
+        select sales,etl_date from
+        good_sales where gid=#{gid}
+        and etl_date between #{startDate} and #{endDate}
+    </select>
+    <select id="selByGid2" resultType="java.lang.Float">
+        select case when count(*)!=0 and sales2 is not null
+        then sales1/sales2
+        else 1
+        end as res
+        from (select
+                     t1.sales as sales1,
+                     t2.sales as sales2
+              from good_sales t1
+              inner join good_sales t2 on t1.gid = t2.gid
+              and t2.etl_date = DATE_FORMAT(date_sub(#{nowDate}, interval 1 day),'%Y%m%d')
+              where t1.etl_date = #{nowDate}
+              and t1.gid = #{gid}
+             )t
+
+
+    </select>
+
+</mapper>

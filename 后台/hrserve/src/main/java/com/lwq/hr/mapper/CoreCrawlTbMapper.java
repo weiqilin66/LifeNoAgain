@@ -17,4 +17,5 @@ import java.util.List;
 public interface CoreCrawlTbMapper extends BaseMapper<CoreCrawlTb> {
 
     List<HashMap> queryAll();
+
 }
