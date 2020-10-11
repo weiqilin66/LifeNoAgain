@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : mysql
+ Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 80021
+ Source Server Version : 80016
  Source Host           : localhost:3306
  Source Schema         : vhr
 
  Target Server Type    : MySQL
- Target Server Version : 80021
+ Target Server Version : 80016
  File Encoding         : 65001
 
- Date: 09/10/2020 16:11:51
+ Date: 09/10/2020 21:40:03
 */
 
 SET NAMES utf8mb4;
@@ -22,9 +22,9 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `black_list_shop`;
 CREATE TABLE `black_list_shop`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `enabled` int(0) NULL DEFAULT NULL,
+  `enabled` int(11) NULL DEFAULT NULL,
   `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
@@ -51,7 +51,7 @@ CREATE TABLE `core_crawl_tb`  (
   `gid` int(4) UNSIGNED ZEROFILL NULL DEFAULT NULL,
   `advance` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '0-3优先级',
   `last_update` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `total_sales` int(0) UNSIGNED NULL DEFAULT NULL,
+  `total_sales` int(10) UNSIGNED NULL DEFAULT NULL,
   `enabled` tinyint(1) NULL DEFAULT NULL,
   `finished` tinyint(1) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
@@ -60,19 +60,19 @@ CREATE TABLE `core_crawl_tb`  (
 -- ----------------------------
 -- Records of core_crawl_tb
 -- ----------------------------
-INSERT INTO `core_crawl_tb` VALUES (0001, 0004, '3', '20201008 19:36:46', 359, 1, 1);
+INSERT INTO `core_crawl_tb` VALUES (0001, 0004, '3', '20201009 20:54:47', 380, 1, 1);
 INSERT INTO `core_crawl_tb` VALUES (0002, 0006, '2', '20200930 21:05:37', NULL, 0, 0);
 INSERT INTO `core_crawl_tb` VALUES (0003, 0010, '2', '20200930 21:05:37', 22, 0, 0);
 INSERT INTO `core_crawl_tb` VALUES (0004, 0005, '2', '2020-9-21 10:57:0', NULL, 0, 1);
 INSERT INTO `core_crawl_tb` VALUES (0009, 0012, '2', NULL, NULL, 0, 1);
-INSERT INTO `core_crawl_tb` VALUES (0010, 0011, '3', '20201008 19:36:46', NULL, 1, 1);
+INSERT INTO `core_crawl_tb` VALUES (0010, 0011, '3', '20201009 20:54:47', 3401, 1, 1);
 INSERT INTO `core_crawl_tb` VALUES (0011, 0007, '2', '20200930 21:05:37', NULL, 0, 0);
 INSERT INTO `core_crawl_tb` VALUES (0012, 0016, '2', '20200930 21:05:37', NULL, 0, 0);
 INSERT INTO `core_crawl_tb` VALUES (0013, 0014, '2', NULL, NULL, 0, 1);
 INSERT INTO `core_crawl_tb` VALUES (0014, 0013, '2', '2001-1-1 0:0:0', NULL, 0, 1);
-INSERT INTO `core_crawl_tb` VALUES (0015, 0017, '2', '20201008 19:36:46', NULL, 1, 1);
-INSERT INTO `core_crawl_tb` VALUES (0016, 0018, '2', '20201008 19:36:46', NULL, 1, 1);
-INSERT INTO `core_crawl_tb` VALUES (0017, 0019, '2', '20201008 19:36:46', NULL, 1, 1);
+INSERT INTO `core_crawl_tb` VALUES (0015, 0017, '2', '20201009 20:54:47', 2151, 1, 1);
+INSERT INTO `core_crawl_tb` VALUES (0016, 0018, '2', '20201009 20:54:47', 1401, 1, 1);
+INSERT INTO `core_crawl_tb` VALUES (0017, 0019, '2', '20201009 20:54:47', 2196, 1, 1);
 INSERT INTO `core_crawl_tb` VALUES (0018, 0020, '2', '20200930 21:05:37', NULL, 0, 0);
 
 -- ----------------------------
@@ -80,9 +80,9 @@ INSERT INTO `core_crawl_tb` VALUES (0018, 0020, '2', '20200930 21:05:37', NULL, 
 -- ----------------------------
 DROP TABLE IF EXISTS `department`;
 CREATE TABLE `department`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '部门名称',
-  `parentId` int(0) NULL DEFAULT NULL,
+  `parentId` int(11) NULL DEFAULT NULL,
   `depPath` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `enabled` tinyint(1) NULL DEFAULT 1,
   `isParent` tinyint(1) NULL DEFAULT 0,
@@ -116,21 +116,21 @@ INSERT INTO `department` VALUES (118, '项昆仑', 117, '.1.117.118', 1, 0);
 -- ----------------------------
 DROP TABLE IF EXISTS `employee`;
 CREATE TABLE `employee`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '员工编号',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '员工编号',
   `name` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '员工姓名',
   `gender` char(4) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '性别',
   `birthday` date NULL DEFAULT NULL COMMENT '出生日期',
   `idCard` char(18) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '身份证号',
   `wedlock` enum('已婚','未婚','离异') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '婚姻状况',
-  `nationId` int(0) NULL DEFAULT NULL COMMENT '民族',
+  `nationId` int(11) NULL DEFAULT NULL COMMENT '民族',
   `nativePlace` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '籍贯',
-  `politicId` int(0) NULL DEFAULT NULL COMMENT '政治面貌',
+  `politicId` int(11) NULL DEFAULT NULL COMMENT '政治面貌',
   `email` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
   `phone` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电话号码',
   `address` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '联系地址',
-  `departmentId` int(0) NULL DEFAULT NULL COMMENT '所属部门',
-  `jobLevelId` int(0) NULL DEFAULT NULL COMMENT '职称ID',
-  `posId` int(0) NULL DEFAULT NULL COMMENT '职位ID',
+  `departmentId` int(11) NULL DEFAULT NULL COMMENT '所属部门',
+  `jobLevelId` int(11) NULL DEFAULT NULL COMMENT '职称ID',
+  `posId` int(11) NULL DEFAULT NULL COMMENT '职位ID',
   `engageForm` varchar(8) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '聘用形式',
   `tiptopDegree` enum('博士','硕士','本科','大专','高中','初中','小学','其他') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '最高学历',
   `specialty` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属专业',
@@ -143,7 +143,7 @@ CREATE TABLE `employee`  (
   `notWorkDate` date NULL DEFAULT NULL COMMENT '离职日期',
   `beginContract` date NULL DEFAULT NULL COMMENT '合同起始日期',
   `endContract` date NULL DEFAULT NULL COMMENT '合同终止日期',
-  `workAge` int(0) NULL DEFAULT NULL COMMENT '工龄',
+  `workAge` int(11) NULL DEFAULT NULL COMMENT '工龄',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `departmentId`(`departmentId`) USING BTREE,
   INDEX `jobId`(`jobLevelId`) USING BTREE,
@@ -791,9 +791,9 @@ INSERT INTO `employee` VALUES (11122, 'javaboy', '男', '1989-12-30', '610122199
 -- ----------------------------
 DROP TABLE IF EXISTS `fish_kw_price`;
 CREATE TABLE `fish_kw_price`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `kw` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `price` int(0) NULL DEFAULT NULL COMMENT '猎人价格',
+  `price` int(11) NULL DEFAULT NULL COMMENT '猎人价格',
   `enabled` int(1) UNSIGNED ZEROFILL NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 105 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
@@ -808,14 +808,14 @@ INSERT INTO `fish_kw_price` VALUES (104, 'ps怪物猎人', 255, 1);
 -- ----------------------------
 DROP TABLE IF EXISTS `fish_stock`;
 CREATE TABLE `fish_stock`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `kw` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `price` int(0) NULL DEFAULT NULL,
+  `price` int(11) NULL DEFAULT NULL,
   `mailing` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `detail` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `count` int(0) NULL DEFAULT NULL COMMENT '在我数据库出现的次数',
+  `count` int(11) NULL DEFAULT NULL COMMENT '在我数据库出现的次数',
   `etl_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `etl_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `view_text` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '根据view文本判断是否符合规则发送过信息',
@@ -865,7 +865,7 @@ INSERT INTO `good_key_word` VALUES (0023, 0020, '神秘海域4', NULL, NULL, NUL
 -- ----------------------------
 DROP TABLE IF EXISTS `good_label`;
 CREATE TABLE `good_label`  (
-  `id` int(0) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `label` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -930,19 +930,23 @@ CREATE TABLE `good_price_diff`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `good_sales`;
 CREATE TABLE `good_sales`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `gid` int(4) UNSIGNED ZEROFILL NULL DEFAULT NULL,
   `etl_date` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `sales` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `status` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of good_sales
 -- ----------------------------
-INSERT INTO `good_sales` VALUES (1, 0018, '20201009', '222', NULL);
 INSERT INTO `good_sales` VALUES (2, 0018, '20201008', '333', NULL);
+INSERT INTO `good_sales` VALUES (3, 0004, '20201009', '380', NULL);
+INSERT INTO `good_sales` VALUES (4, 0011, '20201009', '3401', NULL);
+INSERT INTO `good_sales` VALUES (5, 0017, '20201009', '2151', NULL);
+INSERT INTO `good_sales` VALUES (6, 0018, '20201009', '1401', NULL);
+INSERT INTO `good_sales` VALUES (7, 0019, '20201009', '2196', NULL);
 
 -- ----------------------------
 -- Table structure for good_stock
@@ -952,7 +956,7 @@ CREATE TABLE `good_stock`  (
   `id` int(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
   `gid` int(4) UNSIGNED ZEROFILL NULL DEFAULT NULL,
   `price` float NULL DEFAULT 0,
-  `stock` int(0) NULL DEFAULT NULL,
+  `stock` int(11) NULL DEFAULT NULL,
   `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 51 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
@@ -960,10 +964,10 @@ CREATE TABLE `good_stock`  (
 -- ----------------------------
 -- Records of good_stock
 -- ----------------------------
-INSERT INTO `good_stock` VALUES (0001, 0004, 310, 1, '');
+INSERT INTO `good_stock` VALUES (0001, 0004, 310, 0, '');
 INSERT INTO `good_stock` VALUES (0035, 0006, 254, 0, '');
 INSERT INTO `good_stock` VALUES (0036, 0005, 213, 0, '');
-INSERT INTO `good_stock` VALUES (0037, 0011, 359, 5, '店铺:nicewg 售价:355.0 建议价:354.0 差价:4.0');
+INSERT INTO `good_stock` VALUES (0037, 0011, 359, 5, '');
 INSERT INTO `good_stock` VALUES (0038, 0013, 184, 0, '');
 INSERT INTO `good_stock` VALUES (0039, 0014, 319, 0, '');
 INSERT INTO `good_stock` VALUES (0040, 0015, 259, 0, '');
@@ -972,7 +976,7 @@ INSERT INTO `good_stock` VALUES (0042, 0007, 118, 0, '');
 INSERT INTO `good_stock` VALUES (0043, 0016, 137, 1, '');
 INSERT INTO `good_stock` VALUES (0044, 0010, 325, 0, '');
 INSERT INTO `good_stock` VALUES (0045, 0012, 294, 0, '');
-INSERT INTO `good_stock` VALUES (0046, 0018, 166, 9, '店铺:江南美食荟 售价:165.0 建议价:164.0 差价:1.0');
+INSERT INTO `good_stock` VALUES (0046, 0018, 166, 9, '');
 INSERT INTO `good_stock` VALUES (0047, 0017, 139, 5, '');
 INSERT INTO `good_stock` VALUES (0048, 0019, 395, 0, '');
 INSERT INTO `good_stock` VALUES (0050, 0021, 110, 2, '');
@@ -982,21 +986,21 @@ INSERT INTO `good_stock` VALUES (0050, 0021, 110, 2, '');
 -- ----------------------------
 DROP TABLE IF EXISTS `goods`;
 CREATE TABLE `goods`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
-  `gid` int(0) NULL DEFAULT NULL COMMENT '关联goodMain',
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `gid` int(11) NULL DEFAULT NULL COMMENT '关联goodMain',
   `etl_date` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `etl_time` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `shop` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '店铺名',
   `kw` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '关键词',
   `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '宝贝',
   `price` float NULL DEFAULT NULL COMMENT '价格',
-  `sales` int(0) NULL DEFAULT NULL COMMENT '销量',
+  `sales` int(11) NULL DEFAULT NULL COMMENT '销量',
   `freight` float NULL DEFAULT NULL COMMENT '运费',
   `img_url` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片链接',
   `comment` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标识0 1 2 3',
   `detail_url` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '宝贝连接',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 249358 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 249510 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of goods
@@ -4565,20 +4569,216 @@ INSERT INTO `goods` VALUES (249354, 19, '20201008', '19:36:46', 'linhuating777',
 INSERT INTO `goods` VALUES (249355, 19, '20201008', '19:36:46', '小梦芝芝0', '二手 Switch异度神剑2', 'SWITCH NS二手游戏 异度之刃2 异度神剑2 中文 《另回收NS游戏》', 389, 0, 10, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/668696140/TB2zbq4jOCYBuNkHFCcXXcHtVXa_!!668696140.jpg', NULL, '//item.taobao.com/item.htm?id=564882889926&ns=1&abbucket=9#detail');
 INSERT INTO `goods` VALUES (249356, 19, '20201008', '19:36:46', 'tb2757591', '二手 Switch异度神剑2', '任天堂Switch游戏NS异度之刃2异度神剑2中文二手(另回收)', 395, 0, 5, '//g-search1.alicdn.com/img/bao/uploaded/i4/i1/728200061/O1CN016b75J41CJyhStqAEy_!!728200061.jpg', NULL, '//item.taobao.com/item.htm?id=562782010187&ns=1&abbucket=9#detail');
 INSERT INTO `goods` VALUES (249357, 19, '20201008', '19:36:46', 'imstillalive', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度之刃2/神剑2 黄金之国 中文 现货', 149, 1, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i3/1025044633/O1CN01uPSGa11k5xXt1c6z7_!!1025044633.jpg', NULL, '//item.taobao.com/item.htm?id=598400308503&ns=1&abbucket=9#detail');
+INSERT INTO `goods` VALUES (249358, 4, '20201009', '20:54:47', '江南美食荟', '二手 Switch女神异闻录5S', '任天堂Switch二手 NS女神异闻录5 乱战 魅影攻手 P5S 中文 现货', 325, 61, 7, '//g-search1.alicdn.com/img/bao/uploaded/i4/i1/1905786463/O1CN01TuRYbi1xc6NbXidI6_!!1905786463.jpg', NULL, '//item.taobao.com/item.htm?id=621370743651&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249359, 4, '20201009', '20:54:47', 'nicewg', '二手 Switch女神异闻录5S', '任天堂NS Switch 游戏二手 女神异闻录5 乱战 魅影攻手 P5S 现货', 315, 18, 5, '//g-search1.alicdn.com/img/bao/uploaded/i4/i2/53705938/O1CN014fObpY1tjeQzGDUXy_!!53705938.jpg', NULL, '//item.taobao.com/item.htm?id=616113877979&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249360, 4, '20201009', '20:54:47', '幸运星阁', '二手 Switch女神异闻录5S', '任天堂 二手 Switch NS游戏 女神异闻录5s 乱战魅影攻手 P5S 无双', 310, 113, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/642134755/O1CN015lpHBb1kzptpJbgyx_!!642134755.jpg', NULL, '//item.taobao.com/item.htm?id=620844321935&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249361, 4, '20201009', '20:54:47', '圣眼使徒', '二手 Switch女神异闻录5S', '【南昌圆梦】NS二手游戏 Switch 女神异闻录5乱战魅影攻手 P5S', 320, 64, 8, '//g-search2.alicdn.com/img/bao/uploaded/i4/i1/44612997/O1CN01owPQc01Y0fd3SLvOv_!!44612997.jpg', NULL, '//item.taobao.com/item.htm?id=621870204610&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249362, 4, '20201009', '20:54:47', '悦游电玩', '二手 Switch女神异闻录5S', 'switch二手卡带ns游戏 女神异闻录5 乱战幻影打击者 P5S 中文现货', 315, 19, 0, '//g-search2.alicdn.com/img/bao/uploaded/i4/i2/2207960136892/O1CN016xhGPO20maIKdFeBF_!!2207960136892.jpg', NULL, '//item.taobao.com/item.htm?id=622327219468&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249363, 4, '20201009', '20:54:47', 'glass高精', '二手 Switch女神异闻录5S', '任天堂二手Switch游戏  NS女神异闻录5 乱战 魅影攻手 P5S 中文', 310, 8, 5, '//g-search2.alicdn.com/img/bao/uploaded/i4/i2/140004388/O1CN01AS9CPx1iHkYU0NGEd_!!140004388.png', NULL, '//item.taobao.com/item.htm?id=625842235038&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249364, 4, '20201009', '20:54:47', '云兔电商', '二手 Switch女神异闻录5S', '任天堂二手Switch NS游戏女神异闻录5s P5S 乱战魅影攻手无双中文', 320, 8, 0, '//g-search2.alicdn.com/img/bao/uploaded/i4/i1/3886249001/O1CNA1Uv5C6c2GMVc3tqRuf_!!3886249001-0-psf.jpg', NULL, '//item.taobao.com/item.htm?id=621449848726&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249365, 4, '20201009', '20:54:47', '能言的刘倍', '二手 Switch女神异闻录5S', '任天堂Switch二手 NS女神异闻录5 p5乱战 魅影攻手 P5S 中文 现货', 309, 9, 8, '//g-search1.alicdn.com/img/bao/uploaded/i4/i3/2842845618/O1CN01XkxtIx1rN5huA5rn7_!!2842845618.jpg', NULL, '//item.taobao.com/item.htm?id=622181241202&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249366, 4, '20201009', '20:54:47', 'gyj329835174', '二手 Switch女神异闻录5S', 'switch二手游戏卡 ns 女神异闻录5 乱战 魅影攻手 P5S 无双 中文', 320, 5, 8, '//g-search3.alicdn.com/img/bao/uploaded/i4/i3/880042366/O1CN01pq8Ecl1TLfhfpsbTf_!!880042366.jpg', NULL, '//item.taobao.com/item.htm?id=623129694896&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249367, 4, '20201009', '20:54:47', '小梦芝芝0', '二手 Switch女神异闻录5S', '二手任天堂Switch游戏 NS 女神异闻录5 乱战 魅影攻手 P5S 中文', 305, 0, 10, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/668696140/O1CN010DtcXR1vEAT4a7lB6_!!668696140.jpg', NULL, '//item.taobao.com/item.htm?id=627766553729&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249368, 4, '20201009', '20:54:47', '虎鲸电玩', '二手 Switch女神异闻录5S', '任天堂Switch Ns二手游戏卡 女神异闻录5 乱战 魅影攻手 P5S 无双', 319, 5, 0, '//g-search1.alicdn.com/img/bao/uploaded/i4/i1/2207962231053/O1CN01pecRdh1JeJgDTvbcW_!!2207962231053.jpg', NULL, '//item.taobao.com/item.htm?id=626592960502&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249369, 4, '20201009', '20:54:47', '舒宜宝贝', '二手 Switch女神异闻录5S', '任天堂二手Switch游戏 NS 女神异闻录5 乱战 魅影攻手 P5S 中文', 325, 6, 8, '//g-search3.alicdn.com/img/bao/uploaded/i4/i3/125197181/O1CN01Cv7WNH22uwkrHcb6V_!!125197181.jpg', NULL, '//item.taobao.com/item.htm?id=621496431055&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249370, 4, '20201009', '20:54:47', 'wangyiyu1987', '二手 Switch女神异闻录5S', '任天堂Switch二手 NS女神异闻录5 乱战 魅影攻手 P5S 中文 现货', 315, 4, 8, '//g-search1.alicdn.com/img/bao/uploaded/i4/i3/66958743/O1CN01dt3mbN2ESLPkeCYsp_!!66958743.jpg', NULL, '//item.taobao.com/item.htm?id=623491606428&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249371, 4, '20201009', '20:54:47', '一诺千金nono8', '二手 Switch女神异闻录5S', 'Switch游戏 NS 女神异闻录5 乱战 魅影攻手P5S无双 二手', 310, 1, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/271684951/O1CN01pDMpv81mRbWsQlHvA_!!271684951.jpg', NULL, '//item.taobao.com/item.htm?id=620975821391&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249372, 4, '20201009', '20:54:47', 'tb14881761', '二手 Switch女神异闻录5S', '任天堂二手Switch游戏 NS女神异闻录5 乱战 魅影攻手 P5S 中文', 303, 1, 7, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/1635682943/O1CN018Sb3XO1XbwF45OgiC_!!1635682943.jpg', NULL, '//item.taobao.com/item.htm?id=624549481587&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249373, 4, '20201009', '20:54:47', 'alen9550', '二手 Switch女神异闻录5S', '任天堂二手Switch游戏NS 女神异闻录5乱战魅影攻手P5S 无双中文', 320, 1, 8, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/95155284/O1CN01QvUxjJ1ou7Q5rIqkE_!!95155284.jpg', NULL, '//item.taobao.com/item.htm?id=621552211073&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249374, 4, '20201009', '20:54:47', '樱花潇雪', '二手 Switch女神异闻录5S', '二手任天堂Switch NS游戏 女神异闻录5 乱战魅影攻手 P5S 无双', 313, 1, 8, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/68453760/O1CN01MF7v471de7obFk59H_!!68453760.png', NULL, '//item.taobao.com/item.htm?id=621253809631&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249375, 4, '20201009', '20:54:47', '陆大爷001', '二手 Switch女神异闻录5S', '任天堂Switch二手 NS女神异闻录5 乱战 魅影攻手 P5S 中文 现货', 315, 3, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/1633426408/O1CN012xF0E31xCub6oKRPS_!!1633426408.png', NULL, '//item.taobao.com/item.htm?id=622007287277&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249376, 4, '20201009', '20:54:47', 'hongfish101', '二手 Switch女神异闻录5S', '任天堂二手Switch游戏 女神异闻录5s 乱战魅影攻手 P5S 中文', 315, 4, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/1578705938/O1CN01o7cNKu1tjeSDJ7GWs_!!1578705938.jpg', NULL, '//item.taobao.com/item.htm?id=625203435782&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249377, 4, '20201009', '20:54:47', '会蹦的兔子', '二手 Switch女神异闻录5S', '任天堂Switch二手 NS女神异闻录5 乱战 魅影攻手 P5S 中文 现货', 319, 1, 8, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/210647483/O1CN01WJsMiU259GMlkNmsX_!!210647483.png', NULL, '//item.taobao.com/item.htm?id=622411819258&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249378, 4, '20201009', '20:54:47', '北京九州数码电子商务', '二手 Switch女神异闻录5S', '二手任天堂Switch游戏 NS 女神异闻录5 乱战 魅影攻手 P5S 中文', 305, 0, 8, '//g-search1.alicdn.com/img/bao/uploaded/i4/i4/2603666158/O1CN01fZMQrC1vMPb5680OW_!!2603666158.jpg', NULL, '//item.taobao.com/item.htm?id=628360087185&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249379, 4, '20201009', '20:54:47', 'jiangllllp', '二手 Switch女神异闻录5S', '二手Switch游戏NS女神异闻录5 乱战魅影攻手 P5S原装游戏卡空盒子', 35, 0, 0, '//g-search1.alicdn.com/img/bao/uploaded/i4/i3/132694344/O1CN013L39zo1hxb8UTYYJ1_!!132694344.jpg', NULL, '//item.taobao.com/item.htm?id=628968086940&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249380, 4, '20201009', '20:54:47', '我爱我中华90', '二手 Switch女神异闻录5S', '任天堂Switch NS二手游戏 女神异闻录5 乱战魅影攻手 P5S 中文', 320, 10, 6, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/4282833025/O1CN012EI5Fi1YDUhlXN9DD_!!4282833025.jpg', NULL, '//item.taobao.com/item.htm?id=621492748046&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249381, 4, '20201009', '20:54:47', '流逝的永远88', '二手 Switch女神异闻录5S', '任天堂Switch NS二手游戏 女神异闻录5 乱战 魅影攻手P5S中文现货', 320, 1, 15, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/83080929/O1CN01DYV8rB1IjWYxd2VRS_!!0-item_pic.jpg', NULL, '//item.taobao.com/item.htm?id=622453845659&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249382, 4, '20201009', '20:54:47', '啊庞汇川', '二手 Switch女神异闻录5S', '任天堂NS Switch 游戏二手 女神异闻录5 乱战 魅影攻手 P5S 现货', 315, 28, 6, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/1817394781/O1CN01PgNBld1lBkCo5WT7z_!!1817394781.png', NULL, '//item.taobao.com/item.htm?id=624458850781&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249383, 4, '20201009', '20:54:47', '爱玩电玩2016', '二手 Switch女神异闻录5S', '任天堂Switch二手 NS女神异闻录5 乱战 魅影攻手 P5S 中文 现货', 315, 6, 5, '//g-search1.alicdn.com/img/bao/uploaded/i4/i4/2875731951/O1CN01m7WwlS1QHbKgmMouh_!!2875731951.jpg', NULL, '//item.taobao.com/item.htm?id=622445991785&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249384, 4, '20201009', '20:54:47', 'tb9070128_2011', '二手 Switch女神异闻录5S', '任天堂二手Switch游戏 NS 女神异闻录5 乱战 魅影攻手 P5S 中文', 335, 3, 10, '//g-search2.alicdn.com/img/bao/uploaded/i4/i3/750289276/O1CN01wWn2fw2IOSVr0Gfr4_!!750289276.png', NULL, '//item.taobao.com/item.htm?id=621194068336&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249385, 11, '20201009', '20:54:47', '宁波老猎人电玩店', '二手 PS4对马岛之魂', 'PS4正版二手游戏 对马岛之魂 对马之鬼 中文 现货即发', 399, 2266, 5, '//g-search2.alicdn.com/img/bao/uploaded/i4/i3/3191851519/O1CN01AzQCZ31N5kEd7XOxq_!!3191851519.png', NULL, '//item.taobao.com/item.htm?id=622876156311&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249386, 11, '20201009', '20:54:47', '江南美食荟', '二手 PS4对马岛之魂', 'PS4正版二手游戏 对马岛之魂 对马战鬼 中文 现货即发', 365, 46, 7, '//g-search1.alicdn.com/img/bao/uploaded/i4/i4/1905786463/O1CN01MJiKDy1xc6O5FDhw5_!!1905786463.jpg', NULL, '//item.taobao.com/item.htm?id=624330205456&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249387, 11, '20201009', '20:54:47', 'tb80960126', '二手 PS4对马岛之魂', 'PS4二手正版游戏 对马岛之魂   对马之鬼 中文 现货即发', 375, 65, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/4038614043/O1CN01aE4gmJ1fjjuFynhHc_!!4038614043.jpg', NULL, '//item.taobao.com/item.htm?id=623994187534&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249388, 11, '20201009', '20:54:47', '碟山碟海', '二手 PS4对马岛之魂', 'PS4二手游戏 对马岛索尼之魂 对马幽魂 中文版 对马之鬼 顺丰速发', 365, 42, 6, '//g-search2.alicdn.com/img/bao/uploaded/i4/i2/653894885/O1CN01epfpDu1lxNOWBUGIw_!!653894885.jpg', NULL, '//item.taobao.com/item.htm?id=623972506624&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249389, 11, '20201009', '20:54:47', '浩克acd', '二手 PS4对马岛之魂', 'PS4正版二手游戏 对马岛之魂 对马战鬼 中文 现货即发', 369, 5, 5, '//g-search2.alicdn.com/img/bao/uploaded/i4/i2/3503887133/O1CN01p3vvVu22YxkiCjUiE_!!3503887133.jpg', NULL, '//item.taobao.com/item.htm?id=624979610975&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249390, 11, '20201009', '20:54:47', '一诺千金nono8', '二手 PS4对马岛之魂', 'PS4 游戏 二手 对马岛之魂对马幽魂 Ghostof Tsushima 中文现货', 365, 2, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/271684951/O1CN01u7S4OM1mRbXE7r890_!!271684951.jpg', NULL, '//item.taobao.com/item.htm?id=623944989336&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249391, 11, '20201009', '20:54:47', 'tb2757591', '二手 PS4对马岛之魂', 'PS4正版二手游戏 对马岛之魂 对马战鬼 中文 现货', 365, 4, 5, '//g-search1.alicdn.com/img/bao/uploaded/i4/i4/728200061/O1CN01WinmnA1CJym6drU4I_!!728200061.jpg', NULL, '//item.taobao.com/item.htm?id=624208481714&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249392, 11, '20201009', '20:54:47', '子睿电玩', '二手 PS4对马岛之魂', 'PS4正版游戏 二手 对马岛之魂 对马幽魂 Ghostof Tsushima 中文', 369, 0, 5, '//g-search2.alicdn.com/img/bao/uploaded/i4/i2/3193524862/O1CN01YJQjlO1lmqHsOwoeK_!!3193524862.jpg', NULL, '//item.taobao.com/item.htm?id=625016894791&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249393, 11, '20201009', '20:54:47', '梁骆诗', '二手 PS4对马岛之魂', '正版PS4二手(对马岛之魂)繁体中文2手现货', 360, 4, 12, '//g-search3.alicdn.com/img/bao/uploaded/i4/i3/199457661/O1CN01Mw1q3z26SmsCsYeLt_!!0-item_pic.jpg', NULL, '//item.taobao.com/item.htm?id=623665240430&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249394, 11, '20201009', '20:54:47', 'tb21594914', '二手 PS4对马岛之魂', 'PS4正版二手游戏 对马岛之魂 对马之鬼 中文 现货即发', 380, 2, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/1042388358/O1CN01XB2puP2Bc0wMnKHkF_!!1042388358.jpg', NULL, '//item.taobao.com/item.htm?id=627269052939&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249395, 11, '20201009', '20:54:47', '小屹scott', '二手 PS4对马岛之魂', '(悟空电玩)正版二手PS4游戏 对马岛之魂 对马战鬼 对马幽魂 中文', 370, 2, 5, '//g-search1.alicdn.com/img/bao/uploaded/i4/i1/89356905/O1CN01fPFRUa20sXRrFFBfO_!!0-item_pic.jpg', NULL, '//item.taobao.com/item.htm?id=624264657319&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249396, 11, '20201009', '20:54:47', '会蹦的兔子', '二手 PS4对马岛之魂', 'PS4正版二手游戏 对马岛之魂 对马幽魂 对马之鬼 中文 现货即发', 375, 1, 8, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/210647483/O1CN01gFFxlA259GNCswE4O_!!210647483.jpg', NULL, '//item.taobao.com/item.htm?id=623966509896&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249397, 11, '20201009', '20:54:47', '一一个我', '二手 PS4对马岛之魂', 'PS4正版游戏 二手 对马岛之魂 对马幽魂 对马之鬼 中文', 365, 7, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i3/782046460/O1CN01UtB2I11xajCSJCeb5_!!782046460.jpg', NULL, '//item.taobao.com/item.htm?id=624099464835&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249398, 11, '20201009', '20:54:47', 'c小j的梳妆台', '二手 PS4对马岛之魂', '[77电玩社]PS4二手游戏碟光盘对马岛之魂 对马幽魂对马之鬼 中文', 369, 27, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i3/151462990/O1CN01x98OLv1XxSqfAxSbc_!!151462990.jpg', NULL, '//item.taobao.com/item.htm?id=619706232483&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249399, 11, '20201009', '20:54:47', 'ff天幻电玩', '二手 PS4对马岛之魂', 'PS4二手游戏 对马岛之魂 对马幽魂 中文 对马战鬼 现货 即发 回收', 369, 20, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/3415922142/O1CN01xbSY0z1Rh4zEUSut3_!!3415922142.jpg', NULL, '//item.taobao.com/item.htm?id=623611312559&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249400, 11, '20201009', '20:54:47', 'hongfish101', '二手 PS4对马岛之魂', 'PS4正版二手游戏 对马岛之魂 对马战鬼 中文 现货', 365, 6, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/1578705938/O1CN01sfhm8H1tjeSCEYufX_!!1578705938.jpg', NULL, '//item.taobao.com/item.htm?id=625203151110&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249401, 11, '20201009', '20:54:47', '泡儿', '二手 PS4对马岛之魂', 'PS4正版二手游戏 对马岛之魂 对马战鬼 中文 现货即发', 365, 14, 5, '//g-search1.alicdn.com/img/bao/uploaded/i4/i1/10223760/O1CN01CD1nOK1de7ozRW8Vx_!!10223760.jpg', NULL, '//item.taobao.com/item.htm?id=624518282010&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249402, 11, '20201009', '20:54:47', 'tb74306771', '二手 PS4对马岛之魂', 'PS4正版二手游戏光盘 对马岛之魂 对马幽魂 中文 可回收', 350, 6, 6, '//g-search1.alicdn.com/img/bao/uploaded/i4/i4/1073336597/O1CN01X1L3L51ybTSUsHsEz_!!1073336597.jpg', NULL, '//item.taobao.com/item.htm?id=624603263725&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249403, 11, '20201009', '20:54:47', '白日梦six', '二手 PS4对马岛之魂', 'PS4 二手游戏 对马岛之魂 对马幽魂 中文版 对马之鬼 现货即发', 355, 4, 5, '//g-search1.alicdn.com/img/bao/uploaded/i4/i3/2290596284/O1CN01WGVmu21wI7URYP5oh_!!2290596284.jpg', NULL, '//item.taobao.com/item.htm?id=624535471478&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249404, 11, '20201009', '20:54:47', 'tb804834727', '二手 PS4对马岛之魂', 'PS4正版二手游戏 对马岛之魂 对马之鬼 中文 现货即发', 369, 1, 12, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/3931413108/O1CN014Bhksc1YpValjfTv5_!!3931413108.jpg', NULL, '//item.taobao.com/item.htm?id=626587422112&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249405, 11, '20201009', '20:54:47', 'tb597446740', '二手 PS4对马岛之魂', 'PS4 正版二手 对马岛之魂 对马之鬼 中文 现货即发', 355, 0, 5, '//g-search1.alicdn.com/img/bao/uploaded/i4/i1/3936712378/O1CN01647Iu51TRATKnlnMW_!!3936712378.png', NULL, '//item.taobao.com/item.htm?id=629351175406&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249406, 11, '20201009', '20:54:47', 'abouthongqin', '二手 PS4对马岛之魂', '二手 PS4游戏对马岛之魂 Ghost of Tsushima 港中 另回收游戏主机', 400, 0, 10, '//g-search1.alicdn.com/img/bao/uploaded/i4/i2/95990458/O1CN01GnMDkV1FFo1hBdfle_!!0-item_pic.jpg', NULL, '//item.taobao.com/item.htm?id=628308156272&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249407, 11, '20201009', '20:54:47', '每月二购', '二手 PS4对马岛之魂', 'PS4正版二手游戏 索尼 对马岛之魂 对马战鬼 中文', 415, 0, 12, '//g-search1.alicdn.com/img/bao/uploaded/i4/i4/1120400931/O1CN01GN4lS31IkRLmpRpn3_!!1120400931.jpg', NULL, '//item.taobao.com/item.htm?id=624725607688&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249408, 11, '20201009', '20:54:47', 'fanyaji19860109', '二手 PS4对马岛之魂', 'PS4 游戏 二手 对马岛之魂对马幽魂 Ghostof Tsushima 中文现货', 360, 6, 0, '//g-search2.alicdn.com/img/bao/uploaded/i4/i1/131274955/O1CN017fN1y61mTR7yR6Axk_!!131274955.jpg', NULL, '//item.taobao.com/item.htm?id=626376543120&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249409, 11, '20201009', '20:54:47', 'wudi_2005', '二手 PS4对马岛之魂', 'PS4正版二手游戏 对马岛之魂 对马战鬼 中文 现货即发', 405, 0, 0, '//g-search2.alicdn.com/img/bao/uploaded/i4/i3/14528495/O1CN01ZjKOiL2CclBwNRDkl_!!14528495.jpg', NULL, '//item.taobao.com/item.htm?id=624601097704&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249410, 11, '20201009', '20:54:47', '努力创造的使者', '二手 PS4对马岛之魂', '包邮PS4正版二手游戏 对马岛之魂 对马之鬼 中文 现货即发', 375, 2, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/283155589/O1CN01x8yjVT1r9oEfwcUYi_!!283155589.jpg', NULL, '//item.taobao.com/item.htm?id=628433875738&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249411, 11, '20201009', '20:54:47', 'nicewg', '二手 PS4对马岛之魂', 'PS4 游戏 二手  对马岛之魂对马幽魂 Ghostof Tsushima  中文现货', 355, 384, 5, '//g-search2.alicdn.com/img/bao/uploaded/i4/i1/53705938/O1CN01s1maC21tjeRz5CzoW_!!53705938.jpg', NULL, '//item.taobao.com/item.htm?id=623717426858&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249412, 11, '20201009', '20:54:47', '黑夜45', '二手 PS4对马岛之魂', 'PS4正版二手游戏 对马岛之魂 对马之鬼 中文 现货即发', 358, 6, 0, '//g-search2.alicdn.com/img/bao/uploaded/i4/i1/1081556607/O1CN01unXl3l1yg3QkDKgTB_!!1081556607.jpg', NULL, '//item.taobao.com/item.htm?id=628209750805&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249413, 11, '20201009', '20:54:47', '啊庞汇川', '二手 PS4对马岛之魂', 'PS4二手游戏 对马岛索尼之魂 对马幽魂 中文版 对马之鬼 现货即发', 365, 195, 6, '//g-search1.alicdn.com/img/bao/uploaded/i4/i2/1817394781/O1CN01pWeCKv1lBkCi6dpzx_!!1817394781.jpg', NULL, '//item.taobao.com/item.htm?id=624104645515&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249414, 11, '20201009', '20:54:47', '子奇奇子', '二手 PS4对马岛之魂', '[子奇电玩]PS4正版二手游戏碟光盘对马岛之魂对马幽魂 中文另回收', 369, 18, 0, '//g-search1.alicdn.com/img/bao/uploaded/i4/i4/2207968096325/O1CN010McYaB1watjCJOWGS_!!2207968096325.jpg', NULL, '//item.taobao.com/item.htm?id=623385502731&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249415, 11, '20201009', '20:54:47', 'yangyun3020', '二手 PS4对马岛之魂', 'PS4二手游戏 对马岛之魂PS4 对马之鬼 战鬼 对马幽鬼 中文 现货', 363, 131, 0, '//g-search2.alicdn.com/img/bao/uploaded/i4/i1/340702082/O1CN013FPDUf1RFbDnLGhdk_!!340702082.jpg', NULL, '//item.taobao.com/item.htm?id=623505489916&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249416, 11, '20201009', '20:54:47', '肖roll', '二手 PS4对马岛之魂', 'PS4正版二手游戏光盘 对马岛之魂 对马幽魂 中文 可回收', 350, 4, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/2296701302/O1CN01eAFxO71LUMIATMVbA_!!2296701302.jpg', NULL, '//item.taobao.com/item.htm?id=624603451995&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249417, 11, '20201009', '20:54:47', '机美通讯', '二手 PS4对马岛之魂', 'PS4正版二手游戏 对马岛之魂 对马幽魂 中文版 对马之鬼 现货', 364, 101, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/1870742936/O1CN01PItw8v1XYjRyR5IFc_!!1870742936.jpg', NULL, '//item.taobao.com/item.htm?id=618616005880&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249418, 11, '20201009', '20:54:47', 'qq616793749', '二手 PS4对马岛之魂', 'PS4游戏 对马岛之魂 对马战鬼 Ghostof Tsushima 二手 中文现货', 374, 21, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i3/216398148/O1CN01VLYecy2A3plGPHTG7_!!216398148.jpg', NULL, '//item.taobao.com/item.htm?id=625641447904&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249419, 11, '20201009', '20:54:47', '英姬小姐', '二手 PS4对马岛之魂', 'PS4二手游戏 对马岛索尼之魂 对马幽魂 中文版 对马之鬼 现货即发', 365, 5, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/762000930/O1CN01zunzXn1IjyxOyD6OZ_!!762000930.jpg', NULL, '//item.taobao.com/item.htm?id=624477057618&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249420, 11, '20201009', '20:54:47', 'huohudie611225', '二手 PS4对马岛之魂', 'PS4正版二手游戏 对马岛之魂 对马之鬼 中文 现货即发', 370, 3, 5, '//g-search1.alicdn.com/img/bao/uploaded/i4/i3/60987387/O1CN01uydIQV24RIMKXuyC0_!!60987387.png', NULL, '//item.taobao.com/item.htm?id=626927750151&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249421, 11, '20201009', '20:54:47', 'q745326573', '二手 PS4对马岛之魂', 'PS4二手游戏 对马岛之魂 对马幽魂 Ghost of Tsushima 中文 现货', 369, 1, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/755253233/O1CN01B845u31Zkl6eV1z2V_!!755253233.jpg', NULL, '//item.taobao.com/item.htm?id=597824282714&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249466, 17, '20201009', '20:54:47', '宁波老猎人电玩店', '二手 PS4战神4', 'PS4正版二手游戏 战神4 新战神 God of War4 中文  现货即发', 145, 1261, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/3191851519/O1CN01qWK0V81N5kC97mbGm_!!3191851519.png', NULL, '//item.taobao.com/item.htm?id=568719226233&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249467, 17, '20201009', '20:54:47', '宁波老猎人电玩店', '二手 PS4战神4', 'PS4正版二手游戏 战神3 中文 HD高清重制版 重置版  现货即发', 115, 329, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/3191851519/O1CN01saLmsB1N5kCC2A0ES_!!3191851519.png', NULL, '//item.taobao.com/item.htm?id=563299839567&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249468, 17, '20201009', '20:54:47', 'nicewg', '二手 PS4战神4', 'PS4 游戏  二手 战神4 新战神 北欧 god of war 中文 现货即发', 139, 152, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/53705938/TB2C9w_d_qWBKNjSZFAXXanSpXa_!!53705938.jpg', NULL, '//item.taobao.com/item.htm?id=568535759759&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249469, 17, '20201009', '20:54:47', 'nicewg', '二手 PS4战神4', 'PS4 游戏 二手 战神3  中文  现货即发', 105, 42, 5, '//g-search2.alicdn.com/img/bao/uploaded/i4/i4/53705938/O1CN01Wpdn9E1tjeR83BMtt_!!53705938.jpg', NULL, '//item.taobao.com/item.htm?id=587226119521&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249470, 17, '20201009', '20:54:47', '江南美食荟', '二手 PS4战神4', 'PS4正版二手游戏 战神4 新战神 God of War4 中文 现货即发', 145, 13, 7, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/1905786463/O1CN01FNbUcl1xc6Jc7pcUP_!!1905786463.jpg', NULL, '//item.taobao.com/item.htm?id=567734175757&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249471, 17, '20201009', '20:54:47', '齐乐数码', '二手 PS4战神4', 'PS4游戏 战神4 新战神 God of War 4 战神新作续作 中文 二手现货', 139, 6, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/55456008/TB2_482dpzqK1RjSZFoXXbfcXXa_!!55456008.jpg', NULL, '//item.taobao.com/item.htm?id=568887031091&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249472, 17, '20201009', '20:54:47', '齐乐数码', '二手 PS4战神4', 'PS4游戏 战神3 HD高清重制版 中文 二手现货', 105, 1, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/55456008/TB2OPpZdCzqK1RjSZPcXXbTepXa_!!55456008.jpg', NULL, '//item.taobao.com/item.htm?id=520772421413&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249473, 17, '20201009', '20:54:47', '芸峰科技', '二手 PS4战神4', 'PS4正版游戏 二手 战神3 GOD OF WAR3 高清重制版 中文 另回收', 110, 50, 5, '//g-search2.alicdn.com/img/bao/uploaded/i4/i1/1070184235/O1CN012P3p0c1h9fwgShSuK_!!0-item_pic.jpg', NULL, '//item.taobao.com/item.htm?id=542690402681&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249474, 17, '20201009', '20:54:47', '黑夜45', '二手 PS4战神4', 'PS4正版二手游戏 战神3 中文 HD高清重制版 重置版 现货即发', 110, 0, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i3/1081556607/O1CN0150VeXu1yg3Qr6IajA_!!1081556607.jpg', NULL, '//item.taobao.com/item.htm?id=628898382900&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249475, 17, '20201009', '20:54:47', '黑夜45', '二手 PS4战神4', 'PS4正版二手游戏 战神4 新战神 God of War4 中文 现货即发', 140, 0, 0, '//g-search1.alicdn.com/img/bao/uploaded/i4/i4/1081556607/O1CN01qbEhMb1yg3QpmBr51_!!1081556607.jpg', NULL, '//item.taobao.com/item.htm?id=628689970286&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249476, 17, '20201009', '20:54:47', '圣眼使徒', '二手 PS4战神4', '【南昌圆梦】PS4二手游戏 新战神 战神4 God of war 中文现货', 145, 77, 8, '//g-search2.alicdn.com/img/bao/uploaded/i4/i2/44612997/O1CN01sYmwd21Y0fdAYkbpl_!!44612997.jpg', NULL, '//item.taobao.com/item.htm?id=568925342172&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249477, 17, '20201009', '20:54:47', '一诺千金nono8', '二手 PS4战神4', 'PS4 游戏 二手 战神3 中文 现货即发', 110, 4, 0, '//g-search1.alicdn.com/img/bao/uploaded/i4/i4/271684951/TB23HpbXrBnpuFjSZFGXXX51pXa_!!271684951.jpg', NULL, '//item.taobao.com/item.htm?id=542736668885&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249478, 17, '20201009', '20:54:47', 'yb1385521', '二手 PS4战神4', 'PS4正版二手游戏 战神4  God of War4 中文 现货即发', 145, 5, 0, '//g-search2.alicdn.com/img/bao/uploaded/i4/i2/90715207/O1CN01zdqflF1oKqw9fKFEw_!!90715207.jpg', NULL, '//item.taobao.com/item.htm?id=626594000295&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249479, 17, '20201009', '20:54:47', '肖roll', '二手 PS4战神4', 'ps4正版二手游戏光盘 战神4 新战神 God of War 中文 可回收', 120, 12, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i3/2296701302/O1CN01EopvAK1LUMHtrp0vq_!!2296701302.jpg', NULL, '//item.taobao.com/item.htm?id=620987898095&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249480, 17, '20201009', '20:54:47', '子奇奇子', '二手 PS4战神4', '[子奇电玩]PS4正版二手游戏碟光盘战神3 重制版 中文 另回收', 109, 9, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/2207968096325/O1CN01z3aT9k1watizQdNDK_!!2207968096325.jpg', NULL, '//item.taobao.com/item.htm?id=621983302492&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249481, 17, '20201009', '20:54:47', '运动大师', '二手 PS4战神4', 'PS4二手游戏 大表哥 美末 神海4 战神4 巫师3 老猎人 地平线 仁王', 59, 17, 5, '//g-search1.alicdn.com/img/bao/uploaded/i4/i1/243882405/O1CN019IJCJk1TdX58R2ByZ_!!243882405.jpg', NULL, '//item.taobao.com/item.htm?id=610910650349&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249482, 17, '20201009', '20:54:47', '小屹scott', '二手 PS4战神4', '（悟空电玩）正版二手PS4游戏 战神4 God of War 中文', 145, 3, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/89356905/TB2Zdp6g5CYBuNkHFCcXXcHtVXa_!!89356905.jpg', NULL, '//item.taobao.com/item.htm?id=611279363773&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249483, 17, '20201009', '20:54:47', 'tb804834727', '二手 PS4战神4', 'PS4二手游戏 战神4 新战神 God of War4 中文 现货即发', 115, 5, 12, '//g-search2.alicdn.com/img/bao/uploaded/i4/i1/3931413108/O1CN01FgxzLJ1YpVaoEzPyW_!!3931413108.jpg', NULL, '//item.taobao.com/item.htm?id=598090621252&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249484, 17, '20201009', '20:54:47', '会蹦的兔子', '二手 PS4战神4', 'PS4二手游戏 战神4 God of War 4 新战神 中文 英文 现货', 140, 2, 8, '//g-search1.alicdn.com/img/bao/uploaded/i4/i4/210647483/O1CN01obVCWr259GLNj1Gfh_!!210647483.png', NULL, '//item.taobao.com/item.htm?id=611785368301&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249485, 17, '20201009', '20:54:47', '运动大师', '二手 PS4战神4', 'PS4正版二手游戏 战神4+底特律二合一中文现货', 245, 1, 5, '//g-search1.alicdn.com/img/bao/uploaded/i4/i1/243882405/O1CN0107kAmt1TdX8k4fSqi_!!243882405.jpg', NULL, '//item.taobao.com/item.htm?id=598036160568&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249486, 17, '20201009', '20:54:47', '小屹scott', '二手 PS4战神4', '(悟空电玩)二手ps4游戏 战神3 中文 HD高清重制版 重置版', 105, 0, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/89356905/TB1BpuKlkCWBuNjy0FaXXXUlXXa_!!0-item_pic.jpg', NULL, '//item.taobao.com/item.htm?id=623782652456&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249487, 17, '20201009', '20:54:47', '飞扬跋扈0108', '二手 PS4战神4', 'PS4二手正版游戏 战神4 新战神 GOD OF WAR 4 港版中文版', 147, 0, 0, '//g-search2.alicdn.com/img/bao/uploaded/i4/i3/2200544857404/O1CN01uc3kpu24Z53wfYMFk_!!2200544857404.jpg', NULL, '//item.taobao.com/item.htm?id=614209608837&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249488, 17, '20201009', '20:54:47', 'gary_wu2005', '二手 PS4战神4', '二手现货PS4游戏  战神4 新战神 God of War 4 中文 另回收', 150, 0, 6, '//g-search2.alicdn.com/img/bao/uploaded/i4/i2/12836107/O1CN0153zNpI1uz3MmON3CJ_!!0-item_pic.jpg', NULL, '//item.taobao.com/item.htm?id=610675184447&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249489, 17, '20201009', '20:54:47', '爱玩电玩2016', '二手 PS4战神4', 'PS4正版二手游戏 战神3 中文 HD高清 现货即发', 90, 34, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/2875731951/O1CN01OFOh3p1QHbGKBlANn_!!2875731951.png', NULL, '//item.taobao.com/item.htm?id=589842934720&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249490, 17, '20201009', '20:54:47', '陆大爷001', '二手 PS4战神4', 'PS4正版二手游戏 战神3 中文 HD高清重制版 重置版 现货即发', 110, 9, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/1633426408/TB2nMjVkS8YBeNkSnb4XXaevFXa_!!1633426408.jpg', NULL, '//item.taobao.com/item.htm?id=587360926788&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249491, 17, '20201009', '20:54:47', '一诺千金nono8', '二手 PS4战神4', 'PS4 游戏 二手 战神4 新战神 北欧 god of war （另回收）', 145, 9, 0, '//g-search1.alicdn.com/img/bao/uploaded/i4/i4/271684951/O1CN0175jC7I1mRbOfKcIO7_!!271684951.jpg', NULL, '//item.taobao.com/item.htm?id=568569160618&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249492, 17, '20201009', '20:54:47', 'ff天幻电玩', '二手 PS4战神4', 'PS4 正版二手游戏碟盘 战神4 新战神 God of War4 中文 现货 回收', 115, 14, 0, '//g-search2.alicdn.com/img/bao/uploaded/i4/i3/3415922142/O1CN01yqSFoj1Rh4st3t88s_!!3415922142.jpg', NULL, '//item.taobao.com/item.htm?id=588913294714&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249493, 17, '20201009', '20:54:47', 'c小j的梳妆台', '二手 PS4战神4', '【77电玩社】PS4正版二手游戏碟光盘战神4 新战神 中文现货另回收', 139, 23, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/151462990/O1CN01RZOEZh1XxSqHgtJnV_!!151462990.jpg', NULL, '//item.taobao.com/item.htm?id=566834907213&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249494, 17, '20201009', '20:54:47', 'yangyun3020', '二手 PS4战神4', 'PS4正版二手游戏 战神4 新战神 God of War4 中文 现货即发', 140, 11, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/340702082/O1CN01M97aCI1RFbCZd2ZxJ_!!340702082.jpg', NULL, '//item.taobao.com/item.htm?id=598097959124&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249495, 17, '20201009', '20:54:47', '泡儿', '二手 PS4战神4', 'PS4正版二手游戏 战神4 港中 新战神 God of War4 中文现货', 145, 11, 5, '//g-search1.alicdn.com/img/bao/uploaded/i4/i4/10223760/O1CN01H7nXnB1de7hvXluNP_!!10223760.jpg', NULL, '//item.taobao.com/item.htm?id=578520181829&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249496, 17, '20201009', '20:54:47', '圣眼使徒', '二手 PS4战神4', '【南昌圆梦】PS4二手游戏 战神3 HD高清复制版 中文 现货', 110, 12, 8, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/44612997/O1CN01RImfM41Y0fdGhCfSC_!!44612997.jpg', NULL, '//item.taobao.com/item.htm?id=521686735945&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249497, 17, '20201009', '20:54:47', 'tb74306771', '二手 PS4战神4', 'PS4游戏光盘 战神4 God of War 4 中文 可回收9新 二手 全新 现货', 120, 7, 6, '//g-search3.alicdn.com/img/bao/uploaded/i4/i3/1073336597/O1CN012UiLdp1ybTR4TxVPF_!!1073336597.jpg', NULL, '//item.taobao.com/item.htm?id=568194109250&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249498, 17, '20201009', '20:54:47', '一一个我', '二手 PS4战神4', 'PS4 正版游戏 二手 战神4 新战神 God of War 4   中文 二手 回收', 138, 5, 5, '//g-search2.alicdn.com/img/bao/uploaded/i4/i4/782046460/TB2QmHibNTpK1RjSZFMXXbG_VXa_!!782046460.jpg', NULL, '//item.taobao.com/item.htm?id=568183385955&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249499, 17, '20201009', '20:54:47', '泡儿', '二手 PS4战神4', 'PS4正版二手游戏 战神3 重制版 GOD OF WAR3 重置版 中文现货即发', 115, 6, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i3/10223760/O1CN01uwdn1L1de7iIro3U6_!!10223760.jpg', NULL, '//item.taobao.com/item.htm?id=589258874970&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249500, 17, '20201009', '20:54:47', 'tb74306771', '二手 PS4战神4', 'ps4二手游戏光盘 战神3重制版 中文 盒无损盘无痕可回收9成新', 85, 2, 6, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/1073336597/O1CN01trzwoZ1ybTR0tuy1X_!!1073336597.jpg', NULL, '//item.taobao.com/item.htm?id=554537076666&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249501, 17, '20201009', '20:54:47', '矢田', '二手 PS4战神4', 'PS4正版二手游戏 战神4 新战神 God of War4 中文 现货即发', 135, 1, 10, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/20032537/O1CN01pXHn761UbzRjebrFh_!!0-item_pic.jpg', NULL, '//item.taobao.com/item.htm?id=569838731161&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249502, 17, '20201009', '20:54:47', '流逝的永远88', '二手 PS4战神4', 'PS4正版游戏 二手 战神4 新战神 God of War 4 中文', 160, 2, 15, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/83080929/O1CN01ckqoDB1IjWYlyw1Nw_!!0-item_pic.jpg', NULL, '//item.taobao.com/item.htm?id=568582373234&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249503, 17, '20201009', '20:54:47', '石头小礼物', '二手 PS4战神4', '南通电玩  正版ps4游戏二手 战神3 高清重制版 重置版 现货另回收', 110, 0, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/2967314487/TB2LWDLk29TBuNjy0FcXXbeiFXa_!!2967314487.jpg', NULL, '//item.taobao.com/item.htm?id=557366329441&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249504, 17, '20201009', '20:54:47', '绯雨月炎', '二手 PS4战神4', 'PS4正版二手游戏 战神 战神4 GOD OF WAR 中文  现货即发', 145, 1, 23, '//g-search1.alicdn.com/img/bao/uploaded/i4/i4/114721215/O1CN017oMtNo1KqVma84y2K_!!114721215.jpg', NULL, '//item.taobao.com/item.htm?id=595016183606&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249505, 17, '20201009', '20:54:47', 'ff天幻电玩', '二手 PS4战神4', 'PS4正版二手游戏 战神3 中文 HD高清重制版 重置版 GOW3 光盘现货', 109, 4, 0, '//g-search2.alicdn.com/img/bao/uploaded/i4/i4/3415922142/O1CN012ZyKLC1Rh4saaRKp3_!!3415922142.jpg', NULL, '//item.taobao.com/item.htm?id=589436891623&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249506, 17, '20201009', '20:54:47', '碟山碟海', '二手 PS4战神4', 'PS4二手游戏 战神3 中文版 重置版 箱说齐全 碟无痕 顺丰即发', 110, 1, 6, '//g-search1.alicdn.com/img/bao/uploaded/i4/i1/653894885/O1CN01o6RI0S1lxNNoqIrT6_!!653894885.jpg', NULL, '//item.taobao.com/item.htm?id=577326014278&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249507, 17, '20201009', '20:54:47', 'tb14881761', '二手 PS4战神4', 'PS4正版二手游戏 战神4 新战神 God of War4 中文 另回收', 139, 6, 7, '//g-search1.alicdn.com/img/bao/uploaded/i4/i4/1635682943/O1CN01l7DwoV1XbwBB3tL62_!!1635682943.jpg', NULL, '//item.taobao.com/item.htm?id=601583309481&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249508, 17, '20201009', '20:54:47', 'wangyiyu1987', '二手 PS4战神4', 'PS4正版二手游戏 战神4 新战神 God of War4 中文 现货即发', 145, 3, 8, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/66958743/O1CN010vrR4k2ESLKGpxc1A_!!66958743.png', NULL, '//item.taobao.com/item.htm?id=593665663100&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249509, 17, '20201009', '20:54:47', 'lescape', '二手 PS4战神4', 'PS4二手正版游戏 战神4 新战神 北欧 god of war 4 中文 english', 135, 1, 12, '//g-search1.alicdn.com/img/bao/uploaded/i4/i1/64317160/O1CN01pS7rHC22lKRgFkhQs_!!0-item_pic.jpg', NULL, '//item.taobao.com/item.htm?id=571324286187&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249554, 18, '20201009', '20:54:47', '黑夜45', '二手 PS4荒野大镖客2', 'PS4游戏 二手 荒野大镖客2 碧血狂杀2 救赎 中文 大表哥2 现货', 166, 1, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i3/1081556607/O1CN01iHuu7H1yg3Qng5Rj9_!!1081556607.jpg', NULL, '//item.taobao.com/item.htm?id=628057716772&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249555, 18, '20201009', '20:54:47', '齐乐数码', '二手 PS4荒野大镖客2', 'PS4游戏 荒野大镖客2 碧血狂杀2 救赎 中文 二手现货', 169, 23, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i3/55456008/O1CN01HPKBHC1uFi2TEloHd_!!0-item_pic.jpg', NULL, '//item.taobao.com/item.htm?id=582154995738&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249556, 18, '20201009', '20:54:47', '芸峰科技', '二手 PS4荒野大镖客2', 'PS4正版二手游戏 荒野大镖客2 救赎   中文 现货即发', 165, 325, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/1070184235/O1CN01quPgPT1h9fx07p4oe_!!0-item_pic.jpg', NULL, '//item.taobao.com/item.htm?id=586370856359&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249557, 18, '20201009', '20:54:47', '爱玩电玩2016', '二手 PS4荒野大镖客2', 'PS4正版二手游戏 荒野大镖客2 救赎 碧血狂杀2 中文 现货即发', 155, 76, 5, '//g-search2.alicdn.com/img/bao/uploaded/i4/i4/2875731951/O1CN01mmNOyS1QHbGPdlnvm_!!2875731951.png', NULL, '//item.taobao.com/item.htm?id=587162389541&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249558, 18, '20201009', '20:54:47', 'ff天幻电玩', '二手 PS4荒野大镖客2', 'PS4二手游戏 荒野大镖客2 大表哥2  救赎2 大嫖客2 正版光盘 中文', 158, 102, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/3415922142/O1CN01vp1mGK1Rh4sZLaBZL_!!3415922142.jpg', NULL, '//item.taobao.com/item.htm?id=588911540483&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249559, 18, '20201009', '20:54:47', 'tb804834727', '二手 PS4荒野大镖客2', 'PS4游戏二手正版 荒野大镖客2 碧血狂杀2 救赎 中文 现货即发', 165, 8, 12, '//g-search2.alicdn.com/img/bao/uploaded/i4/i1/3931413108/O1CN01dbys441YpVb1WbHzu_!!3931413108.jpg', NULL, '//item.taobao.com/item.htm?id=615055042974&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249560, 18, '20201009', '20:54:47', 'yb1385521', '二手 PS4荒野大镖客2', 'PS4二手游戏 荒野大镖客2 救赎 碧血狂杀2 大表哥2中文 现货', 159, 18, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/90715207/O1CN012YcWRg1oKqvgD8YRT_!!90715207.jpg', NULL, '//item.taobao.com/item.htm?id=624643897956&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249561, 18, '20201009', '20:54:47', '一诺千金nono8', '二手 PS4荒野大镖客2', 'PS4游戏 二手 荒野大镖客2 碧血狂杀2 救赎（另回收）', 170, 29, 0, '//g-search1.alicdn.com/img/bao/uploaded/i4/i2/271684951/O1CN01cO4z101mRbOiEERZp_!!271684951.jpg', NULL, '//item.taobao.com/item.htm?id=581339579315&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249562, 18, '20201009', '20:54:47', 'c小j的梳妆台', '二手 PS4荒野大镖客2', '[77电玩社]PS4二手游戏碟光盘荒野大镖客2救赎大表哥2 中文另回收', 175, 38, 0, '//g-search2.alicdn.com/img/bao/uploaded/i4/i1/151462990/O1CN012irlDJ1XxSqFsOuyI_!!151462990.jpg', NULL, '//item.taobao.com/item.htm?id=578249765521&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249563, 18, '20201009', '20:54:47', 'gary_wu2005', '二手 PS4荒野大镖客2', '二手现货PS4游戏 荒野大镖客2 中文 另回收', 170, 1, 6, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/12836107/O1CN01xdIeRj1uz3MpC8OAp_!!0-item_pic.jpg', NULL, '//item.taobao.com/item.htm?id=587903583207&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249564, 18, '20201009', '20:54:47', '昆明随心电玩', '二手 PS4荒野大镖客2', '随心电玩 PS4正版二手游戏 荒野大镖客：救赎2 中文', 169, 0, 12, '//g-search1.alicdn.com/img/bao/uploaded/i4/i3/3549281185/O1CN01gtlfMf1KclwUaw6oQ_!!3549281185.jpg', NULL, '//item.taobao.com/item.htm?id=619971207069&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249565, 18, '20201009', '20:54:47', '泡儿', '二手 PS4荒野大镖客2', 'PS4正版二手游戏 荒野大镖客2救赎 碧血狂杀2 中文现货 即发', 175, 19, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/10223760/O1CN01ckZZe01de7hx6JW5p_!!10223760.jpg', NULL, '//item.taobao.com/item.htm?id=583975741536&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249566, 18, '20201009', '20:54:47', '陆大爷001', '二手 PS4荒野大镖客2', 'PS4正版二手游戏 荒野大镖客2 救赎 碧血狂杀2 中文 现货即发', 169, 22, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/1633426408/O1CN011xCuSeYgvNlbqJb_!!1633426408.jpg', NULL, '//item.taobao.com/item.htm?id=581011186266&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249567, 18, '20201009', '20:54:47', 'tb74306771', '二手 PS4荒野大镖客2', 'PS4正版游戏二手 荒野大镖客2救赎 大表哥2  中文可回收 现货即发', 150, 5, 6, '//g-search2.alicdn.com/img/bao/uploaded/i4/i1/1073336597/O1CN01jCOtYn1ybTR38fhyc_!!1073336597.jpg', NULL, '//item.taobao.com/item.htm?id=585362929040&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249568, 18, '20201009', '20:54:47', '流逝的永远88', '二手 PS4荒野大镖客2', 'PS4正版游戏 二手 荒野大镖客2 碧血狂杀2 救赎 中文 现货即发', 155, 2, 15, '//g-search1.alicdn.com/img/bao/uploaded/i4/i4/83080929/O1CN01NOW4rx1IjWYrfuUW3_!!0-item_pic.jpg', NULL, '//item.taobao.com/item.htm?id=581656969741&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249569, 18, '20201009', '20:54:47', '沈士郑千里', '二手 PS4荒野大镖客2', 'PS4正版二手游戏 荒野大镖客2 救赎 大表哥2 中文 现货即发', 180, 3, 8, '//g-search1.alicdn.com/img/bao/uploaded/i4/i1/3549205239/O1CN017t6oW11oZVarl1IUS_!!3549205239.png', NULL, '//item.taobao.com/item.htm?id=620127296324&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249570, 18, '20201009', '20:54:47', 'wangyiyu1987', '二手 PS4荒野大镖客2', 'PS4正版二手游戏 荒野大镖客2 救赎 碧血狂杀2 中文 现货即发', 165, 4, 8, '//g-search1.alicdn.com/img/bao/uploaded/i4/i3/66958743/O1CN01pGyRpj2ESLKGTs4JP_!!66958743.png', NULL, '//item.taobao.com/item.htm?id=593495254722&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249571, 18, '20201009', '20:54:47', '天財no1', '二手 PS4荒野大镖客2', 'PS4游戏 二手 荒野大镖客2 碧血狂杀2 救赎 中文 现货', 175, 1, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/504961569/O1CN01bsB9ID1NSe2ymWWY3_!!504961569.jpg', NULL, '//item.taobao.com/item.htm?id=589687074603&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249572, 18, '20201009', '20:54:47', '龙之购2015', '二手 PS4荒野大镖客2', 'PS4游戏荒野大镖客 2 救赎 大表哥 RDR2港版中文光盘碟二手另回收', 140, 0, 8, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/2411310116/O1CN01cPb5Cz1CjAUcf88U9_!!2-item_pic.png', NULL, '//item.taobao.com/item.htm?id=600253558362&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249573, 18, '20201009', '20:54:47', '会蹦的兔子', '二手 PS4荒野大镖客2', 'PS4正版二手游戏 荒野大镖客2 碧血狂杀2 大表哥2 中文 现货即发', 170, 1, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/210647483/O1CN01w5r40G259GEU3TXTs_!!210647483.jpg', NULL, '//item.taobao.com/item.htm?id=591987931704&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249574, 18, '20201009', '20:54:47', '少女物语休闲服饰', '二手 PS4荒野大镖客2', 'PS4正版二手游戏 荒野大镖客2 救赎 碧血狂杀2 中文 现货即发', 165, 0, 12, '//g-search2.alicdn.com/img/bao/uploaded/i4/i2/189752724/O1CN01Zu01zD1VzdOgcZf6e_!!189752724.jpg', NULL, '//item.taobao.com/item.htm?id=592565057410&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249575, 18, '20201009', '20:54:47', '绯雨月炎', '二手 PS4荒野大镖客2', 'PS4正版二手游戏 荒野大镖客2 救赎 碧血狂杀2 中文 现货即发', 175, 1, 10, '//g-search2.alicdn.com/img/bao/uploaded/i4/i1/114721215/O1CN01FS0cIt1KqVmXuEg6m_!!114721215.jpg', NULL, '//item.taobao.com/item.htm?id=594878202082&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249576, 18, '20201009', '20:54:47', 'hongfish101', '二手 PS4荒野大镖客2', 'PS4正版游戏二手 荒野大镖客2 碧血狂杀 救赎 简体中文 现货', 160, 3, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/1578705938/O1CN01G4kRtf1tjeSho5ffn_!!1578705938.jpg', NULL, '//item.taobao.com/item.htm?id=628111820146&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249577, 18, '20201009', '20:54:47', '白日梦six', '二手 PS4荒野大镖客2', 'PS4 二手游戏 荒野大镖客2 碧血狂杀2 救赎 中文 现货', 169, 1, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/2290596284/O1CN01MtlIpo1wI7USs2rCc_!!2290596284.jpg', NULL, '//item.taobao.com/item.htm?id=620750373814&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249578, 18, '20201009', '20:54:47', 'abouthongqin', '二手 PS4荒野大镖客2', '二手 PS4游戏 荒野大镖客2 碧血狂杀2 救赎 港中 另回收游戏主机', 200, 0, 10, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/95990458/O1CN01PzYMT81FFo1Zgd6lf_!!95990458.jpg', NULL, '//item.taobao.com/item.htm?id=628332284063&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249579, 18, '20201009', '20:54:47', 'tb21594914', '二手 PS4荒野大镖客2', 'PS4正版二手游戏 荒野大镖客2 碧血狂杀2 救赎 中文  现货即发', 190, 1, 5, '//g-search2.alicdn.com/img/bao/uploaded/i4/i3/1042388358/O1CN01kZcMGr2Bc0wPL3tpr_!!1042388358.jpg', NULL, '//item.taobao.com/item.htm?id=627268844333&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249580, 18, '20201009', '20:54:47', '祖志宏', '二手 PS4荒野大镖客2', 'PS4二手游戏 荒野大镖客2 碧血狂杀2 大镖客2大表哥2 救赎 另回收', 349, 0, 0, '//g-search1.alicdn.com/img/bao/uploaded/i4/i3/52256666/O1CN01GdaqUZ1z74lhyeBk1_!!52256666.jpg', NULL, '//item.taobao.com/item.htm?id=615687066046&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249581, 18, '20201009', '20:54:47', '孤落寡人', '二手 PS4荒野大镖客2', '二手PS4游戏 荒野大镖客2 碧血狂杀2 救赎 港版中文', 165, 0, 8, '//g-search2.alicdn.com/img/bao/uploaded/i4/i4/390205230/O1CN01gVN9Yk1oVO3AHktKG_!!390205230.jpg', NULL, '//item.taobao.com/item.htm?id=629148835249&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249582, 18, '20201009', '20:54:47', '碟山碟海', '二手 PS4荒野大镖客2', 'PS4二手游戏 荒野大镖客2 表哥2 中文版 箱说齐全 顺丰即发', 165, 16, 6, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/653894885/O1CN01oZlpuH1lxNNhaaYoV_!!653894885.jpg', NULL, '//item.taobao.com/item.htm?id=583189614127&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249583, 18, '20201009', '20:54:47', 'huohudie611225', '二手 PS4荒野大镖客2', 'PS4正版游戏 二手 荒野大镖客2 救赎 动作游戏 中文 现货即发', 175, 36, 5, '//g-search1.alicdn.com/img/bao/uploaded/i4/i1/60987387/O1CN010btB1M24RIL9EjRUY_!!60987387.jpg', NULL, '//item.taobao.com/item.htm?id=619502560390&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249584, 18, '20201009', '20:54:47', '子睿电玩', '二手 PS4荒野大镖客2', 'PS4正版游戏二手 荒野大镖客2 碧血狂杀2 救赎 中文 现货', 185, 25, 5, '//g-search1.alicdn.com/img/bao/uploaded/i4/i2/3193524862/O1CN01ZiP8ix1lmq9NRorNF_!!3193524862.jpg', NULL, '//item.taobao.com/item.htm?id=582348348607&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249585, 18, '20201009', '20:54:47', '啊庞汇川', '二手 PS4荒野大镖客2', 'PS4游戏 二手 荒野大镖客2 大表哥2 碧血狂杀2 救赎 中文 现货', 175, 138, 6, '//g-search1.alicdn.com/img/bao/uploaded/i4/i3/1817394781/O1CN01Wp1dC81lBkCiYurJR_!!1817394781.jpg', NULL, '//item.taobao.com/item.htm?id=624673215371&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249586, 18, '20201009', '20:54:47', '机美通讯', '二手 PS4荒野大镖客2', 'PS4二手游戏 荒野大镖客2 大表哥2 碧血狂杀 救赎 大镖客2 另回收', 174, 182, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/1870742936/O1CN01fkzdzf1XYjRSNqj4q_!!1870742936.jpg', NULL, '//item.taobao.com/item.htm?id=582228881951&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249587, 18, '20201009', '20:54:47', '子奇奇子', '二手 PS4荒野大镖客2', '[子奇电玩]PS4二手游戏碟光盘荒野大镖客2救赎 大表哥 中文另回收', 175, 49, 0, '//g-search1.alicdn.com/img/bao/uploaded/i4/i4/2207968096325/O1CN01NpEBPk1wativTTr7L_!!2207968096325.jpg', NULL, '//item.taobao.com/item.htm?id=621971046506&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249588, 18, '20201009', '20:54:47', '圣眼使徒', '二手 PS4荒野大镖客2', '【南昌圆梦】PS4二手游戏 荒野大镖客2 救赎 大表哥2 中文 现货', 170, 123, 8, '//g-search1.alicdn.com/img/bao/uploaded/i4/i3/44612997/O1CN01IgScl71Y0fd6umJKP_!!44612997.jpg', NULL, '//item.taobao.com/item.htm?id=581521935133&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249589, 18, '20201009', '20:54:47', 'qq616793749', '二手 PS4荒野大镖客2', 'PS4二手游戏 荒野大镖客2 碧血狂杀2 救赎 中文 现货即发', 175, 25, 5, '//g-search2.alicdn.com/img/bao/uploaded/i4/i1/216398148/O1CN013hcIC32A3pl88DjPO_!!216398148.jpg', NULL, '//item.taobao.com/item.htm?id=624832543432&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249590, 18, '20201009', '20:54:47', '肖roll', '二手 PS4荒野大镖客2', 'ps4二手正版游戏 荒野大镖客2救赎 大表哥2 中文 可回收9成新', 150, 10, 5, '//g-search2.alicdn.com/img/bao/uploaded/i4/i1/2296701302/O1CN01QhuGkN1LUMHoJW8RR_!!2296701302.jpg', NULL, '//item.taobao.com/item.htm?id=620361413501&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249591, 18, '20201009', '20:54:47', 'tb14881761', '二手 PS4荒野大镖客2', 'PS4正版二手游戏 荒野大镖客2 救赎 碧血狂杀2 中文 另回收', 175, 7, 7, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/1635682943/O1CN014fFTtg1XbwEzNeZyl_!!1635682943.jpg', NULL, '//item.taobao.com/item.htm?id=601786410759&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249592, 18, '20201009', '20:54:47', '英姬小姐', '二手 PS4荒野大镖客2', 'PS4正版二手游戏 荒野大镖客2 救赎 碧血狂杀2 大表哥2中文 现货', 169, 14, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/762000930/O1CN01eKd2DZ1Ijywmdtl2s_!!762000930.jpg', NULL, '//item.taobao.com/item.htm?id=620007901762&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249593, 18, '20201009', '20:54:47', '小屹scott', '二手 PS4荒野大镖客2', '悟空电玩 二手正版 PS4游戏 荒野大镖客2 大嫖客大表哥2 碧血狂杀', 170, 5, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i3/89356905/O1CN0120sXIze7ZO9rXmv_!!0-item_pic.jpg', NULL, '//item.taobao.com/item.htm?id=611093214213&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249594, 18, '20201009', '20:54:47', 'tb2757591', '二手 PS4荒野大镖客2', 'PS4正版二手游戏  荒野大镖客2 救赎 碧血狂杀2 大表哥2中文 现货', 183, 40, 5, '//g-search1.alicdn.com/img/bao/uploaded/i4/i4/728200061/O1CN01B5p32l1CJyl0kDH4G_!!728200061.jpg', NULL, '//item.taobao.com/item.htm?id=581185161268&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249595, 18, '20201009', '20:54:47', '运动大师', '二手 PS4荒野大镖客2', 'PS4正版二手中文游戏 荒野大镖客2 救赎 大表哥2 现货即发', 165, 32, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/243882405/O1CN01Ch8VDp1TdX8fSJhDq_!!243882405.jpg', NULL, '//item.taobao.com/item.htm?id=598167537582&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249596, 18, '20201009', '20:54:47', '皇族_宝贝', '二手 PS4荒野大镖客2', 'PS4游戏全新/二手 荒野大镖客2 碧血狂杀2 繁体中文 终极 救赎', 179, 13, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/159533128/O1CN01k5KmAq1YyfV3FMidD_!!0-item_pic.jpg', NULL, '//item.taobao.com/item.htm?id=587559615868&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249597, 18, '20201009', '20:54:47', '努力创造的使者', '二手 PS4荒野大镖客2', '包邮PS4正版二手游戏 荒野大镖客2 救赎 碧血狂杀2 中文 现货', 175, 2, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/283155589/O1CN0171bRHh1r9oCNgx52z_!!283155589.jpg', NULL, '//item.taobao.com/item.htm?id=622180309812&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249642, 19, '20201009', '20:54:47', '宁波老猎人电玩店', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度神剑2  异度之刃2 中文 现货即发', 399, 1567, 5, '//g-search2.alicdn.com/img/bao/uploaded/i4/i4/3191851519/O1CN01UpN4V61N5kC969d9v_!!3191851519.png', NULL, '//item.taobao.com/item.htm?id=563255951673&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249643, 19, '20201009', '20:54:47', '宁波老猎人电玩店', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度之刃2/神剑2 黄金之国 中文 现货', 155, 371, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/3191851519/O1CN01DSKFej1N5kCARMiFd_!!3191851519.png', NULL, '//item.taobao.com/item.htm?id=578542714713&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249644, 19, '20201009', '20:54:47', '芸峰科技', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度神剑2 异度之刃2 中文 现货即发', 395, 10, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i3/1070184235/O1CN01x8W2vA1h9fw7l3Uwu_!!1070184235.jpg', NULL, '//item.taobao.com/item.htm?id=563145162622&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249645, 19, '20201009', '20:54:47', '芸峰科技', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度之刃2 黄金之国伊拉异度神剑2 中文', 155, 4, 5, '//g-search1.alicdn.com/img/bao/uploaded/i4/i2/1070184235/O1CN01E6M7JL1h9fx07oL5J_!!0-item_pic.jpg', NULL, '//item.taobao.com/item.htm?id=593802254012&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249646, 19, '20201009', '20:54:47', '屋檐大叔', '二手 Switch异度神剑2', '异度之刃2中文任天堂二手Switch游戏卡NS神剑2回收出借租赁实体卡', 385, 15, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i3/2201280651647/O1CN01eswwKn1O2Mu4yigsQ_!!2201280651647.jpg', NULL, '//item.taobao.com/item.htm?id=595985583172&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249647, 19, '20201009', '20:54:47', 'q745326573', '二手 Switch异度神剑2', 'Switch NS二手游戏 异度之刃2 异度神剑 中文 现货', 399, 2, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/755253233/O1CN01lZKCyn1Zkkz2pwcoR_!!755253233.jpg', NULL, '//item.taobao.com/item.htm?id=543335474623&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249648, 19, '20201009', '20:54:47', '幸运星阁', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS黄金之国   中文 现货 异度之刃2/神剑2', 140, 36, 0, '//g-search2.alicdn.com/img/bao/uploaded/i4/i2/642134755/O1CN01UPlwIe1kzpq5JqqAd_!!642134755.jpg', NULL, '//item.taobao.com/item.htm?id=597690766523&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249649, 19, '20201009', '20:54:47', '乐波游戏', '二手 Switch异度神剑2', '任天堂Switch NS二手游戏 异度之刃2 神剑2 中文 现货 单张包邮', 395, 40, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/2906761236/O1CN01t73TRe1L089nJoHP3_!!2906761236.jpg', NULL, '//item.taobao.com/item.htm?id=598430760099&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249650, 19, '20201009', '20:54:47', '云兔电商', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS黄金之国   中文 现货 异度之刃2/神剑2', 145, 4, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/3886249001/O1CNA1XA58RQ2GMVc8tHsDH_!!3886249001-0-psf.jpg', NULL, '//item.taobao.com/item.htm?id=620434320747&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249651, 19, '20201009', '20:54:47', 'yangyun3020', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度神剑2 异度之刃2 中文 现货即发', 399, 9, 0, '//g-search1.alicdn.com/img/bao/uploaded/i4/i4/340702082/O1CN01doj80T1RFbCVU1CCd_!!340702082.jpg', NULL, '//item.taobao.com/item.htm?id=598972873357&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249652, 19, '20201009', '20:54:47', '悦游电玩', '二手 Switch异度神剑2', 'switch二手卡带 ns游戏 异度之刃2 神剑2 黄金之国伊拉 DLC 中文', 150, 9, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i3/2207960136892/O1CN01NwSFlT20maILNqkid_!!2207960136892.jpg', NULL, '//item.taobao.com/item.htm?id=623543706446&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249653, 19, '20201009', '20:54:47', '流逝的永远88', '二手 Switch异度神剑2', '任天堂Switch二手游戏 NS 异度神剑2 异度之刃2 中文 现货即发', 395, 3, 15, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/83080929/O1CN017GJ5eA1IjWYrfuDsh_!!0-item_pic.jpg', NULL, '//item.taobao.com/item.htm?id=562759704178&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249654, 19, '20201009', '20:54:47', '欣儿ff', '二手 Switch异度神剑2', '任天堂二手Switch NS游戏异度之刃2异度神剑2中文现货包邮 可回收', 399, 16, 0, '//g-search1.alicdn.com/img/bao/uploaded/i4/i4/86843512/O1CN01E3MbYp1boXVmIklDS_!!86843512.jpg', NULL, '//item.taobao.com/item.htm?id=579823584078&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249655, 19, '20201009', '20:54:47', '碟山碟海', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度神剑2 异度之刃2 中文 顺丰即发', 390, 11, 6, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/653894885/O1CN01YsH47D1lxNNmTNz2j_!!653894885.jpg', NULL, '//item.taobao.com/item.htm?id=574194130347&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249656, 19, '20201009', '20:54:47', '祖志宏', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度之刃2/神剑2 黄金之国 中文', 135, 1, 0, '//g-search2.alicdn.com/img/bao/uploaded/i4/i1/52256666/O1CN01jzVHpB1z74gfnd1Xz_!!52256666.jpg', NULL, '//item.taobao.com/item.htm?id=590582392852&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249657, 19, '20201009', '20:54:47', '我爱我中华90', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度神剑2 异度之刃2 中文 游戏卡', 385, 10, 6, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/4282833025/O1CN01IFzg1g1YDUfgOgKEt_!!4282833025.jpg', NULL, '//item.taobao.com/item.htm?id=583303292232&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249658, 19, '20201009', '20:54:47', 'elaine_桐彤', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度神剑2 异度之刃2 中文 现货即发', 380, 15, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/2223041096/O1CN01SSnBUX1Jy0fCkD0M8_!!0-item_pic.jpg', NULL, '//item.taobao.com/item.htm?id=562993242884&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249659, 19, '20201009', '20:54:47', 'ff天幻电玩', '二手 Switch异度神剑2', 'NS Switch 二手游戏 异度之刃2 异度神剑2 黄金之国伊拉 中文 DLC', 155, 1, 0, '//g-search1.alicdn.com/img/bao/uploaded/i4/i4/3415922142/O1CN01RAkSBU1Rh4vCjh7St_!!3415922142.jpg', NULL, '//item.taobao.com/item.htm?id=600037643995&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249660, 19, '20201009', '20:54:47', '泡儿', '二手 Switch异度神剑2', '任天堂 Switch二手游戏卡 Ns 异度神剑2 异度之刃2 中文现货', 379, 21, 5, '//g-search1.alicdn.com/img/bao/uploaded/i4/i3/10223760/O1CN01MDfORk1de7hQZTKGR_!!10223760.jpg', NULL, '//item.taobao.com/item.htm?id=578098400622&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249661, 19, '20201009', '20:54:47', '信仰数码商城', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度神剑2 异度之刃2 中文 游戏卡 现货', 395, 0, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i3/2207903069852/O1CN01AFsiNC2MeGddIO7zl_!!2207903069852.png', NULL, '//item.taobao.com/item.htm?id=617715429380&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249662, 19, '20201009', '20:54:47', '翱翔的撒旦', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度神剑2 异度之刃2 中文 现货即发', 409, 0, 8, '//g-search3.alicdn.com/img/bao/uploaded/i4/i3/1753533081/O1CN01lOQs9D1Yd8rqXjhhs_!!1753533081.jpg', NULL, '//item.taobao.com/item.htm?id=609348451016&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249663, 19, '20201009', '20:54:47', '信仰数码商城', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度之刃2/神剑2 黄金之国 中文 现货', 150, 1, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i3/2207903069852/O1CN01kLiJnI2MeGdmefjcO_!!2207903069852.png', NULL, '//item.taobao.com/item.htm?id=618001620456&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249664, 19, '20201009', '20:54:47', '屋檐大叔', '二手 Switch异度神剑2', '异度之刃2神剑2黄金之国伊拉任天堂二手Switch游戏卡NS回收出租赁', 145, 7, 0, '//g-search2.alicdn.com/img/bao/uploaded/i4/i2/2201280651647/O1CN01RUQB5w1O2Mu2Q0FQo_!!2201280651647.jpg', NULL, '//item.taobao.com/item.htm?id=596708918978&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249665, 19, '20201009', '20:54:47', '一诺千金nono8', '二手 Switch异度神剑2', '任天堂Switch二手游戏 NS 异度之刃2 异度神剑2 （另回收）', 380, 4, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/271684951/O1CN01gfjToF1mRbOddREL2_!!271684951.jpg', NULL, '//item.taobao.com/item.htm?id=563155453350&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249666, 19, '20201009', '20:54:47', 'gyj329835174', '二手 Switch异度神剑2', '任天堂 Switch二手游戏卡 NS 异度之刃2/神剑2 黄金之国 中文现货', 165, 5, 8, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/880042366/O1CN01AaSGsX1TLfcnA82rL_!!880042366.jpg', NULL, '//item.taobao.com/item.htm?id=595833591595&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249667, 19, '20201009', '20:54:47', '龙之购2015', '二手 Switch异度神剑2', '任天堂Switch NS游戏 异度神剑 2 异度之刃 中文实体卡二手另回收', 370, 1, 8, '//g-search2.alicdn.com/img/bao/uploaded/i4/i3/2411310116/O1CN01atVpro1CjAV0ocOLL_!!0-item_pic.jpg', NULL, '//item.taobao.com/item.htm?id=601379896932&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249668, 19, '20201009', '20:54:47', '九州信通', '二手 Switch异度神剑2', 'SWITCH NS二手游戏 异度之刃2 异度神剑2 中文 《另回收NS游戏》', 379, 2, 10, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/2013163674/TB2TiV.oSYH8KJjSspdXXcRgVXa_!!2013163674.jpg', NULL, '//item.taobao.com/item.htm?id=564518340855&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249669, 19, '20201009', '20:54:47', '欣儿ff', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度之刃2/神剑2 黄金之国伊拉DLC', 140, 3, 0, '//g-search2.alicdn.com/img/bao/uploaded/i4/i3/86843512/O1CN01YCvPDc1boXVmtkPZM_!!86843512.jpg', NULL, '//item.taobao.com/item.htm?id=587961673237&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249670, 19, '20201009', '20:54:47', 'yangyun3020', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度之刃2/神剑2 黄金之国 中文 现货', 150, 1, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/340702082/O1CN016qegR51RFbCXKP5Er_!!340702082.jpg', NULL, '//item.taobao.com/item.htm?id=597732997209&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249671, 19, '20201009', '20:54:47', 'wangyiyu1987', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度神剑2 异度之刃2 中文 现货即发', 390, 0, 8, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/66958743/O1CN01hk6y8S2ESLKRICpN1_!!66958743.jpg', NULL, '//item.taobao.com/item.htm?id=594037202891&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249672, 19, '20201009', '20:54:47', 'imstillalive', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度神剑2 异度之刃2 中文 现货即发', 399, 1, 5, '//g-search2.alicdn.com/img/bao/uploaded/i4/i1/1025044633/O1CN01HNQnNy1k5xaWx6iWy_!!1025044633.jpg', NULL, '//item.taobao.com/item.htm?id=595630378827&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249673, 19, '20201009', '20:54:47', '祖志宏', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS  异度之刃2 异度神剑 中文 现货', 399, 1, 0, '//g-search1.alicdn.com/img/bao/uploaded/i4/i4/52256666/O1CN01KrXLl31z74mOcz0a2_!!52256666.jpg', NULL, '//item.taobao.com/item.htm?id=590418350785&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249674, 19, '20201009', '20:54:47', 'ff天幻电玩', '二手 Switch异度神剑2', '任天堂Switch二手游戏 NS 异度之刃2 异度神剑2 中文版 美版 英文', 325, 6, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i4/3415922142/O1CN01ERL7k21Rh4t8krYbq_!!3415922142.jpg', NULL, '//item.taobao.com/item.htm?id=591680247756&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249675, 19, '20201009', '20:54:47', '上海澎澎电玩', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度之刃2/神剑2 黄金之国伊拉 中文', 165, 0, 10, '//g-search2.alicdn.com/img/bao/uploaded/i4/i1/897981767/O1CN01TJW8HT1OvKPHfUZXU_!!897981767.png', NULL, '//item.taobao.com/item.htm?id=595397356408&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249676, 19, '20201009', '20:54:47', '陆大爷001', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度神剑2 异度之刃2 中文 现货即发', 395, 6, 5, '//g-search2.alicdn.com/img/bao/uploaded/i4/i3/1633426408/TB20tsibYwrBKNjSZPcXXXpapXa_!!1633426408.jpg', NULL, '//item.taobao.com/item.htm?id=562766125890&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249677, 19, '20201009', '20:54:47', 'wudi_2005', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度神剑2 异度之刃2 中文 现货即发', 405, 1, 0, '//g-search1.alicdn.com/img/bao/uploaded/i4/i3/14528495/O1CN01B1Dsdb2CclBvctHv9_!!14528495.jpg', NULL, '//item.taobao.com/item.htm?id=623864966189&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249678, 19, '20201009', '20:54:47', '舒宜宝贝', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度之刃2/神剑2 黄金之国伊拉 中文', 145, 3, 8, '//g-search1.alicdn.com/img/bao/uploaded/i4/i1/125197181/O1CN018WAtzE22uwhPD43yz_!!125197181.jpg', NULL, '//item.taobao.com/item.htm?id=595480017613&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249679, 19, '20201009', '20:54:47', '上海澎澎电玩', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度神剑2/异度之刃2 中文版 现货即发', 390, 1, 10, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/897981767/O1CN0152cug21OvKP9w8UKl_!!897981767.png', NULL, '//item.taobao.com/item.htm?id=595398892053&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249680, 19, '20201009', '20:54:47', '爱玩电玩2016', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度之刃2/神剑2 黄金之国 中文 现货', 175, 0, 5, '//g-search3.alicdn.com/img/bao/uploaded/i4/i2/2875731951/O1CN01zJM4PI1QHbDuqIngS_!!2875731951.jpg', NULL, '//item.taobao.com/item.htm?id=587658183942&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249681, 19, '20201009', '20:54:47', 'tb9070128_2011', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度神剑2/异度之刃2 中文版 现货即发', 400, 4, 10, '//g-search1.alicdn.com/img/bao/uploaded/i4/i1/750289276/O1CN01kw9ZCE2IOSRPm13up_!!750289276.png', NULL, '//item.taobao.com/item.htm?id=596025376603&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249682, 19, '20201009', '20:54:47', '天財no1', '二手 Switch异度神剑2', '任天堂Switch游戏 NS 异度神剑2/异度之刃2 二手 中文现货 另回收', 405, 3, 0, '//g-search3.alicdn.com/img/bao/uploaded/i4/i1/504961569/TB29ihznRyWBuNkSmFPXXXguVXa_!!504961569.jpg', NULL, '//item.taobao.com/item.htm?id=565827285826&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249683, 19, '20201009', '20:54:47', 'linhuating777', '二手 Switch异度神剑2', '任天堂二手Switch游戏 NS 异度神剑2/异度之刃2 中文版 现货即发', 395, 1, 8, '//g-search3.alicdn.com/img/bao/uploaded/i4/i3/168461847/O1CN01a9xHRu1PVy7eg5cYa_!!168461847.jpg', NULL, '//item.taobao.com/item.htm?id=595288336168&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249684, 19, '20201009', '20:54:47', '小梦芝芝0', '二手 Switch异度神剑2', 'SWITCH NS二手游戏 异度之刃2 异度神剑2 中文 《另回收NS游戏》', 389, 0, 10, '//g-search2.alicdn.com/img/bao/uploaded/i4/i1/668696140/TB2zbq4jOCYBuNkHFCcXXcHtVXa_!!668696140.jpg', NULL, '//item.taobao.com/item.htm?id=564882889926&ns=1&abbucket=14#detail');
+INSERT INTO `goods` VALUES (249685, 19, '20201009', '20:54:47', 'tb2757591', '二手 Switch异度神剑2', '任天堂Switch游戏NS异度之刃2异度神剑2中文二手(另回收)', 395, 0, 5, '//g-search1.alicdn.com/img/bao/uploaded/i4/i1/728200061/O1CN016b75J41CJyhStqAEy_!!728200061.jpg', NULL, '//item.taobao.com/item.htm?id=562782010187&ns=1&abbucket=14#detail');
 
 -- ----------------------------
 -- Table structure for goods_shop
 -- ----------------------------
 DROP TABLE IF EXISTS `goods_shop`;
 CREATE TABLE `goods_shop`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `etl_date` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `etl_time` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `shop` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '店铺名',
   `kw` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '关键词',
   `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '宝贝',
   `price` float NULL DEFAULT NULL COMMENT '价格',
-  `sales` int(0) NULL DEFAULT NULL COMMENT '销量',
+  `sales` int(11) NULL DEFAULT NULL COMMENT '销量',
   `freight` float NULL DEFAULT NULL COMMENT '运费',
   `img_url` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '图片链接',
   `comment` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '标识0 1 2 3',
@@ -4598,7 +4798,7 @@ INSERT INTO `goods_shop` VALUES (37427, '20200623', '15:05:30', '宁波老猎人
 -- ----------------------------
 DROP TABLE IF EXISTS `hr`;
 CREATE TABLE `hr`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT 'hrID',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'hrID',
   `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '姓名',
   `phone` char(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '手机号码',
   `telephone` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '住宅电话',
@@ -4625,9 +4825,9 @@ INSERT INTO `hr` VALUES (12, '曾巩', '18568128888', '029-82111222', '广州越
 -- ----------------------------
 DROP TABLE IF EXISTS `hr_role`;
 CREATE TABLE `hr_role`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
-  `hrid` int(0) NULL DEFAULT NULL,
-  `rid` int(0) NULL DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `hrid` int(11) NULL DEFAULT NULL,
+  `rid` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `rid`(`rid`) USING BTREE,
   INDEX `hr_role_ibfk_1`(`hrid`) USING BTREE,
@@ -4656,7 +4856,7 @@ INSERT INTO `hr_role` VALUES (98, 5, 2);
 -- ----------------------------
 DROP TABLE IF EXISTS `joblevel`;
 CREATE TABLE `joblevel`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '职称名称',
   `titleLevel` enum('正高级','副高级','中级','初级','员级') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `createDate` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
@@ -4682,7 +4882,7 @@ INSERT INTO `joblevel` VALUES (23, '1111', '正高级', '2020-02-14 12:39:51', 1
 -- ----------------------------
 DROP TABLE IF EXISTS `menu`;
 CREATE TABLE `menu`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `url` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `path` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `component` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
@@ -4690,7 +4890,7 @@ CREATE TABLE `menu`  (
   `iconCls` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `keepAlive` tinyint(1) NULL DEFAULT NULL,
   `requireAuth` tinyint(1) NULL DEFAULT NULL,
-  `parentId` int(0) NULL DEFAULT NULL,
+  `parentId` int(11) NULL DEFAULT NULL,
   `enabled` tinyint(1) NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `parentId`(`parentId`) USING BTREE,
@@ -4734,9 +4934,9 @@ INSERT INTO `menu` VALUES (28, '/system/init/**', '/sys/init', 'SysInit', '系�
 -- ----------------------------
 DROP TABLE IF EXISTS `menu_role`;
 CREATE TABLE `menu_role`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
-  `mid` int(0) NULL DEFAULT NULL,
-  `rid` int(0) NULL DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mid` int(11) NULL DEFAULT NULL,
+  `rid` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `mid`(`mid`) USING BTREE,
   INDEX `rid`(`rid`) USING BTREE,
@@ -4817,9 +5017,9 @@ INSERT INTO `menu_role` VALUES (402, 28, 1);
 -- ----------------------------
 DROP TABLE IF EXISTS `my_focus`;
 CREATE TABLE `my_focus`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `enabled` tinyint(0) NULL DEFAULT NULL,
+  `enabled` tinyint(4) NULL DEFAULT NULL,
   `label` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `kw` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
@@ -4836,10 +5036,10 @@ INSERT INTO `my_focus` VALUES (2, 'fd', 0, 'NS', NULL);
 -- ----------------------------
 DROP TABLE IF EXISTS `my_stock`;
 CREATE TABLE `my_stock`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `price` float(10, 2) NULL DEFAULT NULL,
-  `stock` int(0) NULL DEFAULT NULL,
+  `stock` int(11) NULL DEFAULT NULL,
   `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `kw` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `label` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
@@ -4870,7 +5070,7 @@ INSERT INTO `my_stock` VALUES (32, 'PS4正版二手游戏 刺客信条：奥德�
 -- ----------------------------
 DROP TABLE IF EXISTS `nation`;
 CREATE TABLE `nation`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 57 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -4940,14 +5140,14 @@ INSERT INTO `nation` VALUES (56, '基诺族');
 -- ----------------------------
 DROP TABLE IF EXISTS `ns_goods_shop`;
 CREATE TABLE `ns_goods_shop`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `etl_date` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `etl_time` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `shop` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '店铺名',
   `kw` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '关键词',
   `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '宝贝',
   `price` float NULL DEFAULT NULL COMMENT '价格',
-  `sales` int(0) NULL DEFAULT NULL COMMENT '销量',
+  `sales` int(11) NULL DEFAULT NULL COMMENT '销量',
   `freight` float NULL DEFAULT NULL COMMENT '运费',
   `img_url` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '图片链接',
   `comment` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '标识0 1 2 3',
@@ -4960,7 +5160,7 @@ CREATE TABLE `ns_goods_shop`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `politicsstatus`;
 CREATE TABLE `politicsstatus`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -4987,7 +5187,7 @@ INSERT INTO `politicsstatus` VALUES (13, '普通公民');
 -- ----------------------------
 DROP TABLE IF EXISTS `position`;
 CREATE TABLE `position`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '职位',
   `createDate` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
   `enabled` tinyint(1) NULL DEFAULT 1,
@@ -5011,7 +5211,7 @@ INSERT INTO `position` VALUES (39, '吊炸天', '2020-02-02 13:59:15', 1);
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `nameZh` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色名称',
   PRIMARY KEY (`id`) USING BTREE
@@ -5038,10 +5238,10 @@ INSERT INTO `role` VALUES (20, 'ROLE_test5', '测试角色5');
 -- ----------------------------
 DROP TABLE IF EXISTS `shop`;
 CREATE TABLE `shop`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `enabled` tinyint(0) NULL DEFAULT NULL,
+  `enabled` tinyint(4) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
@@ -5050,26 +5250,31 @@ CREATE TABLE `shop`  (
 -- ----------------------------
 INSERT INTO `shop` VALUES (1, '宁波老猎人电玩店', '宁波老猎人电玩', 1);
 INSERT INTO `shop` VALUES (2, '幸运星阁', '幸运星电玩', 0);
-INSERT INTO `shop` VALUES (3, '喵哈哈99', '游戏人艺人', 1);
 INSERT INTO `shop` VALUES (4, '游戏8', '上海潮玩电玩', 0);
 INSERT INTO `shop` VALUES (5, 'nicewg', '朗悦正品数码商城', 1);
 INSERT INTO `shop` VALUES (6, '小姐不可以1987', 'PO 朝廷电玩', 0);
 INSERT INTO `shop` VALUES (7, 'tb80960126', '杭州西子电玩', 0);
 INSERT INTO `shop` VALUES (8, '机美通讯', '四川大镖客', 0);
 INSERT INTO `shop` VALUES (9, '江南美食荟', '神秘时空电玩', 0);
-INSERT INTO `shop` VALUES (10, '啊陈小龙', '萌牛电玩游戏世界', 0);
 INSERT INTO `shop` VALUES (11, '泡儿', '泡儿电玩', 0);
 INSERT INTO `shop` VALUES (12, '圣眼使徒', '南昌圆梦玩家', 0);
 INSERT INTO `shop` VALUES (13, '齐乐数码', '上海藏宝海湾', 0);
 INSERT INTO `shop` VALUES (14, '马里奥玩家电玩', '马里奥玩家电玩', 0);
 INSERT INTO `shop` VALUES (15, '芸峰科技', '芸峰海螺电玩', 0);
+INSERT INTO `shop` VALUES (16, '熊猫科技0429', '熊猫科技数码电玩', 1);
+INSERT INTO `shop` VALUES (17, 't_1513951668567_0553', '最近电玩', 1);
+INSERT INTO `shop` VALUES (18, '\r\n啊庞汇川', '萌牛电玩游戏', 1);
+INSERT INTO `shop` VALUES (19, 'yangyun3020', '老司机电玩社', 1);
+INSERT INTO `shop` VALUES (20, '乐波游戏', '乐波游戏', 1);
+INSERT INTO `shop` VALUES (21, '陆大爷001', '红蓝白游戏王国', 1);
+INSERT INTO `shop` VALUES (22, 'ff天幻电玩', 'FF天幻电玩', 1);
 
 -- ----------------------------
 -- Table structure for shop_good_url
 -- ----------------------------
 DROP TABLE IF EXISTS `shop_good_url`;
 CREATE TABLE `shop_good_url`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `switch_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `ps4_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
@@ -5077,7 +5282,7 @@ CREATE TABLE `shop_good_url`  (
   `xbox_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `xbox2_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `switch2_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `enable` int(0) NULL DEFAULT NULL COMMENT '1启用0禁用',
+  `enable` int(11) NULL DEFAULT NULL COMMENT '1启用0禁用',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
@@ -5106,7 +5311,7 @@ INSERT INTO `shop_good_url` VALUES (18, '南昌圆梦玩家', 'https://pspsp.tao
 DROP TABLE IF EXISTS `shop_warning`;
 CREATE TABLE `shop_warning`  (
   `id` int(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
-  `sid` int(0) NULL DEFAULT NULL,
+  `sid` int(11) NULL DEFAULT NULL,
   `type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'otherLower别人比我低',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -5124,7 +5329,7 @@ INSERT INTO `shop_warning` VALUES (0004, 1, 'hunter');
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_kw`;
 CREATE TABLE `tb_kw`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `type` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
@@ -5372,10 +5577,10 @@ INSERT INTO `tb_kw` VALUES (95101, 'ps4 狂战传说 绯夜', 'info');
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_search`;
 CREATE TABLE `tb_search`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `type` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `enabled` int(0) NULL DEFAULT NULL,
+  `enabled` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 23138 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
@@ -5614,12 +5819,17 @@ INSERT INTO `tb_search` VALUES (23137, 'ps4二手游戏 狂战传说绯夜', 'in
 DROP TABLE IF EXISTS `warn_hunter`;
 CREATE TABLE `warn_hunter`  (
   `id` int(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
-  `gid` int(0) NULL DEFAULT NULL,
+  `gid` int(11) NULL DEFAULT NULL,
   `shop` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `kw` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `price` float NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of warn_hunter
+-- ----------------------------
+INSERT INTO `warn_hunter` VALUES (0001, 11, '宁波老猎人电玩店', '二手 PS4对马岛之魂', 399);
 
 -- ----------------------------
 -- Table structure for warn_keyword_noset
@@ -5627,9 +5837,9 @@ CREATE TABLE `warn_hunter`  (
 DROP TABLE IF EXISTS `warn_keyword_noset`;
 CREATE TABLE `warn_keyword_noset`  (
   `id` int(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
-  `gid` int(0) NULL DEFAULT NULL,
+  `gid` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of warn_keyword_noset
@@ -5642,34 +5852,33 @@ INSERT INTO `warn_keyword_noset` VALUES (0001, 21);
 DROP TABLE IF EXISTS `warn_lower_price`;
 CREATE TABLE `warn_lower_price`  (
   `id` int(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
-  `gid` int(0) NULL DEFAULT NULL,
+  `gid` int(11) NULL DEFAULT NULL,
   `shop` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `kw` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `price` float NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of warn_lower_price
 -- ----------------------------
-INSERT INTO `warn_lower_price` VALUES (0001, 18, '江南美食荟', '二手 PS4荒野大镖客2', 165);
-INSERT INTO `warn_lower_price` VALUES (0002, 11, 'nicewg', '二手 PS4对马岛之魂', 355);
+INSERT INTO `warn_lower_price` VALUES (0001, 11, 'nicewg', '二手 PS4对马岛之魂', 355);
 
 -- ----------------------------
 -- Table structure for warn_sales
 -- ----------------------------
 DROP TABLE IF EXISTS `warn_sales`;
 CREATE TABLE `warn_sales`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `gid` int(4) UNSIGNED ZEROFILL NULL DEFAULT NULL,
   `type` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of warn_sales
 -- ----------------------------
-INSERT INTO `warn_sales` VALUES (1, 0018, '2');
+INSERT INTO `warn_sales` VALUES (1, 0018, '1');
 
 -- ----------------------------
 -- Procedure structure for addDep
