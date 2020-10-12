@@ -71,7 +71,7 @@ class TaoBao(object):
             self.mysql.insert(insert_sql)
         # 统计首页总量
         if page == 1:
-            print(kw, ' 总销量: ', index_total)
+            print('首页总销量: ', index_total)
             self.mysql.update("update core_crawl_tb set total_sales = %d where gid = %d" % (index_total, gid))
             del_good_sales(gid, etl_date)
             ins_good_sales(gid, etl_date, index_total)
