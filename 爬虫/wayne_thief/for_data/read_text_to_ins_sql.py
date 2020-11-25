@@ -5,8 +5,8 @@ import os
 插入数据前加@@表名
 不要有空行
 """
-path = 'C:/Users/Administrator/Desktop/'
-file_name = 'wayne.txt'
+path = 'C:/Users/weiqilin66/Desktop/'
+file_name = '计划账套测试数据.pl'
 abs_path = path + file_name
 
 
@@ -41,14 +41,14 @@ if __name__ == '__main__':
             if ');' in text:
                 end_index.append(line_index)
             if '@@' in text:
-                table = text.strip('@@')
+                table = text.strip('@@;')
                 data_index.append((line_index, table))
                 tables.append(table)
             line_index = line_index + 1
 
-        # print(create_index)
-        # print(end_index)
-        # print(data_index)
+        print(create_index)
+        print(end_index)
+        print(data_index)
         c_index = 0
         for c in create_index:
             clo_index = c[0]
@@ -66,10 +66,12 @@ if __name__ == '__main__':
                         else:
                             end_data_index = len(texts)
                     values_array = texts[data_start_line:end_data_index]  # 值数组
+                    break
             types = []
+            # 拼接表字段
             for i in range(clo_index, end_col_index - 1):
-                col = texts[i]
-                col_text = col.split(' ')[0]
+                col = texts[i].strip('" ')
+                col_text = col.split('\t')[0]
                 col_type = col.split(' ')[1]
                 types.append(col_type)
                 cols = cols + col_text + ','
@@ -80,12 +82,13 @@ if __name__ == '__main__':
                 value = value.split(';')
                 for v in value:
                     type = types[value_index]
+                    v2 = "'"+v +"'"
                     if type == 'DATE' or type == 'date':
-                        v = "TO_DATE('" + v + "',YYYY-MM-DD)"
+                        v2 = "TO_DATE('" + v + "',YYYY-MM-DD)"
                     if 'NUM' in type:
-                        v = v.strip("'")
+                        v2 = v.strip("'")
                     value_index = value_index + 1
-                    values = values + v + ','
+                    values = values + v2 + ','
                 res = sql + values[:-1] + ');'
                 print(res)
                 f.write(res+'\n')  # 自带文件关闭功能，不需要再写f.close()
