@@ -1,0 +1,27 @@
+create table xxxx.xxx as
+select
+t1.aaa ----AA
+,bb as bbx
+,cc---XX
+,case when (xxx,'xx')
+else
+    end as tt
+,ddd AS DD --OO
+,case when bb
+else
+    end as  yyyy
+,ee
+
+from
+xxxx.yyyyy t1
+left join
+xxxx.hhhhh t2
+on
+xxx=yyyy
+and xxxx=bbbb
+inner join
+xxxx.ccc t3
+on
+dddd=333
+
+and aaa=ccc
