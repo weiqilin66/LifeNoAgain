@@ -4,7 +4,7 @@ import os
 """
 """
 path = ''
-file_name = '测试文档1.txt'
+file_name = 'test/测试文档1.txt'
 abs_path = path + file_name
 
 

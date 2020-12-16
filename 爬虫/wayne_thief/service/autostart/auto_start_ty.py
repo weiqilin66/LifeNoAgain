@@ -8,7 +8,8 @@ import random
 from selenium import common
 
 
-chrome_path = r'd:/driverAndPlugs/chromedriver.exe'
+# chrome_path = r'd:/driverAndPlugs/chromedriver.exe'
+chrome_path = r'D:\webdriver/newest/chromedriver.exe'
 
 class MySelenium2(object):
     def __init__(self):
@@ -16,16 +17,7 @@ class MySelenium2(object):
         self.options.add_experimental_option('excludeSwitches', ['enable-automation'])
         self.chrome = webdriver.Chrome(executable_path=chrome_path, options=self.options)
 
-
-if __name__ == '__main__':
-    # 定时任务
-    # while True:
-    #     hour = time.strftime("%H",time.localtime())
-    #     print('当前时间:',hour)
-    #     if hour=="08":
-    #         break
-    #     else:
-    #         time.sleep(60*30)
+def do():
     chrome = MySelenium2().chrome
     chrome.get('http://128.64.214.11/Citrix/XDWeb/auth/login.aspx?CTX_MessageType=WARNING&CTX_MessageKey=NoUsableClientDetected')
     user = chrome.find_element_by_xpath("//input[@name='user']")
@@ -54,4 +46,20 @@ if __name__ == '__main__':
         # else:
         #     tkinter.messagebox.showinfo(message='登录成功')
         #     # chrome.quit()
+if __name__ == '__main__':
+    # 定时任务
+    # while True:
+    #     hour = time.strftime("%H",time.localtime())
+    #     print('当前时间:',hour)
+    #     if hour=="08":
+    #         break
+    #     else:
+    #         time.sleep(60*30)
+    while 1==1:
+        try:
+            do()
+        except:
+            continue
+
+
 

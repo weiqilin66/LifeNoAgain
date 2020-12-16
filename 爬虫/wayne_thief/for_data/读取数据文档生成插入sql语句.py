@@ -8,7 +8,7 @@ tip:
 """
 # path = 'C:/Users/weiqilin66/Desktop/'
 path = 'C:/Users/Administrator/Desktop/'
-file_name = '计划账套测试数据.pl'
+file_name = 'test/计划账套测试数据.pl'
 abs_path = path + file_name
 
 """
